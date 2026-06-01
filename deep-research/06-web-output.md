@@ -385,12 +385,19 @@ $path = "output/zh"
 foreach ($f in (Get-ChildItem -LiteralPath $path -Recurse -Filter *.html)) {
     $text = [System.IO.File]::ReadAllText($f.FullName, [System.Text.UTF8Encoding]::new($false))
     if ($text.Contains([char]0xFFFD)) {
-        Write-Error "CORRUPTED: $($f.FullName)"
+        Write-Error "CORRUPTED (U+FFFD): $($f.FullName)"
+    }
+    # Also check for degraded UTF-8 em dashes shown as '??'
+    $degraded = [regex]::Matches($text, '\?\?')
+    if ($degraded.Count -gt 0) {
+        Write-Warning "DEGRADED UTF-8: $($f.FullName) has $($degraded.Count) '??' occurrences — likely em dashes written through ANSI pipe"
     }
 }
 ```
 
 **This is a blocking gate.** Zero U+FFFD occurrences are required. Any occurrence means the file is permanently corrupted — patch by regenerating the file, not by trying to repair it byte-by-byte.
+
+**Also scan for `??` replacement characters** (degraded UTF-8 em dashes). Unlike U+FFFD, `??` may appear in English text legitimately (e.g., ternary operators), so treat it as a warning, not a blocker. Investigate each occurrence: if it replaces an em dash `—`, the source template or pipeline has an encoding leak. If found across multiple files, it indicates a systemic encoding issue in the generation pipeline, not a one-off corruption.
 
 ### Gate 2: Recovery Protocol (for corrupted files)
 
@@ -420,7 +427,41 @@ Open at least 3 representative pages in a browser and verify visually:
 
 **When pages ship with broken layout, the entire research report loses credibility.** The parity checker (below) verifies structure but cannot see visual rendering. A 2-minute manual spot-check catches layout bugs the checker never can.
 
-### Gate 4: Attribute Inconsistency Check
+### Gate 4: HTML Structure Validation (NEW — Learned from Practice)
+
+After parity and encoding pass, validate DOM structure for every HTML file:
+
+```python
+# div_balance_check.py — run against all generated HTML
+import glob, re, sys
+issues = []
+for fp in glob.glob("output/**/*.html", recursive=True):
+    with open(fp, encoding="utf-8") as f:
+        c = f.read()
+    opens = len(re.findall(r'<div\b', c))
+    closes = len(re.findall(r'</div>', c))
+    if opens != closes:
+        issues.append(f"DIV MISMATCH: {fp} ({opens} opens, {closes} closes)")
+    # Title tag check
+    title_m = re.search(r'<title>(.*?)</title>', c)
+    if not title_m or not title_m.group(1).strip():
+        issues.append(f"MISSING TITLE: {fp}")
+    # Footer date check (advisory)
+    if 'compiled' in fp or 'zh' in fp:
+        date_m = re.search(r'(?:compiled|last updated|20\d{2}-\d{2}-\d{2})', c, re.IGNORECASE)
+        if not date_m:
+            issues.append(f"MISSING DATE: {fp}")
+if issues:
+    for i in issues:
+        print(f"  ! {i}")
+    sys.exit(1)
+else:
+    print("All HTML structure checks passed.")
+```
+
+**This is a blocking gate.** A single unmatched `<div>` breaks the entire page layout. The parity checker cannot catch this because it counts elements, not nesting.
+
+### Gate 5: Attribute Inconsistency Check
 
 Run this grep for both EN and ZH directories to catch a common typo:
 
@@ -443,6 +484,25 @@ foreach ($f in $files) {
 ```
 
 Both `confidence` and `data-confidence` on the same element means one will be silently ignored by both CSS and the parity checker. Use `data-confidence` consistently.
+
+## Post-Generation: Cross-Artifact Consistency Check
+
+After adding any new finding, data point, or section to one artifact, verify propagation to all others. Use this mapping template:
+
+**Mapping template for additions:**
+```
+New item: <brief description>
+  → Report chapter(s): [list affected chapters]
+  → Executive summary / Synthesis: [yes/no — if significant]
+  → Knowledge base: [yes/no — if new entity/relation]
+  → Dashboard / Interactive features: [yes/no — if new data or visualization]
+  → Bilingual pair: [EN file updated → ZH file updated?]
+  → Data file: [if new computed data, path to JSON/CSV]
+```
+
+**Run this check before marking any task complete.** If any box is "no" but should be "yes," the artifact is stale — update it before proceeding.
+
+**Experience note (global-heatwave):** Adding §9.0 Predictive Timing to the integrated analysis chapter (task 4.3/4.4) produced a `predictive-thresholds.json` data file (4.2) and updated the report chapter, but the dashboard description page remained unchanged until the user flagged it. A 10-second cross-artifact scan would have caught this.
 
 ## Encoding Strategy (for CJK Content on Windows)
 

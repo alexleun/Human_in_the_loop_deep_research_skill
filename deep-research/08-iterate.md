@@ -16,3 +16,19 @@
 
 **If new PoV needs more data/analysis → cycle to Phase 3 or 4.**
 **If new PoV changes narrative → update Phase 5 and 6 outputs.**
+
+## Backporting Iteration → Implementation Feedback
+
+When iteration leads to a new openspec change (implementation), discoveries made during implementation must feed back into the research artifacts:
+
+### What to backport
+- **Implementation findings**: Did the implementation reveal a flawed assumption, a data gap, or a new insight? Update the research report (Phase 5) accordingly.
+- **New data points**: Predictive thresholds, corrected values, or additional sources added during implementation → add to the research data files and note in the report.
+- **Version bumps**: If implementation changes the research output version (e.g., added a new chapter section), bump the version string in hero meta lines and footers across all pages.
+
+### How to backport
+1. After completing each implementation task group, check: "Does this produce any data or insight that should exist in the research report?"
+2. If yes, update the research artifact (Phase 5 report, Phase 6 web page, or knowledge base) before marking the implementation task complete.
+3. Re-run the parity checker and date freshness audit after backporting.
+
+**Experience note (global-heatwave):** Predictive threshold analysis (Group 4 of `research-integrity-and-forecasting`) produced computed data for three regions but no feedback loop updated the research report's version or acknowledged the new data in the research narrative. The data existed in `output/data/` and a new §9.0 was added to the integrated analysis chapter, but the synthesis page, final report executive summary, and methodology page all remained unchanged. A backport step in Phase 8 would have ensured the iteration's output was reflected in the broader research artifact set.

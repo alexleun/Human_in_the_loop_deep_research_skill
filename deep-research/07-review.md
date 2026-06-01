@@ -28,10 +28,22 @@ For each dimension of the research, check:
 - [ ] Is the web output consistent across languages?
 - [ ] Are all navigation links functional? Check every page individually.
 - [ ] Are all source citations present and correctly formatted?
-- [ ] **Encoding check**: Search all ZH files for U+FFFD (�) — zero occurrences required.
+- [ ] **Encoding check**: Search all ZH files for U+FFFD (�) — zero occurrences required. Also scan for literal `??` bytes indicating degraded em dashes.
 - [ ] **Structural parity**: EN and ZH versions of each report must have identical counts of `<div class="finding">` blocks, `data-source` attributes, and `data-confidence` attributes.
+- [ ] **DOM structure check**: Run div balance check (opens vs closes) on every HTML file — a stray `</div>` breaks layout without affecting element counts.
+- [ ] **Title tag check**: Every HTML `<title>` must be non-empty and include the correct language prefix/suffix.
+- [ ] **Footer date check**: Every HTML page must have a date in its footer matching the current project epoch. Scan for stale dates (e.g., "May 2026" when it's June 2026).
 - [ ] **Nav text consistency**: All EN pages must have identical nav labels. All ZH pages must have identical nav labels (no variant translations like 情景 vs 情境 across different files).
 - [ ] **Image path check**: ZH pages use `../images/` prefix (not `images/`).
+
+**Output — Cross-Artifact Consistency**
+- [ ] **Cross-artifact mapping**: For every new finding or data point added, verify it appears in ALL relevant artifacts:
+  - [ ] Report chapter(s)
+  - [ ] Executive summary / Synthesis page (if significant)
+  - [ ] Knowledge base (if new entity/relation)
+  - [ ] Dashboard / Interactive features description (if new data type)
+  - [ ] Data file (if computed data — check JSON/CSV)
+  - [ ] Bilingual pair (ZH version of each updated artifact)
 
 **Quantitative Data Verification** (Lesson from HK project)
 - [ ] Are CSV values verified against authoritative sources? (Do NOT assume web-scraped or LLM-generated data is correct.)

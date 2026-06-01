@@ -12,6 +12,10 @@ Before archiving, confirm:
 - [ ] All artifacts are marked `done` in `openspec status --json`
 - [ ] All code (scripts, notebooks) has been run and produces zero errors
 - [ ] Last parity verification passed (if bilingual output exists)
+- [ ] HTML structure validation passed (div balance check on all pages)
+- [ ] Encoding scan complete — zero U+FFFD occurrences and no `??` degradation across all HTML files
+- [ ] Date freshness audit passed — all footers, hero meta lines, and file timestamps match the current project epoch
+- [ ] Cross-artifact consistency verified — every new finding/data point appears in all relevant output artifacts (report chapters, synthesis, dashboard, knowledge base)
 - [ ] Knowledge base sources are cached in `knowledge-base/sources/`
 - [ ] Source index (`sources_index.md`) is complete
 - [ ] Research outputs are seeded into knowledge graph (if applicable)

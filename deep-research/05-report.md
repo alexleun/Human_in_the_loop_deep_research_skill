@@ -120,3 +120,19 @@ If the report describes a system that consumes data (dashboard, API, interactive
 ## Cross-Phase Integration
 
 **Important:** The `data-source` attributes written here feed directly into the Phase 6 encoding verification and Phase 7 bilingual parity checks. If a finding lacks `data-source`, it will appear as a gap in the automated verification script (`final_verify.py`). Write citations first — do not plan to add them later.
+
+## Cross-Platform Parity Test Requirement
+
+The bilingual parity checker script (`check-parity.py`) must be tested on the **target OS** (Windows/macOS/Linux) before considering parity verified. A script that passes on the LLM's platform may fail on yours due to:
+
+- **Encoding defaults**: Windows PowerShell defaults to ANSI/cp950; Python `print()` may raise `UnicodeEncodeError` when outputting Chinese characters to the console
+- **Path separators**: `\` vs `/` in glob patterns
+- **Line endings**: CRLF vs LF may affect regex matching
+
+**Verification protocol:**
+1. Generate the parity checker script during Phase 6
+2. Before marking Phase 6 or Phase 7 complete, run the script on the target OS
+3. Fix any OS-specific issues (stdout encoding wrappers, path normalization) immediately
+4. Add the OS-specific fix to the script's `__main__` guard, not as a wrapper script
+
+**Experience note (global-heatwave):** `check-parity.py` worked perfectly on the LLM's Linux environment but crashed on Windows with `UnicodeEncodeError: 'charmap' codec can't encode character '\u5317'`. The fix (`sys.stdout.reconfigure(encoding='utf-8')` wrapped in a try/except for Linux compat) was only discovered when the user ran the script. Always test parity on the actual deployment OS.

@@ -142,7 +142,67 @@ Any interactive system consuming research data (dashboards, APIs, reports) must 
 - At implementation, separate data-fetching from rendering so each path can be tested independently
 - Mark fallback data clearly so it's not mistaken for real findings
 
-### 11. Change Boundary Detection (When to Spin Off)
+### 11. Post-Generation HTML Structural Validation
+
+After generating HTML output (especially bilingual sites), validate DOM structure — not just element counts:
+
+- **Div balance check**: Count `<div>` opens vs `</div>` closes across every HTML file. A mismatch means broken layout that the parity checker won't catch.
+  ```
+  import re
+  with open(file) as f:
+      c = f.read()
+  opens = len(re.findall(r'<div\b', c))
+  closes = len(re.findall(r'</div>', c))
+  if opens != closes:  # fix before deploying
+  ```
+- **Replacement character scan**: Alongside U+FFFD, scan for literal `??` bytes (0x3F 0x3F) which appear when em dashes `—` (U+2014, UTF-8 bytes `E2 80 94`) are written through a non-UTF-8 pipe and degraded. These are invisible to the U+FFFD check.
+  ```
+  if '??' in open(file, encoding='utf-8').read():  # check for degraded UTF-8
+  ```
+- **Title tag check**: Every HTML page must have a non-empty `<title>` with the correct language prefix.
+- **Footer freshness check**: Every page's footer must reference the current date or generation batch.
+
+**Experience note (global-heatwave):** The parity checker counted finding blocks correctly (element-level), but a stray `</div>` in the ZH integrated-analysis chapter went undetected for days. The ZH file had 27 div opens but 28 closes. The DOM rendered incorrectly but no script flagged it. Add structural checks before any "all done" declaration.
+
+### 12. Cross-Artifact Consistency Check
+
+When a new finding, data point, or section is added to one output artifact, it must propagate to ALL artifacts where it belongs. This is not automatic — it requires explicit mapping.
+
+**Checklist before marking any addition complete:**
+- [ ] **Report chapters**: Is the finding reflected in the relevant chapter page(s)?
+- [ ] **Executive summary / Synthesis**: If the finding is significant, does the synthesis or overview page reference it?
+- [ ] **Knowledge base**: If the finding introduces a new entity or relation, is it added to the KB?
+- [ ] **Dashboard / Interactive features**: If the finding produces new data (predictive thresholds, maps, time series), is the dashboard description or feature list updated?
+- [ ] **Bilingual pair**: Is the ZH version of each updated artifact also updated?
+
+**Experience note (global-heatwave):** After adding §9.0 Predictive Timing to the integrated analysis chapter, the dashboard description in `dashboard-intro.html` had no mention of it. The data existed in `output/data/` and the report chapter, but the "Interactive Features" list on the dashboard page was stale. A cross-artifact scan would have caught this before manual review.
+
+### 13. Date Freshness Audit
+
+Generated output accumulates stale timestamps. After any batch of changes:
+
+1. **Scan every HTML file** for date patterns (`compiled|last updated|updated|20\d{2}-\d{2}-\d{2}`) and verify they match the current project epoch
+2. **Check both EN and ZH versions** — ZH footers frequently diverge from EN dates
+3. **Check version strings** in hero meta sections (e.g., `v0.1.0 &bull; May 2026`)
+4. **Bump all stale dates in one pass** — use a script, not manual per-file edits
+
+```python
+# bump_dates.py — run after any content batch
+import glob
+for fp in glob.glob("output/**/*.html", recursive=True):
+    with open(fp, encoding="utf-8") as f:
+        c = f.read()
+    orig = c
+    c = c.replace("May 2026", "June 2026")  # adjust for current month
+    c = c.replace("2026-05-29", "2026-06-01")
+    if c != orig:
+        with open(fp, "w", encoding="utf-8") as f:
+            f.write(c)
+```
+
+**Experience note (global-heatwave):** When reviewed in June 2026, 17 EN pages still said "compiled May 2026" and 13 ZH pages said "2026-05-29". The four-month-old timestamps made the project look dormant. A date freshness audit in Phase 7 would have caught this.
+
+### 14. Change Boundary Detection (When to Spin Off)
 
 One change cannot contain infinite depth. The global-heatwave project demonstrated that research outputs naturally expand into multiple distinct work streams. Detecting when a single change has reached its limits — and when to spin off a new one — is a critical skill.
 
@@ -253,7 +313,10 @@ Each openspec change added a new layer of value on top of the same research base
 - **Log every source** — local copy in `knowledge-base/sources/` for fact-checking
 - **Never silently fix** — surface methodological issues before fixing
 - **Bilingual parity** — both languages must have same content and quality; verify with automated script, not manually
-- **Verify encoding after generation** — especially CJK content on Windows; check for U+FFFD before considering a file complete
+- **Verify encoding after generation** — especially CJK content on Windows; check for U+FFFD AND `??` (degraded em dash) before considering a file complete
+- **Validate HTML structure** after every batch of page output — run div balance check; a single stray `</div>` breaks layout silently
+- **Run cross-artifact consistency check** when adding new findings — verify they appear in all relevant output artifacts (chapters, synthesis, dashboard, knowledge base)
+- **Audit date freshness** before declaring any phase complete — scan all HTML files for stale timestamps and bump in one pass
 - **Don't delete old versions** — use `_v1`, `_v2` suffixes
 - **Flag uncertainty** — distinguish facts, claims, hypotheses
 - **Verify CSVs against authoritative sources** — do not assume web-scraped or LLM-generated data is correct; cross-check key numbers

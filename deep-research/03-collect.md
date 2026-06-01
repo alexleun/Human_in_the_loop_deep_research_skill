@@ -23,7 +23,17 @@
 - Store processed data in `project/data/` with provenance README
 - **Code-first**: write Python scripts for all transforms, not manual steps
 
-## 3c. Data Verification (Critical — Learned from Practice)
+## Source Metadata Verification (Critical — Learned from Practice)
+
+After recording source metadata but before proceeding to analysis:
+
+1. **Verify every DOI and URL resolves**: For each source, attempt to fetch the URL or DOI link. If it returns a 404 or connection error, the source may have been hallucinated. Use a real web search to find the correct URL if the recorded one is broken.
+2. **Log verification results**: Record `fetch_status` (ok / broken / paywalled) in the source metadata. Mark broken URLs as `[Broken — needs real URL]` before proceeding.
+3. **Do not fabricate source content**: If a URL is unreachable and the real source cannot be found, flag it as a `[Data Gap]` in the metadata. Do not write analysis based on a source you cannot read.
+
+**Experience note (global-heatwave):** 11 of 14 source URLs in the initial proposal were unreachable (hallucinated DOIs, broken PDF links, wrong IPCC WG URLs). Every one had to be verified via web search and replaced. Without this verification step, all downstream analysis would have been grounded in inaccessible sources.
+
+## 3d. Data Verification (Critical — Learned from Practice)
 
 Web-scraped and LLM-generated CSV data frequently contains errors. After initial collection:
 
@@ -43,7 +53,7 @@ Web-scraped and LLM-generated CSV data frequently contains errors. After initial
    - Flag "pre-correction" and "post-correction" values in the methodology page
 5. **Track figure impact**: If figure axes or titles reference specific values, update them too
 
-## 3c. Knowledge Base
+## 3e. Knowledge Base
 
 - Populate `knowledge-base/<dimension>/` per topic dimension
 - Each entry links to source and includes exact quoted evidence
