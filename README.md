@@ -11,14 +11,22 @@ This repository currently ships two skills:
 
 ---
 
-## 🧠 Core Philosophy
+## 🧠 The Philosophy: Co-Learning over Blind Automation
 
-In an industry racing toward "zero-human-in-the-loop" autonomous agents, these skills intentionally reject that pattern.
+In a world where commercial tools (like OpenAI Deep Research or Perplexity Pro) try to automate everything away, humans are left in the dark. 
+* **The Problem with Black Boxes:** If an AI does 100% of the work in secret and just hands you a finished file, **the human learns nothing.** A static report cannot help an independent developer truly understand how to build or evolve their project. 
+* **The Solution (Co-Learning):** This skill treats research as a collaborative partnership. By forcing human-gated checkpoints, you are forced to review the data, analyze the gaps, and think critically. **As the AI conducts research, you develop your own skills alongside it.**
 
-* **No black boxes.** Every factual output cites verbatim source text. Every calculation is executed in code you can inspect. Every schema is a checkpoint you can revise.
-* **Human-gated checkpoints.** The AI proposes, the human disposes. The skill halts at decision points (proposal review, schema approval, iteration checkpoint) and waits for you.
-* **Co-learning by design.** Because you review the data, tweak the schema, and adjust the analysis cells, you develop real expertise — not just a deliverable file.
-* **Full data ownership.** All sources, notebooks, and intermediate artifacts stay in your local folder. Nothing is locked in a vendor cloud.
+---
+
+## 🧠 The Philosophy: Human Responsibility in the Age of Autonomous Agents
+
+It is 2026, and the industry trend is hyper-focused on "Agent AI"—building fully autonomous, zero-human-in-the-loop systems designed to replace human workflows entirely. While this level of automation works for repetitive tasks, **deep research cannot and should not be fully outsourced to a black box.**
+
+* **The Accountability Gap:** Autonomous agents can search, calculate, and compile, but they cannot hold responsibility. If an AI generates a flawed analysis, the AI suffers zero consequences. **The final accountability and liability always rest on the human developer.**
+* **The Problem with Black Boxes:** If an AI does 100% of the work in secret and hands you a finished file, **the human learns nothing.** When human jobs and skills disappear behind automated screens, we stop growing. A static report cannot teach an independent developer how to truly lead their project.
+* **The Solution (Co-Learning & Oversight):** This skill explicitly rejects the "zero-human" hype. It treats research as an augmented partnership. By forcing human-gated checkpoints, you retain absolute strategic control. You review the data, track the calculations in open Jupyter Notebooks, and **develop your own expertise alongside the machine.**
+
 
 ---
 
