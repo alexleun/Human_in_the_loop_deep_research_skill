@@ -129,6 +129,25 @@ When using the `task` tool to launch sub-agents, all `task_id` values must start
 
 ---
 
+## Execution Modes (NEW in v3.1)
+
+Sub-sessions can execute in two modes. Choose before launching:
+
+| Mode | Prompt Creation | Who Launches | Best For |
+|---|---|---|---|
+| **Human-executed** | LLM writes prompt to `sub-sessions/SS{n}-*.md` | Human reads, approves, copies into new session | Complex tasks, first-time users, calibration runs |
+| **LLM-executed** | LLM builds prompt internally, launches via `task` tool | Main session LLM launches directly | Routine tasks, experienced users, speed |
+
+**Decision tree:**
+1. Is the task complex or unfamiliar? → **Human-executed**
+2. Is this a calibration run (first region batch)? → **Human-executed**
+3. Is the task routine and well-understood? → **LLM-executed**
+4. Does the human want to review before execution? → **Human-executed**
+
+Both modes produce the same output. The difference is the review/approval step before execution.
+
+---
+
 ## Calibration Run Pattern
 
 **Before launching all 6 region deep-reading sub-sessions, run the smallest batch first** (e.g., Oceania with 5 papers or East Asia with 8 papers) as a calibration run:
@@ -143,21 +162,23 @@ This pattern saves significant rework — the first batch reveals appraisal form
 
 ---
 
-## Verifying Sub-Session Outputs
+## PM Review Loop (Enforced in v3.1)
 
-After each sub-session returns:
+After each sub-session returns, the PM must execute this review loop BEFORE launching the next sub-session:
 
-1. **Spot-check 1-2 output files** for the end-conditions checklist
-2. **Read the batch note** to surface any open issues
-3. **Read the Director Observations** to accumulate quality data
-4. **Mark corresponding tasks complete** in `tasks.md`
-5. **Update `project-state.json`** with new deliverable paths
-6. **Save sub-session feedback** to `messages/SS{n}-to-management.md`
+1. **Read the batch note** (including Director Observations)
+2. **Spot-check 1-2 output files** for the end-conditions checklist
+3. **Update `project-state.json`** with new deliverable paths
+4. **Save sub-session feedback** to `messages/SS{n}-to-management.md`
+5. **Mark corresponding tasks complete** in `tasks.md`
+6. **Document the PM Review decision** in `skill-evolution-log.md`
 7. **Decide next action:**
-   - PROCEED — launch next sub-session
-   - LOOP — re-run current sub-session with corrections
-   - PAUSE — surface to human for direction
-8. **Update the project manager's status report** to human
+   - **PROCEED** — launch next sub-session
+   - **LOOP** — re-run current sub-session with corrections (document why)
+   - **PAUSE** — surface to human for direction
+8. **Update the status report** to human
+
+Without this loop, quality issues propagate undetected until the cross-appraisal check. Loop decisions must be documented in `skill-evolution-log.md` so the retrospective can trace every course-correction.
 
 ---
 
@@ -166,7 +187,8 @@ After each sub-session returns:
 Between phases, verify:
 
 | Gate | After | What to Check | Artifact |
-|---|---|---|---|
+|---|---|---|---|---|
+| PM Review Loop (NEW in v3.1) | Each Sub-Session | Batch note read + output spot-check + decision logged | `skill-evolution-log.md` entry |
 | Cross-Appraisal Consistency | Deep Reading | Same criteria applied across regions? | `papers/appraisals/_cross-appraisal-check.md` |
 | Directory Structure | Each SS | Files exist where project-state.json says they should | PM spot-check |
 | Cross-Round Dependency | Rounds 2-5 | Prior round's end conditions met | Batch note review |

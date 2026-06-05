@@ -1,8 +1,10 @@
-# Deep Research Skill v2.0
+# Deep Research Skill v2.1
 
 A modular skill for structured deep research in collaboration with a human. Works on **any topic**.
 
 **v2.0 changes:** Added End-Conditions Discipline to all 10 phases, formalized Cross-Phase Gates pattern, promoted `task_state.json` to first-class state synchronization, added File Truncation Safeguard and Non-ASCII Filename Handling, introduced Skill Evolution Log pattern, and added 5 new methodology principles (15–19). Based on cross-skill lessons from the culture-research v3.0 upgrade (17 sub-sessions, 46 papers, 6 regions).
+
+**v2.1 changes:** Added Principle 20 (Source Preservation as formal methodology principle). Updated Post-Research → openspec Bridge with detailed artifact mapping table. Based on cross-skill lessons from a 67-paper, 8-region gift-giving project (culture-research v3.1).
 
 ---
 
@@ -158,6 +160,17 @@ When research spans multiple sessions or machines, use `task_state.json` for sta
 
 This is promoted from an optional technique (v1.0) to a recommended pattern (v2.0) for any multi-session project.
 
+### 20. Source Preservation (NEW in v2.1)
+
+After fetching any source content (web page, PDF, API response, dataset), save a local copy BEFORE extracting findings:
+
+- Web page → `knowledge-base/sources/YYYY-MM-DD-description.html`
+- PDF → `knowledge-base/sources/YYYY-MM-DD-description.pdf`
+- API response → `knowledge-base/sources/YYYY-MM-DD-description.json`
+- Search log → already saved as part of the collection protocol
+
+Without local copies, findings become unrecoverable if URLs change or sources go offline. This is a **mandatory** step, not optional. Add the saved filename to the source metadata as `local_copy: knowledge-base/sources/{filename}`.
+
 ---
 
 ## Phase Router
@@ -180,9 +193,25 @@ Load the sub-file matching your current task:
 
 ---
 
-## Post-Research → openspec Bridge
+## Post-Research → openspec Bridge (Updated in v2.1)
 
-Research output (facts, findings, data sources, design decisions) often needs to be implemented as structured artifacts. See the bridge section in v1.0 for detailed mapping from deep-research output to openspec changes. Key rule: link to source documents from the research project, don't copy them.
+Research output (facts, findings, data sources, design decisions) often needs to be implemented as structured artifacts. Copy forward these artifacts:
+
+| From Research | To Openspec Change |
+|---|---|
+| `explore/scope-definition.md` | `proposal.md` — research questions, scope |
+| `knowledge-base/sources/sources_index.md` | `design.md` — data sources section |
+| Data verification logs | `design.md` — data quality notes |
+| Key findings / final report | `specs/<capability>/spec.md` — requirements |
+| Design decisions from explore phase | `design.md` — architecture decisions |
+| `skill-evolution-log.md` | Lessons for next change's `design.md` |
+
+**What NOT to carry forward:**
+- Do NOT copy raw source files — link to them from `knowledge-base/sources/`
+- Do NOT re-debate settled design decisions — reference them
+- Do NOT copy the entire knowledge base — link from the openspec change
+
+**Key rule:** Link to source documents from the research project, don't copy them.
 
 ---
 
@@ -231,7 +260,7 @@ This turns every completed change into a skill improvement cycle. Over multiple 
 ## Guardrails (Updated in v2.0)
 
 - **Propose before implementing** — no data collection without a proposal
-- **Log every source** — local copy in `knowledge-base/sources/` for fact-checking
+- **Log every source** — mandatory local copy in `knowledge-base/sources/` before extraction (see Principle 20)
 - **Never silently fix** — surface methodological issues before fixing
 - **Bilingual parity** — both languages must have same content and quality; verify with automated script
 - **Verify encoding after generation** — check for U+FFFD AND `??` before considering a file complete
@@ -247,3 +276,4 @@ This turns every completed change into a skill improvement cycle. Over multiple 
 - **Run cross-phase gates** at each phase boundary (NEW in v2.0)
 - **Check file truncation** after every read (NEW in v2.0)
 - **Update task_state.json** after every meaningful action (NEW in v2.0)
+- **Map artifacts to openspec** before archiving (NEW in v2.1) — use the bridge table to seed downstream openspec changes

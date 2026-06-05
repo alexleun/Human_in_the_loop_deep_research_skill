@@ -1,8 +1,10 @@
-# Culture Research Skill v3.0
+# Culture Research Skill v3.1
 
 A structured workflow for **cultural one-off studies** focused on human behavior, social practices, and everyday life. Designed for web-search-based paper collection and qualitative synthesis — no programming, no human-subject data collection, no dashboards.
 
 **v3.0 changes:** Added topic-intent analysis (global vs local scope), active Director role, state synchronization via `project-state.json`, formal cross-phase gates, 09-report-writing phase, paywall access protocol, machine-readable findings index, evidence model refinement (access + evidence tiers), contradiction-identification algorithm, sub-theme filter for matrix, and comprehensive truncation/encoding safeguards. Consolidated feedback from 17 sub-sessions on a 46-paper, 6-region project.
+
+**v3.1 changes:** Clarified sub-session execution model with two formal modes (human-executed and LLM-executed). Added source preservation requirement (save local copies of fetched content). Formalized PM review loop between sub-sessions as a cross-phase gate. Added scale-dependent MCP tool selection guidance. Added openspec bridge section (adapted from deep-research skill). Added generational/time-period as first-class dimension in tag taxonomy and entity schema. Consolidated feedback from a 67-paper, 8-region gift-giving project.
 
 ---
 
@@ -52,13 +54,37 @@ After all five rounds, the workflow pauses for a **review checkpoint**. Weak lin
 
 The MCP knowledge graph tool provides structured query and persistence. Simultaneously, all entities, relations, and analysis outputs are written as **Obsidian-compatible markdown** (`#tag`, `[[wikilink]]`, YAML frontmatter). The user opens the `knowledge-base/` folder as an Obsidian vault and immediately sees the graph view — no plugins or configuration needed.
 
+**Scale-dependent tool selection (NEW in v3.1):** The MCP `create_entities` and `create_relations` tools are impractical for large knowledge bases (449 entities → hundreds of MCP tool calls). Use this guidance:
+
+| Entity Count | Recommended Approach |
+|---|---|
+| < 50 | Use MCP tools directly (`create_entities`, `create_relations`) |
+| 50 – 500 | Write markdown files to disk + produce `findings-index.json`. Skip MCP graph tools for bulk import. Use `relations.json` as the machine-readable graph. |
+| 500+ | Same as 50–500. Additionally, provide a Python/PowerShell batch-import script for any downstream graph database. |
+
 ### 6. Source Grounding (Anti-Hallucination)
 
 Every factual output must cite **exact quoted text** from the source. Paraphrasing introduces hallucination risk. Each paper's metadata includes the search query that found it, the URL, and the professor's institutional affiliation.
 
-### 7. Sub-Session Orchestration (NEW in v2.0, Refined in v3.0)
+### 7. Sub-Session Orchestration (NEW in v2.0, Refined in v3.1)
 
-For projects with >20 papers, split work into **sub-sessions**, each with tight scope, explicit end conditions, and batch notes. The main session is the **project manager** — it writes prompts, verifies outputs, and tracks state.
+For projects with >20 papers, split work into **sub-sessions**, each with tight scope, explicit end conditions, and batch notes. The main session is the **project manager** — it creates prompts, verifies outputs, and tracks state.
+
+**Two execution modes (NEW in v3.1):**
+- **Human-executed mode:** LLM writes prompt to `sub-sessions/SS{n}-*.md`, human reads and approves, human copies prompt into new LLM session
+- **LLM-executed mode:** LLM builds prompt internally and launches sub-agent via `task` tool, main session verifies output, human is informed
+
+Choose based on complexity. See Principle 12 for the decision tree.
+
+**PM Review Loop (NEW in v3.1):** After each sub-session returns, the PM must:
+1. Read the batch note / Director Observations
+2. Spot-check 1-2 output files
+3. Decide: PROCEED → next sub-session / LOOP → re-run with corrections / PAUSE → surface to human
+4. Document the decision in `skill-evolution-log.md`
+5. Update `project-state.json`
+6. Save sub-session feedback to `messages/SS{n}-to-management.md`
+
+Without this loop, sub-sessions proceed without quality verification until the cross-appraisal check, which is too late for course correction.
 
 ### 8. State Synchronization & Cross-Phase Gates (NEW in v3.0)
 
@@ -80,6 +106,41 @@ Replace the single `evidence/` tag with two orthogonal fields:
 - **`evidence/`** — `high`, `medium`, `low` (confidence in the claim, independent of access)
 
 This allows downstream rounds to differentiate "high-confidence claim from abstract-only paper" from "speculative claim from full-text paper."
+
+### 11. Source Preservation (NEW in v3.1)
+
+After fetching any paper content (full-text, abstract, or metadata), save a local copy before extracting findings:
+- Full-text PDF → `papers/raw/{paper-id}.pdf`
+- Abstract HTML page → `papers/raw/{paper-id}-abstract.html`
+- Google Scholar page → `papers/raw/{paper-id}-gs-abstract.html`
+
+Without local copies, findings become unrecoverable if URLs change or go offline. This is a **mandatory** step, not optional.
+
+### 12. Sub-Session Execution Modes (NEW in v3.1)
+
+Sub-sessions can execute in two modes. Choose before launching:
+
+| Mode | Prompt Creation | Who Launches | Best For |
+|---|---|---|---|
+| **Human-executed** | LLM writes prompt to `sub-sessions/SS{n}-*.md` | Human reads, approves, copies into new session | Complex tasks, first-time users, calibration runs |
+| **LLM-executed** | LLM builds prompt internally, launches via `task` tool | Main session LLM launches directly | Routine tasks, experienced users, speed |
+
+Decision tree:
+1. Is the task complex or unfamiliar? → **Human-executed**
+2. Is this a calibration run (first region batch)? → **Human-executed**
+3. Is the task routine and well-understood? → **LLM-executed**
+4. Does the human want to review before execution? → **Human-executed**
+
+Both modes produce the same output. The difference is the review/approval step before execution. In LLM-executed mode, the PM must still verify output before proceeding (see PM Review Loop below).
+
+### 13. Generational / Time-Period Dimension (NEW in v3.1)
+
+Research questions involving generational comparison or historical change require `time_period` / `generation` as a first-class dimension:
+
+- **Tag taxonomy addition:** `#generation/{cohort}` — boomer, gen-x, millennial, gen-z, multi, pre-modern, colonial, post-war, contemporary
+- **Entity schema addition:** `cultural_context` entity gains an optional `time_period` field (e.g., `2010s`, `post-2000`, `pre-industrial`)
+- **Search templates:** Add `"generational OR cohort OR longitudinal time-use"` to region query templates when generational comparison is in scope
+- **Round 4 addition:** Generational coverage gaps must be assessed alongside other dimensions
 
 ---
 
@@ -216,6 +277,27 @@ These verification steps happen BETWEEN phases and produce accountable artifacts
 | Round Output Completeness | Each Round | Verify prior round's end conditions met | Sub-agent (checked by PM) |
 | Synthesis Input Coherence | Checkpoint | `checkpoint-review.md` | Checkpoint sub-agent |
 | Skill Evolution | Archive | `skill-evolution-log.md` | Director / PM |
+| PM Review Loop (NEW in v3.1) | Each Sub-Session | Batch note read + output spot-check + decision logged | PM |
+| Source Preservation (NEW in v3.1) | Each Fetch | Local copy saved to `papers/raw/` | Sub-agent |
+
+---
+
+## Openspec Bridge (NEW in v3.1)
+
+Research outputs (papers, findings, design decisions) can seed openspec changes for downstream implementation (databases, dashboards, websites). Copy forward these artifacts:
+
+| From Research | To Openspec Change |
+|---|---|
+| `explore/scope-definition.md` | `proposal.md` — research questions, scope |
+| `papers/search-protocol.md` + `coverage-report.md` | `design.md` — data sources section |
+| `knowledge-base/findings-index.json` | `specs/<capability>/spec.md` — requirements |
+| Design decisions from explore phase | `design.md` — architecture decisions |
+| `skill-evolution-log.md` | Lessons for next change's `design.md` |
+
+**What NOT to carry forward:**
+- Do NOT copy raw appraisal files — link to them from `papers/`
+- Do NOT re-debate settled design decisions — reference them
+- Do NOT copy the entire knowledge base — link from the openspec change
 
 ---
 
@@ -262,6 +344,39 @@ Every sub-session appends a `# SS{n} Batch Note` section to its primary output. 
 - Honest assessment of quality
 
 The main session reads the batch note first to decide whether to proceed, loop, or intervene.
+
+## Tag Taxonomy (Extended in v3.1)
+
+Use ONLY these tag categories:
+
+- `#region/{region}` — east-asia, south-asia, southeast-asia, europe, americas, middle-east, africa, oceania, global
+- `#discipline/{name}` — anthropology, sociology, psychology, urban-studies, public-health, economics, history
+- `#behavior/{domain}` — work, family, leisure, sleep, mobility, eating, hygiene, social, religious, care
+- `#method/{type}` — ethnography, time-diary, survey, daily-diary, mixed, review
+- `#population/{group}` — urban, rural, students, elderly, working-age, mixed, children, disabled, indigenous, migrants
+- `#generation/{cohort}` (NEW in v3.1) — boomer, gen-x, millennial, gen-z, multi, pre-modern, colonial, post-war, contemporary, not-applicable
+- `#evidence/{level}` — high, medium, low
+- `#access/{type}` — full-text, abstract-only, metadata-only
+- `#status/{value}` — contradicted, supported, gap
+
+No ad-hoc tags. If a tag doesn't fit a category, do not create one.
+
+## Entity Schema (Extended in v3.1)
+
+The `cultural_context` entity gains an optional `time_period` field:
+
+```yaml
+---
+type: cultural_context
+id: japan_tokyo_urban
+time_period: 2010s       # (NEW) optional: pre-modern, colonial, post-war, 2000s, 2010s, 2020s, multi
+tags:
+  - region/east-asia
+  - population/urban
+---
+```
+
+When the research question involves generational comparison, every cultural_context should include a `time_period` field. When the question is purely cross-sectional, it can be omitted.
 
 ## Director Observations (NEW in v3.0 — Active, Not Placeholder)
 

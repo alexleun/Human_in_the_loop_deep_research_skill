@@ -12,6 +12,18 @@ Run `_check_encoding.ps1` to detect files with non-ASCII characters in their nam
 
 ---
 
+## Scale-Dependent MCP Guidance (NEW in v3.1)
+
+The MCP `create_entities` and `create_relations` tools are designed for small graphs (< 50 nodes). For larger projects:
+
+- **< 50 entities:** Use MCP tools directly
+- **50 – 500 entities:** Write markdown files to disk + produce `findings-index.json` + `relations.json`. Skip MCP graph tools. The JSON files serve as the machine-readable graph.
+- **500+ entities:** Same as above. Additionally, provide a batch-import script for downstream graph databases.
+
+The tag taxonomy, entity schema, and `relations.json` format remain the same regardless of tool choice.
+
+---
+
 ## 4a. Entity Extraction
 
 Create entities for each paper following this schema:
@@ -19,7 +31,7 @@ Create entities for each paper following this schema:
 | Entity Type | Fields | Example |
 |---|---|---|
 | `researcher` | name, institution, discipline, region, key publications | `Kim_2023_SeoulWorkRoutines` |
-| `cultural_context` | country/region, urban/rural, socioeconomic setting, time period | See granularity rules below |
+| `cultural_context` | country/region, urban/rural, socioeconomic setting, time_period (optional, add when generational comparison is in scope) | See granularity rules below |
 | `method` | study type, data collection, duration, sample size, approach | `time_diary_survey_7day` |
 | `behavior_domain` | domain, sub-themes | `work` with sub-themes |
 | `finding` | key result (verbatim), domain, cultural context, evidence strength, access type, theory relation | See template |
@@ -72,8 +84,9 @@ Use ONLY these tag categories:
 - `#behavior/{domain}` — work, family, leisure, sleep, mobility, eating, hygiene, social, religious, care
 - `#method/{type}` — ethnography, time-diary, survey, daily-diary, mixed, review
 - `#population/{group}` — urban, rural, students, elderly, working-age, mixed, children, disabled, indigenous, migrants
+- `#generation/{cohort}` (NEW in v3.1) — boomer, gen-x, millennial, gen-z, multi, pre-modern, colonial, post-war, contemporary, not-applicable
 - `#evidence/{level}` — high, medium, low
-- `#access/{type}` — full-text, abstract-only, metadata-only (NEW — orthogonal to evidence)
+- `#access/{type}` — full-text, abstract-only, metadata-only
 - `#status/{value}` — contradicted, supported, gap
 
 **No ad-hoc tags.** If a tag doesn't fit a category, do not create one.

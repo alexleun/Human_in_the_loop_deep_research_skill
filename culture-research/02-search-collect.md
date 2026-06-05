@@ -19,6 +19,7 @@ Before any search, produce a written protocol at `papers/search-protocol.md`:
 - **Per-paper metadata schema** — JSON fields required
 - **Quality tier classification** — Tier A (peer-reviewed, full text), Tier B (peer-reviewed but access restricted OR non-peer-reviewed report with full text), Tier C (working paper, preprint, secondary)
 - **Stopping criteria** — per-region paper count target
+- **Generational/cohort dimension (NEW in v3.1):** If generational comparison is in scope, add `"generational OR cohort OR longitudinal time-use"` to region query templates. Note expected cohort labels per region in `search-protocol.md`.
 
 ---
 

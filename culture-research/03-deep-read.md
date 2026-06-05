@@ -68,6 +68,18 @@ Sections:
 
 ---
 
+## Source Preservation Requirement (NEW in v3.1)
+
+After fetching any paper content, save a local copy BEFORE extracting findings:
+- Full-text PDF or HTML → `papers/raw/{paper-id}.pdf` or `.html`
+- Abstract page → `papers/raw/{paper-id}-abstract.html`
+- Google Scholar abstract → `papers/raw/{paper-id}-gs-abstract.html`
+- Search log snippet → already exists in `papers/raw/search-log-{region}.md`
+
+Add the saved filename to the appraisal's Metadata section as `local_copy: papers/raw/{filename}`. This ensures findings remain verifiable if publisher URLs change or go offline.
+
+---
+
 ## Evidence Status Rules
 
 | Status | Meaning |
@@ -120,9 +132,10 @@ This phase is **complete** when ALL of the following are true:
 3. ✅ Each file has the full section structure (Metadata, RQ, Theory, Findings, Limitations, Critical Appraisal, Verbatim Quotes for KB)
 4. ✅ Each file has at least 3 verbatim quotes (or explicit `[inferred from abstract]` markers)
 5. ✅ Evidence_status is honest — no `full-text` claims for paywalled papers
-6. ✅ `papers/appraisals/_cross-appraisal-check.md` exists with 5-point checklist completed
-7. ✅ A batch note is appended documenting evidence_status distribution and open issues
-8. ✅ Director Observations section included in each batch note
+6. ✅ **Source preservation:** Every fetched source has a local copy saved to `papers/raw/` with the filename recorded in the appraisal Metadata (NEW in v3.1)
+7. ✅ `papers/appraisals/_cross-appraisal-check.md` exists with 5-point checklist completed
+8. ✅ A batch note is appended documenting evidence_status distribution and open issues
+9. ✅ Director Observations section included in each batch note
 
 ---
 

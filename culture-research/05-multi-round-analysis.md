@@ -126,15 +126,16 @@ Define the canonical region set (e.g., East Asia, Europe, Americas, Middle East 
 1. **Gap derivation method (NEW in v3.0):** For each behavior domain in the matrix, count empty cells per region. Any region with 0 populated cells for that domain = a gap. Cross-reference with Round 2's gap list. Verify all Round 2 gaps are included as a superset.
 2. Region × behavior domain gaps
 3. Under-studied populations: children, elderly, disabled, rural, informal economy, indigenous, migrants, LGBTQ+, working class
-4. Methodological blind spots: over-reliance on self-report, short durations, WEIRD bias, cross-sectional vs longitudinal, quantitative vs qualitative
-5. Temporal gaps: weekday vs weekend, seasonal, holiday vs routine, life-stage transitions, pre/during/post COVID — if the dataset has no coverage for a dimension, note this as a "gap-on-gap" finding (valid)
-6. Disciplinary blind spots: which behavior domains are studied by which disciplines, missing cross-disciplinary connections — use provided discipline-reference table if available
+4. **Generational/cohort gaps (NEW in v3.1):** If generational comparison was in scope, assess coverage across generations (#generation/{cohort} tags). Note which cohorts are absent, which are over-represented, and whether cross-generational comparisons are possible anywhere.
+5. Methodological blind spots: over-reliance on self-report, short durations, WEIRD bias, cross-sectional vs longitudinal, quantitative vs qualitative
+6. Temporal gaps: weekday vs weekend, seasonal, holiday vs routine, life-stage transitions, pre/during/post COVID — if the dataset has no coverage for a dimension, note this as a "gap-on-gap" finding (valid)
+7. Disciplinary blind spots: which behavior domains are studied by which disciplines, missing cross-disciplinary connections — use provided discipline-reference table if available
 
 **Entity-existence check (NEW):** Before writing wikilinks to `[[population/...]]` or `[[behavior/...]]` entities, verify they exist or will be created. If they don't exist, flag as "proposed entity."
 
 **Output:** `knowledge-base/analysis/round4-gaps.md` with `#status/gap` tags and `[[behavior/{domain}]]` wikilinks.
 
-**End conditions:** All 5 sections documented; at least 15 distinct gaps identified (raised from 10); at least 3 gaps per section; each gap uses `[[wikilink]]` where possible; `#status/gap` tags applied; cross-round verification passed (Round 2 gaps are a subset); priority gaps for Round 5 flagged; batch note appended.
+**End conditions:** All 6 sections documented; at least 18 distinct gaps identified; at least 3 gaps per section; each gap uses `[[wikilink]]` where possible; `#status/gap` tags applied; cross-round verification passed (Round 2 gaps are a subset); priority gaps for Round 5 flagged; batch note appended.
 
 ---
 
