@@ -1,8 +1,8 @@
-# Cross-Machine State Management (Optional)
+# Cross-Machine / Cross-Session State Management (v2.0)
 
-Enables continuing work on a different computer via git + task state checkpoints.
+Enables continuing work across sessions or on a different computer via git + `task_state.json` checkpoints.
 
-**Experience note:** In the HK research project, this was never needed because the same machine was used throughout. The human's presence in the conversation provided all context needed for resumption. Use this technique only when switching machines is expected — otherwise the overhead of maintaining `task_state.json` exceeds the benefit.
+**v2.0 update:** This pattern is now promoted from "optional technique" to **recommended practice** for any multi-session project. While a single session with continuous human guidance may not need it, any project spanning 2+ sessions benefits from structured state tracking.
 
 ## The Problem
 

@@ -22,6 +22,19 @@ Before archiving, confirm:
 
 **If any items are incomplete:** Flag to the human. The archive can proceed with warnings if the human confirms.
 
+---
+
+## End Conditions (NEW in v2.0)
+
+This phase is **complete** when ALL of the following are true:
+
+1. ✅ Pre-archive checklist completed (all items above)
+2. ✅ Archive command executed (`/opsx-archive` or equivalent)
+3. ✅ Change directory moved to `openspec/changes/archive/YYYY-MM-DD-<name>/`
+4. ✅ `skill-evolution-log.md` updated with lessons from this change
+5. ✅ Remaining artifacts (notebooks, data, figures) preserved for future reference
+6. ✅ If any items flagged as incomplete — human confirmed proceed-with-warnings
+
 ## Archive Mechanism
 
 Run `/opsx-archive` to invoke the openspec archive skill. This will:

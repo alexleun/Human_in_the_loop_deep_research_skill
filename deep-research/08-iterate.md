@@ -32,3 +32,16 @@ When iteration leads to a new openspec change (implementation), discoveries made
 3. Re-run the parity checker and date freshness audit after backporting.
 
 **Experience note (global-heatwave):** Predictive threshold analysis (Group 4 of `research-integrity-and-forecasting`) produced computed data for three regions but no feedback loop updated the research report's version or acknowledged the new data in the research narrative. The data existed in `output/data/` and a new §9.0 was added to the integrated analysis chapter, but the synthesis page, final report executive summary, and methodology page all remained unchanged. A backport step in Phase 8 would have ensured the iteration's output was reflected in the broader research artifact set.
+
+---
+
+## End Conditions (NEW in v2.0)
+
+This phase is **complete** when ALL of the following are true:
+
+1. ✅ New point of view or reframing documented (if discovered)
+2. ✅ Backporting complete — implementation findings reflected in research artifacts
+3. ✅ Cross-artifact consistency re-verified after any backported changes
+4. ✅ If new PoV requires more data/analysis — loop back to Phase 3 or 4
+5. ✅ If new PoV changes narrative — Phase 5 and 6 outputs updated
+6. ✅ `task_state.json` updated

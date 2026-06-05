@@ -1,13 +1,13 @@
-# Human-in-the-Loop Deep Research Skills
+# Human-in-the-Loop Research Skills
 
 A collection of structured, artifact-driven AI research skills for **OpenCode** + **OpenSpec** environments. Every skill in this repository is built around a single principle: **the human stays in the loop, learns alongside the AI, and never receives a finished black box.**
 
-This repository currently ships two skills:
+This repository currently ships two skills, both validated through real research projects:
 
-| Skill | Folder | Best for |
-|---|---|---|
-| **deep-research** | `deep-research/` | Topic-agnostic, quantitative + qualitative research with code-first analysis, Jupyter notebooks, and bilingual website output |
-| **culture-research** | `culture-research/` | Cultural / behavioral one-off studies: paper collection, deep reading, knowledge graph, multi-round qualitative analysis, Obsidian vault |
+| Skill | Folder | Version | Best for |
+|---|---|---|---|
+| **deep-research** | `deep-research/` | v2.0 | Topic-agnostic, quantitative + qualitative research with code-first analysis, Jupyter notebooks, and bilingual website output |
+| **culture-research** | `culture-research/` | v3.0 | Cultural / behavioral one-off studies: paper collection, deep reading, knowledge graph, multi-round qualitative analysis, Obsidian vault |
 
 ---
 
@@ -27,6 +27,52 @@ It is 2026, and the industry trend is hyper-focused on "Agent AI"—building ful
 * **The Problem with Black Boxes:** If an AI does 100% of the work in secret and hands you a finished file, **the human learns nothing.** When human jobs and skills disappear behind automated screens, we stop growing. A static report cannot teach an independent developer how to truly lead their project.
 * **The Solution (Co-Learning & Oversight):** This skill explicitly rejects the "zero-human" hype. It treats research as an augmented partnership. By forcing human-gated checkpoints, you retain absolute strategic control. You review the data, track the calculations in open Jupyter Notebooks, and **develop your own expertise alongside the machine.**
 
+---
+
+## 🔄 The Human-in-the-Loop Is Always Yours to Control
+
+These skills halt at gated checkpoints by design — but you are never locked in. At **any point** during a research session, you can:
+
+* **Suspend** a sub-session and inspect its batch notes
+* **Add comments** or redirect the agent mid-phase
+* **Modify** the process, schema, or artifacts before the next step
+* **Override** findings, adjust scope, or change direction
+* **Do nothing** and accept — that is also a valid decision
+
+The loop is yours. The AI proposes; you dispose. Whether you actively steer every phase or passively approve all suggestions, the choice is always in your hands.
+
+---
+
+## 📦 What's New — Upgrades from Real Research
+
+Both skills were upgraded after being used in production research. culture-research v3.0 was rewritten based on consolidated feedback from **17 sub-sessions across a 46-paper, 6-region cultural study** and produced a validated demo report. deep-research v2.0 absorbed the same methodological discipline.
+
+### culture-research v3.0 Highlights
+
+| Feature | What It Does |
+|---|---|
+| **Science Communication Phase** (`09-report-writing.md`) | Generates a science magazine article, research brief, executive summary, and slide deck from the synthesis — with style calibration, sub-agent chapter writing, and HTML export |
+| **Dual Evidence Model** | Every finding is tagged with `#evidence/{level}` **and** `#access/{type}` (full-text, abstract-only, metadata-only). Downstream analysis uses both fields — no more indistinguishable findings. |
+| **Findings Index** (`findings-index.json`) | Machine-readable index alongside markdown entity files. Analysis rounds use this instead of re-reading 92+ finding files manually. |
+| **Cross-Appraisal Consistency** | `papers/appraisals/_cross-appraisal-check.md` must exist before deep-read phase is complete — a 5-point checklist prevents skipped validation. |
+| **Director Observations** | Every sub-session batch note includes a Director Observations section — aggregated methodology patterns tracked and fed back into the skill. |
+| **File Truncation Safeguard** | Every file read checks for the 50KB cap. Critical end-of-file content (data tables, references) is no longer silently missed. |
+| **Windows Encoding & Non-ASCII** | `ï`, `é`, `ü` in filenames and CJK content no longer cause inaccessible files. |
+| **Sub-Theme Derivation Procedure** | Round 1 of multi-round analysis now uses a 3-step inductive procedure with granularity rules (4-8 per domain). |
+| **Contradiction Identification Algorithm** | Round 3 replaced vague "find contradictions" with a deterministic matrix-scan → direction flag → entity verification pipeline. |
+| **3-Tier Speculation Classification** | Checkpoint distinguishes evidence-derived, gap-derived, and speculative claims (replaces binary "speculative vs not"). |
+| **state.json Synchronization** | Sub-sessions read `project-state.json` for current deliverable paths instead of trusting static prompt descriptions. |
+
+### deep-research v2.0 Highlights
+
+| Feature | What It Does |
+|---|---|
+| **End-Conditions Discipline** | Every phase has an explicit completion checklist. No more "I think it's done" — verifiable criteria for all 10 phases. |
+| **Cross-Phase Gates** | 7 formal verification gates between phases: source verification, data validation, code validation, encoding check, parity check, HTML structure, cross-artifact consistency. |
+| **File Truncation Safeguard** | After every file read, check for the 50KB cap. Critical EOF content is no longer missed. |
+| **Non-ASCII Filename Handling** | Source filenames with `é`, `ü`, `ñ`, `ç`, CJK characters handled via `_filename_map.json`. |
+| **State Synchronization** | `task_state.json` promoted from optional to recommended. Every phase end-condition includes a state update step. |
+| **Skill Evolution Log** | Post-archive step produces `skill-evolution-log.md` entries — each completed change feeds back into skill improvement. |
 
 ---
 
@@ -34,14 +80,15 @@ It is 2026, and the industry trend is hyper-focused on "Agent AI"—building ful
 
 ```
 .
-├── deep-research/        # Core deep-research skill (v4.1)
+├── deep-research/        # Core deep-research skill (v2.0)
 │   ├── SKILL.md
 │   ├── 01-explore.md … 10-implement.md
 │   └── state-management.md
-├── culture-research/     # Cultural / qualitative research skill (v2.0)
+├── culture-research/     # Cultural / qualitative research skill (v3.0)
 │   ├── SKILL.md
-│   └── 01-explore.md … 08-sub-session-orchestration.md
-└── README.md             # ← you are here
+│   ├── 01-explore.md … 09-report-writing.md
+│   └── 08-sub-session-orchestration.md (v3.0 update)
+└── README.md
 ```
 
 Each `SKILL.md` is the entry point; numbered `.md` files are phase-specific instructions the agent loads on demand.
@@ -49,8 +96,6 @@ Each `SKILL.md` is the entry point; numbered `.md` files are phase-specific inst
 ---
 
 ## ✅ Prerequisites
-
-Install the two external projects this skill depends on. **Always follow their official docs for the latest setup steps** — both move fast.
 
 1. **OpenCode** — the agent runtime. Initialize your local OpenCode environment first.
 2. **OpenSpec** — the change/spec/task workflow. Your agent workspace must be able to read OpenSpec schemas.
@@ -63,57 +108,29 @@ You will also need a terminal capable of running `openspec init` (PowerShell, ba
 
 ### Step 1 — Initialize OpenSpec in your project folder
 
-Open a terminal **inside the folder where you want the research to live** and run:
-
 ```bash
 openspec init
 ```
 
-This creates the `openspec/` directory, scaffolds the change/spec/task structure, and registers the workflow with your OpenCode agent.
-
 ### Step 2 — Copy the skills into your OpenCode skills folder
 
-Copy **whichever skill(s) you need** into `.opencode\skills\` (Windows) or `.opencode/skills/` (macOS/Linux) at the root of your project:
-
-**Windows (PowerShell)**
+**Windows (cmd/PowerShell)**
 
 ```powershell
-# Copy both skills
 Copy-Item -Recurse ".\deep-research" ".opencode\skills\deep-research"
-Copy-Item -Recurse ".\culture-research" ".opencode\skills\culture-research"
-
-# Or just one
 Copy-Item -Recurse ".\culture-research" ".opencode\skills\culture-research"
 ```
 
 **macOS / Linux (bash)**
 
 ```bash
-# Copy both skills
-cp -R ./deep-research      .opencode/skills/deep-research
+cp -R ./deep-research     .opencode/skills/deep-research
 cp -R ./culture-research  .opencode/skills/culture-research
-
-# Or just one
-cp -R ./culture-research  .opencode/skills/culture-research
-```
-
-After copying, your project tree should look like:
-
-```
-your-project/
-├── .opencode/
-│   └── skills/
-│       ├── deep-research/
-│       └── culture-research/
-├── openspec/                # ← created by `openspec init`
-└── ...
 ```
 
 ### Step 3 — Trigger the skill from a prompt
 
-Open your OpenCode agent and send a prompt that names the skill and the topic. The agent will load the skill's `SKILL.md` and route phase by phase.
-
-**Example A — culture research**
+**Example — culture research**
 
 ```text
 analysis topic "study human daily behavior",
@@ -121,21 +138,15 @@ analysis topic "study human daily behavior",
 2. using skill openspec to initial the project.
 ```
 
-**Example B — deep research (topic-agnostic)**
+**Example — deep research**
 
 ```text
 analysis topic "compare 10 open-source vector databases for production use",
 1. using skill .opencode\skills\deep-research
 2. using skill openspec to initial the project.
-3. stop at the schema/spec gate — I want to review the comparison matrix before you collect data.
 ```
 
-The agent will:
-
-1. Run `openspec init` if not already done.
-2. Load the named skill's `SKILL.md`.
-3. Walk through the phases, halting at human-gated checkpoints.
-4. Write all intermediate artifacts (sources, notebooks, knowledge base, proposals, specs) into your local project folder.
+The agent will run `openspec init` if needed, load the skill's `SKILL.md`, walk through the phases halting at human-gated checkpoints, and write all intermediate artifacts to your local project folder.
 
 ---
 
@@ -185,9 +196,27 @@ Explore → Search Design → Region-Parallel Search → Acquisition
                                               │
                                               ▼
                                   Synthesis Document
+                                                  │
+                                                  ▼
+                              Science Communication
+                              (article, brief, summary, slide deck)
+                              ←── NEW in v3.0
 ```
 
-Designed for projects with >20 papers via sub-session orchestration — each sub-session has explicit end-conditions, batch notes, and file persistence to the same project directory.
+Supports projects with 20+ papers via sub-session orchestration — each sub-session has explicit end-conditions, batch notes, and file persistence to the same project directory.
+
+---
+
+## 🧭 Ongoing Evolution
+
+These skills are not static. Every research project that uses them generates feedback:
+
+- **Weak spots** found during review are fixed at the phase level
+- **Methodology gaps** discovered during analysis are codified into new principles
+- **Director Observations** from sub-sessions accumulate into `skill-evolution-log.md` entries
+- Each post-archive step produces documented improvements that feed back into the skill itself
+
+The more you research with these skills, the sharper they become.
 
 ---
 

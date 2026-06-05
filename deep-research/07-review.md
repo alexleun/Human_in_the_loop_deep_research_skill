@@ -114,3 +114,25 @@ Action: Propose new change to fix citation gaps
 Reserve full YAML manifests for autonomous sub-agent tasks where the human cannot review inline.
 
 **If significant issues found → propose a new change to fix them.**
+
+---
+
+## File Truncation Safeguard (NEW in v2.0)
+
+Report files and source documents may exceed 50KB. After reading any file during audit, check for truncation. A truncated data table or reference section could hide methodological weaknesses.
+
+---
+
+## End Conditions (NEW in v2.0)
+
+This phase is **complete** when ALL of the following are true:
+
+1. ✅ Data & Sources checklist completed — all claims grounded, sources cached
+2. ✅ Analysis checklist completed — no LLM-memorized numbers, causal claims appropriately cautious
+3. ✅ Methodology checklist completed — limitations disclosed, conclusions don't outrun data
+4. ✅ Output checklist completed — parity, encoding, structure, nav, dates, images verified
+5. ✅ Cross-artifact consistency checklist completed for all recent additions
+6. ✅ Quantitative data verification completed — CSV values cross-checked, correction log propagated
+7. ✅ Audit results summarized (issues found, severity, recommended changes)
+8. ✅ If significant issues → new change proposed to fix them, or tasks added to current change
+9. ✅ `task_state.json` updated if spanning multiple sessions

@@ -136,3 +136,24 @@ The bilingual parity checker script (`check-parity.py`) must be tested on the **
 4. Add the OS-specific fix to the script's `__main__` guard, not as a wrapper script
 
 **Experience note (global-heatwave):** `check-parity.py` worked perfectly on the LLM's Linux environment but crashed on Windows with `UnicodeEncodeError: 'charmap' codec can't encode character '\u5317'`. The fix (`sys.stdout.reconfigure(encoding='utf-8')` wrapped in a try/except for Linux compat) was only discovered when the user ran the script. Always test parity on the actual deployment OS.
+
+---
+
+## File Truncation Safeguard (NEW in v2.0)
+
+Long report files may exceed 50KB. After reading any report draft or source material, check for truncation markers. Read critical sections (methodology, references) with offset parameters.
+
+---
+
+## End Conditions (NEW in v2.0)
+
+This phase is **complete** when ALL of the following are true:
+
+1. ✅ All report sections drafted (executive summary, methodology, findings, synthesis, limitations, future research, references)
+2. ✅ Every finding has: claim → evidence (exact quote) → analysis → confidence
+3. ✅ Every finding carries `data-source` and `data-confidence` attributes (or equivalent citation)
+4. ✅ Format chosen (cards vs prose) is consistent per page type
+5. ✅ No inline styles — semantic CSS classes only
+6. ✅ Visuals matched to findings per the mapping table
+7. ✅ Cross-phase integration verified — citations exist before Phase 6
+8. ✅ task_state.json updated if spanning multiple sessions

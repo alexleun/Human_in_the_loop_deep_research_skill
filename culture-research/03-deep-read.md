@@ -6,6 +6,39 @@
 
 ---
 
+## Preliminary: Check for Truncation & Encoding (NEW in v3.0)
+
+Before reading any paper:
+1. Verify the file is fully readable (check for truncation markers after each fetch)
+2. If the filename contains non-ASCII characters (ï, é, ü, ñ, ç), use the `_filename_map.json` mapping or the cmd /c copy workaround
+3. For open-access papers >50KB, read in 2-3 offset segments to guarantee the Limitations section is captured
+
+---
+
+## Paywall Access Protocol (NEW in v3.0)
+
+For each paper, attempt to fetch full text in this priority order:
+
+1. **Priority 1:** DOI landing page — check for open-access or abstract text
+2. **Priority 2:** PubMed abstract (if paper is indexed — requires PMID)
+3. **Priority 3:** Google Scholar search with exact title and author — GS abstracts are often more detailed than publisher abstracts and include cited-by counts. This is the most reliable second-level source for paywalled papers.
+4. **Priority 4:** Search-log abstract from `papers/raw/search-log-{region}.md`
+5. **Priority 5:** Mark as `no-abstract-available`
+
+After each attempt, check for truncation. If the page returned is truncated, read offset segments.
+
+---
+
+## Search-Log Cross-Check (NEW in v3.0)
+
+Before writing the appraisal, cross-check against the search log:
+
+1. Verify that the DOI from the search log resolves to the correct paper (if not, note the discrepancy)
+2. Cross-check key numerical claims between the search-log abstract and the publisher/GS abstract — if they differ, note the discrepancy in the Metadata section
+3. Verify author affiliations and professor status independently (do not rely on search-log classification)
+
+---
+
 ## Per-Paper Extraction
 
 For each paper, extract and capture in `papers/appraisals/{paper-id}.appraisal.md`:
@@ -13,91 +46,68 @@ For each paper, extract and capture in `papers/appraisals/{paper-id}.appraisal.m
 ```yaml
 ---
 paper_id: {Author}_{Year}_{ShortTitle}
-appraised_by: sub-session-SS{n}     # or "single-session"
+appraised_by: sub-session-SS{n}
 appraisal_date: YYYY-MM-DD
-evidence_status: full-text | open-repository | abstract-only
+evidence_status: full-text | open-repository | abstract-only | no-abstract-available
 ---
-
-# Appraisal: {Author}_{Year}_{ShortTitle}
-
-## Metadata
-- Region: {region}
-- Country focus: {list from search log}
-- Discipline: {sociology / anthropology / psychology / urban-studies / etc.}
-- Methodology type: {ethnography / time-diary / survey / mixed / review}
-- Sample: {size, population, year}
-- Professor affiliation: {name + institution}
-
-## Research Question
-{verbatim or close paraphrase}
-
-## Theoretical Framework
-{what theory, what lens guides this study?}
-
-## Key Findings (verbatim quotes)
-- Finding 1: "{exact verbatim quote from paper}" (page or section if known)
-- Finding 2: "{exact verbatim quote from paper}"
-- Finding 3: "{exact verbatim quote from paper}"
-
-## Author's Own Limitations
-{what limitations does the paper itself acknowledge?}
-
-## Critical Appraisal
-
-### Methodology Quality
-- Sample representativeness: HIGH / MEDIUM / LOW — {rationale}
-- Bias controls: HIGH / MEDIUM / LOW — {rationale}
-- Study duration adequacy: HIGH / MEDIUM / LOW — {rationale}
-
-### Cultural Positioning
-- Emic (insider) / Etic (outsider) / Mixed
-- Researcher positionality noted? Yes / No
-- Cultural bias risk: HIGH / MEDIUM / LOW
-
-### Evidence Strength per Claim
-- Finding 1: direct-evidence / inferred / claimed — {rationale}
-- Finding 2: direct-evidence / inferred / claimed — {rationale}
-- Finding 3: direct-evidence / inferred / claimed — {rationale}
-
-### Verbatim Quotes for Knowledge Base
-{the 3-5 most important verbatim quotes that downstream analysis will rely on}
-
-# SS{n} Batch Note
-{appended only when run as a sub-session}
-- {open issues for project manager}
-- {papers to re-evaluate}
-- {evidence_status distribution}
 ```
 
----
-
-## Evidence Status Discipline (CRITICAL)
-
-**Every finding must include a verbatim quote from the source** OR be marked as `[inferred from abstract — full text not accessed]`. Never paraphrase a finding without a quote. This is the anti-hallucination rule for the entire project.
-
-For `abstract-only` papers:
-- The appraisal can still be completed, but every finding must carry the `[inferred from abstract]` marker
-- Author's limitations section is marked "[Cannot be assessed from abstract; full text not accessed]"
-- The project manager must note that paywalled papers contribute less to synthesis
-
-For `open-repository` papers:
-- Use the author's accepted manuscript (often differs from published version in formatting but content is the same)
-- Cite the repository URL in the appraisal
-- Treat as `full-text` for content purposes
+Sections:
+- **Metadata** — region, country focus, discipline, methodology type, sample, professor affiliation
+- **Research Question** — verbatim or close paraphrase
+- **Theoretical Framework** — what theory/lens guides this study
+- **Key Findings (verbatim quotes)** — each with exact quote and section reference
+- **Author's Own Limitations** — what the paper itself acknowledges
+- **Critical Appraisal:**
+  - Methodology Quality (sample, bias controls, study duration — each HIGH/MEDIUM/LOW)
+  - Cultural Positioning (emic/etic/mixed, positionality noted, cultural bias risk)
+  - Evidence Strength per Claim (direct-evidence / inferred / claimed)
+- **Verbatim Quotes for Knowledge Base** — the 3-5 most important quotes
+- **# SS{n} Batch Note** — open issues, papers to re-evaluate, evidence_status distribution
+- **## Director Observations** — quality variance, scope discipline, prompt clarity, coordination overhead, generalizable lessons
 
 ---
 
-## Cross-Appraisal Consistency Check
+## Evidence Status Rules
 
-After all parallel appraisals complete:
+| Status | Meaning |
+|---|---|
+| `full-text` | Paper fully read; verbatim quotes verified |
+| `open-repository` | Author's accepted manuscript retrieved; treat as full-text |
+| `abstract-only` | Only abstract accessible; all findings marked `[inferred from abstract]` |
+| `no-abstract-available` | No text accessible at all; minimal appraisal only |
 
-1. **Same criteria applied uniformly?** — compare appraisals side by side
-2. **Any paper where methodology quality is so low it should be excluded?** — exclude from synthesis
-3. **Flag any appraiser bias** (e.g., favoring certain methodologies over others, regional bias)
+**Verbatim quote rule:** Every finding must include a verbatim quote from the source OR be marked as `[inferred from abstract]`. Never paraphrase a finding without a quote. This is the anti-hallucination rule for the entire project.
+
+**For abstract-only papers:** The abstract IS the source. Quote the relevant sentence(s) verbatim. If a single sentence contains 2+ findings, you may quote it once and cross-reference it across findings, or quote it separately per finding. Either approach is acceptable as long as each finding has at least one attached verbatim source string.
+
+**Expected information density:**
+- `full-text` paper: 6-15 claims with supporting detail
+- `abstract-only` paper: 2-4 directional claims (no effect sizes, no subgroup details)
+- `no-abstract-available`: 0-1 metadata-only claims
+
+---
+
+## Cross-Appraisal Consistency Check (REFINED in v3.0)
+
+After ALL parallel appraisals complete, produce a **required artifact** at `papers/appraisals/_cross-appraisal-check.md`:
+
+1. **Same criteria applied uniformly?** — compare appraisals side by side across regions
+2. **Any paper so methodologically weak it should be excluded?** — document decision
+3. **Flag any appraiser bias** (e.g., favoring certain methodologies, regional bias)
 4. **Verbatim quote count consistent?** — each paper should have at least 3 quotes
 5. **Evidence strength calibrated consistently?** — same study type should get similar ratings across appraisers
 
-If inconsistency is found, the project manager re-runs the affected sub-session with explicit calibration guidance.
+This file must exist before the deep-read phase is marked complete. If inconsistencies are found, the project manager re-runs affected sub-sessions with explicit calibration guidance.
+
+---
+
+## Regional Coverage Fail-Safe (NEW in v3.0)
+
+If a region has objectively few papers:
+- Do NOT pad the candidate list with methodologically weak or tangential papers
+- Document in a "regional-coverage-note" in the batch note: total papers found, total included, known gaps
+- Flag empty cells in the cross-region matrix as "data absent for this region" — some gaps are structural and cannot be filled without ex-novo primary research
 
 ---
 
@@ -107,11 +117,12 @@ This phase is **complete** when ALL of the following are true:
 
 1. ✅ All papers in the candidate list have a `.appraisal.md` file in `papers/appraisals/`
 2. ✅ Each file has YAML frontmatter with paper_id, appraised_by, evidence_status
-3. ✅ Each file has the full section structure (Metadata, RQ, Theory, Findings, Limitations, Critical Appraisal with 3 quality sub-sections, Verbatim Quotes for KB)
-4. ✅ Each file has at least 3 verbatim quotes (or explicit `[inferred]` markers)
-5. ✅ Each file's methodology quality, cultural positioning, and evidence strength are assessed
-6. ✅ A batch note is appended documenting evidence_status distribution and open issues
-7. ✅ Cross-appraisal consistency check is complete and any inconsistencies are documented
+3. ✅ Each file has the full section structure (Metadata, RQ, Theory, Findings, Limitations, Critical Appraisal, Verbatim Quotes for KB)
+4. ✅ Each file has at least 3 verbatim quotes (or explicit `[inferred from abstract]` markers)
+5. ✅ Evidence_status is honest — no `full-text` claims for paywalled papers
+6. ✅ `papers/appraisals/_cross-appraisal-check.md` exists with 5-point checklist completed
+7. ✅ A batch note is appended documenting evidence_status distribution and open issues
+8. ✅ Director Observations section included in each batch note
 
 ---
 
@@ -121,12 +132,22 @@ One `.appraisal.md` per paper in `papers/appraisals/`. These serve as the ground
 
 ---
 
-## Common Failure Modes (Learned from Practice)
+## What NOT to Do
+
+- Do NOT fabricate quotes — if paywalled, use `[inferred from abstract]` markers
+- Do NOT mark paywalled papers as `full-text`
+- Do NOT skip the cross-appraisal consistency check
+- Do NOT create entities or run analysis — that is Phase 4+
+
+---
+
+## Common Failure Modes
 
 | Failure | Cause | Fix |
 |---|---|---|
-| Quotes are paraphrased, not verbatim | Sub-agent skipped quote extraction | Re-emphasize verbatim rule; require re-do |
-| All papers marked `full-text` when many were paywalled | Sub-agent optimistic about access | Mandate evidence_status honesty; abstract-only is acceptable |
-| Findings thin on paywalled papers | Sub-agent stopped after abstract | Document `[inferred from abstract]` markers; note the loss in batch note |
-| Inconsistent criteria application | Multiple sub-sessions used slightly different rubrics | Project manager runs consistency check; specifies calibration guidance |
-| Books read as journal articles | Sub-agent confused book vs article format | Distinguish in metadata: `venue_type: book` vs `journal` vs `report` |
+| Quotes are paraphrased, not verbatim | Sub-agent skipped quote extraction | Re-emphasize verbatim rule |
+| All papers marked `full-text` when many were paywalled | Optimistic about access | Mandate evidence_status honesty |
+| Findings thin on paywalled papers | Sub-agent stopped after abstract | Use GS enriched abstract; document `[inferred]` |
+| Inconsistent criteria across regions | Multiple SS used different rubrics | Run consistency check; specify calibration guidance |
+| Truncation hides limitations section | 50KB file cap | Read in 2-3 offset segments |
+| DOI returns 403/cookie-wall | Paywall blocks publisher page | Use GS enriched abstract (Priority 3) |

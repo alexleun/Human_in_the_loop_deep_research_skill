@@ -27,3 +27,18 @@ Created via `/opsx-propose`:
 - **How will code be validated before delivery?** Specify the run command, smoke test, or `--check` flag that confirms the system works (e.g., `uvicorn app.main:app`, `streamlit run dashboard.py`, `pytest`).
 - **What is the scope boundary?** Estimate total tasks. If the estimate exceeds 15-20, the proposal likely spans multiple changes. Split by output type (data pipeline vs knowledge base vs web pages) and make the first change focused and shippable.
 - **What would trigger a spin-off?** Define the event horizon: "If we find more than X facts in phase 3, spin off KB pages to a new change." Decide this before collection begins.
+
+---
+
+## End Conditions (NEW in v2.0)
+
+This phase is **complete** when ALL of the following are true:
+
+1. ✅ `proposal.md` exists with research questions, scope, non-goals
+2. ✅ `design.md` exists with methodology, data sources, analytical approach, output plan
+3. ✅ `tasks.md` exists with implementation steps (~2hr per task)
+4. ✅ `specs/<capability>/spec.md` exists with detailed requirements
+5. ✅ Data-source IDs and confidence levels are pre-assigned (not retrofitted)
+6. ✅ Fallback strategy and code validation plan are defined
+7. ✅ Scope boundary determined (task count ≤ 20 or spin-off plan documented)
+8. ✅ Human has approved the proposal

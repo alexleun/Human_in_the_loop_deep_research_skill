@@ -18,3 +18,16 @@
 4. If direction emerges, offer to formalize as a change proposal
 
 **Output:** Shared understanding. No artifact required unless moving to Phase 2.
+
+---
+
+## End Conditions (NEW in v2.0)
+
+This phase is **complete** when ALL of the following are true:
+
+1. ✅ Research question is defined in writing (1-3 sentences)
+2. ✅ Key dimensions, sub-topics, and data sources are discussed
+3. ✅ Assumptions and blind spots are surfaced
+4. ✅ Languages and visual assets needs are identified
+5. ✅ Decision made: formalize as change proposal or continue exploring
+6. ✅ If moving to Phase 2, scope boundary estimated (task count < 20 or needs spin-off)

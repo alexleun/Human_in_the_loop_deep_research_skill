@@ -1,25 +1,8 @@
----
-name: culture-research
-description: Cultural one-off study workflow: paper collection, deep reading, knowledge graph construction, multi-round iterative analysis, and Obsidian-based knowledge visualization. No programming or human-subject data collection. Designed for sub-session orchestration across many sessions.
-license: MIT
-metadata:
-  version: "2.0"
-  files:
-    - "01-explore.md"
-    - "02-search-collect.md"
-    - "03-deep-read.md"
-    - "04-knowledge-base.md"
-    - "05-multi-round-analysis.md"
-    - "06-checkpoint.md"
-    - "07-synthesis.md"
-    - "08-sub-session-orchestration.md"
----
-
-# Culture Research Skill
+# Culture Research Skill v3.0
 
 A structured workflow for **cultural one-off studies** focused on human behavior, social practices, and everyday life. Designed for web-search-based paper collection and qualitative synthesis — no programming, no human-subject data collection, no dashboards.
 
-**v2.0 changes:** Added sub-session orchestration pattern (file `08`) for projects exceeding single-session capacity. Updated each phase file with explicit end-conditions, paywall-fallback discipline, and batch note requirements.
+**v3.0 changes:** Added topic-intent analysis (global vs local scope), active Director role, state synchronization via `project-state.json`, formal cross-phase gates, 09-report-writing phase, paywall access protocol, machine-readable findings index, evidence model refinement (access + evidence tiers), contradiction-identification algorithm, sub-theme filter for matrix, and comprehensive truncation/encoding safeguards. Consolidated feedback from 17 sub-sessions on a 46-paper, 6-region project.
 
 ---
 
@@ -35,15 +18,25 @@ A structured workflow for **cultural one-off studies** focused on human behavior
 
 ## Core Point of View
 
-This skill is built on several methodological principles developed through practice:
+### 0. Topic-Intent Analysis (NEW in v3.0)
+
+Before any search, determine whether the research question is **global** or **local**:
+
+- **Global scope:** Asking about human behavior across cultures (e.g., "How does daily time allocation vary across cultures?"). Requires region-parallel search.
+- **Local scope:** Asking about a specific region/culture (e.g., "How do Japanese office workers manage work-life boundaries?"). Requires depth-first search within that region.
+
+The skill works for both — regions, search templates, and analysis dimensions adjust accordingly. Document the scope decision in the explore phase.
 
 ### 1. Region-Parallel Search, Not Keyword-Only Search
+
 Cultural behavior is studied differently across academic traditions. A single English keyword search will miss Chinese sociology, Japanese ethnography, and French anthropology. **Search must be organized by geographic region, each with tailored queries and sources.**
 
 ### 2. Deep Reading Before Abstraction
+
 Do not extract entities or build graphs from papers you have not read carefully. Each paper gets a **critical appraisal** (methodology quality, cultural positioning, evidence strength, verbatim key quotes) before any knowledge base entry. This prevents propagating shallow or misinterpreted findings.
 
 ### 3. Analysis Must Be Multi-Round and Sequential
+
 One pass of analysis cannot surface deep patterns. The workflow uses **five sequential rounds**, each building on the previous:
 1. Thematic categorization (what behaviors are studied?)
 2. Cross-cultural comparison (how do behaviors differ by region?)
@@ -51,52 +44,79 @@ One pass of analysis cannot surface deep patterns. The workflow uses **five sequ
 4. Gap mapping (what is not studied and who is not represented?)
 5. Research question generation (what new studies would fill the gaps?)
 
-The order matters — gaps are meaningful only after you know what exists, contradictions only after you know the patterns.
-
 ### 4. Iteration Checkpoint Before Final Output
+
 After all five rounds, the workflow pauses for a **review checkpoint**. Weak links, missing dimensions, and insufficiently grounded questions are identified. If needed, earlier rounds are revisited. The synthesis document is written only after the checkpoint passes.
 
 ### 5. Knowledge Graph + Obsidian Vault as Dual Output
+
 The MCP knowledge graph tool provides structured query and persistence. Simultaneously, all entities, relations, and analysis outputs are written as **Obsidian-compatible markdown** (`#tag`, `[[wikilink]]`, YAML frontmatter). The user opens the `knowledge-base/` folder as an Obsidian vault and immediately sees the graph view — no plugins or configuration needed.
 
 ### 6. Source Grounding (Anti-Hallucination)
+
 Every factual output must cite **exact quoted text** from the source. Paraphrasing introduces hallucination risk. Each paper's metadata includes the search query that found it, the URL, and the professor's institutional affiliation.
 
-### 7. Sub-Session Orchestration for Multi-Session Projects (NEW in v2.0)
-For projects with >20 papers, single-session execution hits context limits. Split work into **sub-sessions**, each with:
-- Tight scope (one phase, one batch)
-- Explicit **end conditions** (a checklist, not a description)
-- A **batch note** appended to outputs for the project manager
-- File-persistence to the same project directory across sessions
+### 7. Sub-Session Orchestration (NEW in v2.0, Refined in v3.0)
 
-The main session is the **project manager** — it does not execute paper work, it writes sub-session prompts and verifies outputs. See `08-sub-session-orchestration.md` for details.
+For projects with >20 papers, split work into **sub-sessions**, each with tight scope, explicit end conditions, and batch notes. The main session is the **project manager** — it writes prompts, verifies outputs, and tracks state.
+
+### 8. State Synchronization & Cross-Phase Gates (NEW in v3.0)
+
+Sub-sessions no longer trust static prompt descriptions. A `project-state.json` in the project root tracks current deliverable paths, entity counts, and completion status. Cross-phase gates (e.g., cross-appraisal consistency check) produce accountable artifacts that downstream phases can reference.
+
+### 9. Active Director Role (NEW in v3.0)
+
+No longer a placeholder. The Director is a dedicated sub-session (or part of the Project Manager) that:
+- Aggregates Director Observations from all sub-sessions
+- Identifies methodology patterns and quality variance across appraisals
+- Proposes skill updates based on project experience
+- Runs the cross-appraisal consistency check
+- Maintains the skill evolution log
+
+### 10. Evidence Model: Dual Access + Evidence Tiers (NEW in v3.0)
+
+Replace the single `evidence/` tag with two orthogonal fields:
+- **`access/`** — `full-text`, `abstract-only`, `metadata-only` (how we accessed it)
+- **`evidence/`** — `high`, `medium`, `low` (confidence in the claim, independent of access)
+
+This allows downstream rounds to differentiate "high-confidence claim from abstract-only paper" from "speculative claim from full-text paper."
 
 ---
 
 ## Workflow Overview
 
 ```
-Explore ──→ Search Design ──→ Region Searches (parallel sub-sessions) ──→ Acquisition
-                                                                          │
-                                                                          ▼
-                                       Deep Reading (1 sub-session per region; 1 sub-agent per paper)
-                                                                          │
-                                                                          ▼
-                                           Knowledge Base ──→ Entities + Relations
-                                                                          │          └── Obsidian `.md` files
-                                                                          ▼
-                                                ┌── Round 1: Thematic Categorization
-                                                │── Round 2: Cross-Cultural Comparison
-                                                │── Round 3: Contradiction Deep-Dive
-                                                │── Round 4: Gap & Blind Spot Mapping
-                  Iteration Checkpoint ←────────┘── Round 5: Research Question Generation
-                       │
-                       ▼ (if weak links, loop back to relevant round)
-            ┌─ Refine rounds ─┐
-            └────→ Synthesis Document
+Topic-Intent Analysis (global vs local)
+       │
+Explore ──→ Search Design ──→ Region Searches ──→ Unified Roster ──→ Deep Reading
+                                       (parallel sub-sessions)    (1 SS per region)
+                                                                       │
+                                                                       ▼
+                         Knowledge Base ──→ Entities + Relations + findings-index.json
+                         (SS7 entities,     (SS8 relations)
+                          SS8 relations)
+                                                                       │
+                                                                       ▼
+                ┌── Round 1: Thematic Categorization (SS9)
+                │── Round 2: Cross-Cultural Comparison (SS10)
+                │── Round 3: Contradiction Deep-Dive (SS11)
+                │── Round 4: Gap & Blind Spot Mapping (SS12)
+                │── Round 5: Research Question Generation (SS13)
+                │
+  Cross-Phase Gates ──→ Cross-Appraisal Consistency Check
+                │       Director Observations Aggregation
+                │
+ Iteration Checkpoint ←─┘ (SS14)
+       │
+       ▼ (if weak links, loop back)
+  Synthesis (SS15)
+       │
+       ▼
+  Report Writing (SS16+) — optional: science article, research brief, slide deck
+       │
+       ▼
+  Skill Evolution (SS17+) — retrospective, skill updates
 ```
-
-**For projects with >20 papers:** Each phase is implemented as a sub-session with explicit end-conditions. See `08-sub-session-orchestration.md`.
 
 ---
 
@@ -104,20 +124,21 @@ Explore ──→ Search Design ──→ Region Searches (parallel sub-sessions
 
 | Current Task | Load This File |
 |---|---|
-| Scoping topic, discussing with human | `01-explore.md` |
+| Scoping topic, topic-intent analysis, discussing with human | `01-explore.md` |
 | Designing search strategy, executing region-parallel collection | `02-search-collect.md` |
 | Per-paper deep reading and critical appraisal | `03-deep-read.md` |
 | Building knowledge graph entities, relations, Obsidian vault | `04-knowledge-base.md` |
 | Running 5-round iterative analysis (thematic → comparison → contradiction → gaps → questions) | `05-multi-round-analysis.md` |
 | Review checkpoint, identifying weak links, looping back | `06-checkpoint.md` |
 | Writing final synthesis document | `07-synthesis.md` |
-| **Multi-session project: writing sub-session prompts, verifying outputs, tracking tasks** | **`08-sub-session-orchestration.md`** |
+| **Multi-session project: writing sub-session prompts, verifying outputs, tracking state** | **`08-sub-session-orchestration.md`** |
+| **Writing science article, research brief, or other communication output** | **`09-report-writing.md`** |
 
 ---
 
-## End-Conditions Discipline (NEW in v2.0)
+## End-Conditions Discipline
 
-Every phase and every sub-session must define its **end conditions** as a checklist, not a description. The end-conditions pattern is:
+Every phase and every sub-session must define its **end conditions** as a checklist, not a description:
 
 ```markdown
 ## End Conditions
@@ -125,9 +146,9 @@ Every phase and every sub-session must define its **end conditions** as a checkl
 This phase is **complete** when ALL of the following are true:
 
 1. ✅ [Specific deliverable exists at specific path]
-2. ✅ [Quality criterion met, e.g., "every file uses YAML frontmatter"]
-3. ✅ [Coverage criterion, e.g., "all 46 papers have entities extracted"]
-4. ✅ [Format criterion, e.g., "all wikilinks verified"]
+2. ✅ [Quality criterion met]
+3. ✅ [Coverage criterion met]
+4. ✅ [Format criterion met]
 5. ✅ [Batch note appended]
 ```
 
@@ -135,56 +156,121 @@ Without end-conditions, sub-sessions exit prematurely or drift. With end-conditi
 
 ---
 
-## Paywall & Access Fallback (NEW in v2.0)
+## Paywall & Access Protocol (NEW in v3.0)
 
-Many academic papers are paywalled. The skill does not require full text access — it requires **honest evidence status**:
+Many academic papers are paywalled. Follow this priority protocol:
 
-- `evidence_status: full-text` — paper fully read; verbatim quotes verified
-- `evidence_status: open-repository` — accepted manuscript or pre-print retrieved from author's institutional repository
-- `evidence_status: abstract-only` — only abstract, publisher blurb, table of contents, and open reviews were accessible
+1. **Priority 1:** Check the DOI landing page for open-access or abstract text
+2. **Priority 2:** If landing page blocks (403/cookie-wall), try **PubMed abstract** if indexed (requires PMID)
+3. **Priority 3:** Search **Google Scholar** with exact title and author — GS abstracts are often more detailed than publisher abstracts and include cited-by counts
+4. **Priority 4:** Use the **search-log abstract** (from `papers/raw/search-log-{region}.md`)
+5. **Priority 5:** If all fail, the `evidence_status` is `no-abstract-available`
 
 For `abstract-only` papers:
-- Mark all findings as `[inferred from abstract — full text not accessed]`
-- Document in batch note: "X papers were paywalled; finding extraction is from abstracts only"
-- The downstream synthesis must weight paywalled papers' contributions lower
+- Mark all findings with `[inferred from abstract — full text not accessed]`
+- The appraisal can still be completed, but every finding must carry the `[inferred from abstract]` marker
+- Author's limitations section: `[Cannot be assessed from abstract; full text not accessed]`
+- Note in batch note: "X papers were paywalled; finding extraction is from abstracts only"
 
-This honest scoping prevents hallucination when sources cannot be fully verified.
+An `abstract-only` paper typically contributes 2–4 directional claims (no effect sizes, no subgroup analysis, no methodological detail). A `full-text` paper typically contributes 6–15 claims with supporting detail. Weight accordingly in synthesis.
 
 ---
 
-## File Persistence (NEW in v2.0)
+## File Truncation Safeguard (NEW in v3.0)
 
-All sub-sessions read and write to the **same project directory**:
+All file reads may be capped at ~50KB by the `read` tool. After reading any file:
+
+1. Check for truncation markers: `...truncated...` or `"Full output saved to..."`
+2. If truncated, read the remainder with `offset=N` parameter
+3. **Batch notes and open questions at the end of each file are critical inputs** — always verify they are captured
+4. For open-access papers particularly: fetch in 2–3 offset segments to guarantee the Limitations section is captured (it is always >80% through the paper)
+
+This safeguard applies to ALL phases: deep-read, entity extraction, relations, analysis rounds, checkpoint, synthesis, and report writing.
+
+---
+
+## Windows Encoding & Non-ASCII Filenames (NEW in v3.0)
+
+Windows cmd/PowerShell treats non-ASCII characters in filenames inconsistently. `ï`, `é`, `ü`, `ñ`, `ç` are common in author surnames.
+
+**Detection:** If a `read` call fails with "PathNotFound" but `dir /b` shows the file exists, the filename likely contains a non-ASCII character.
+
+**Workaround:** Use `cmd /c copy` with a wildcard (`?` in place of the special character) to copy to a temp path, then `read` the copy.
+
+**Recommended:** Before each phase that reads many files, run a `_check_encoding.ps1` script that:
+1. Detects files with non-ASCII chars in their names
+2. Renames them with ASCII-only equivalents (e.g., `Saïdi` → `Saidi`)
+3. Records the original-to-mapped mapping in `_filename_map.json`
+
+---
+
+## Cross-Phase Gates (NEW in v3.0)
+
+These verification steps happen BETWEEN phases and produce accountable artifacts:
+
+| Gate | After Phase | Artifact | Run By |
+|---|---|---|---|
+| Cross-Appraisal Consistency Check | Deep Reading | `papers/appraisals/_cross-appraisal-check.md` | Director / PM |
+| Cross-Region Relation Consistency | Knowledge Base | Check findings-index.json covers all papers | PM |
+| Sub-Theme Viability Filter | Round 1 | Decision: which sub-themes become matrix rows | Director |
+| Round Output Completeness | Each Round | Verify prior round's end conditions met | Sub-agent (checked by PM) |
+| Synthesis Input Coherence | Checkpoint | `checkpoint-review.md` | Checkpoint sub-agent |
+| Skill Evolution | Archive | `skill-evolution-log.md` | Director / PM |
+
+---
+
+## File Persistence
 
 ```
 {project_root}/
 ├── papers/
 │   ├── search-protocol.md
 │   ├── raw/                      # search logs per region
-│   ├── meta/                     # paper metadata (optional, can be in search logs)
+│   ├── meta/                     # paper metadata (optional)
 │   ├── appraisals/               # one .appraisal.md per paper
+│   ├── appraisals/_cross-appraisal-check.md   # (NEW) consistency artifact
 │   ├── unified-candidate-list.md # final paper roster
 │   └── coverage-report.md        # (optional)
 ├── knowledge-base/
 │   ├── entities/                 # Obsidian-compatible entity notes
+│   ├── findings-index.json       # (NEW) machine-readable findings index
 │   ├── relations.json            # structured relations
 │   ├── summary.md                # human-readable KB overview
 │   ├── analysis/                 # round1...round5 outputs + checkpoint
-│   └── synthesis.md              # final synthesis (last)
-└── sub-sessions/                 # (NEW) prompts for SS1-SSn, organized by phase
+│   ├── synthesis.md              # final synthesis
+│   └── article/                  # (NEW) report-writing outputs
+│       ├── final-article.md
+│       └── final-article.html
+├── sub-sessions/
+│   ├── README.md
+│   └── SS_TEMPLATE.md
+├── messages/                     # (NEW) sub-session feedback to management
+│   └── SS{n}-to-management.md
+├── project-state.json            # (NEW) state synchronization file
+└── skill-evolution-log.md        # (NEW) accumulated skill improvement records
 ```
-
-The main session verifies files exist after each sub-session returns. The project directory is the single source of truth across sessions.
 
 ---
 
-## Batch Note Pattern (NEW in v2.0)
+## Batch Note Pattern
 
 Every sub-session appends a `# SS{n} Batch Note` section to its primary output. This section documents:
 - What was produced (count by type)
-- What evidence_status distribution was achieved
+- What evidence_status / access distribution was achieved
 - Open issues for the project manager
 - Papers to re-evaluate
-- Honest assessment of quality (e.g., "abstract-only for 5 of 8 papers")
+- Honest assessment of quality
 
 The main session reads the batch note first to decide whether to proceed, loop, or intervene.
+
+## Director Observations (NEW in v3.0 — Active, Not Placeholder)
+
+Every sub-session includes a `## Director Observations` section in its batch note. The Director (a dedicated sub-session or PM role) aggregates these into quarterly observations:
+
+1. **Quality variance** — Are sub-session outputs meeting the same quality bar?
+2. **Scope discipline** — Are sub-sessions staying within boundaries?
+3. **Prompt clarity** — What parts of the prompts need improvement?
+4. **Coordination overhead** — How much attention does each SS require?
+5. **Generalizable lessons** — What should update the skill?
+
+The Director produces a `knowledge-base/director-report-{round}.md` after each major phase.

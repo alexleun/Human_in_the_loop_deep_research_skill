@@ -530,3 +530,22 @@ python -c "open('zh/file.html','w',encoding='utf-8').write(open('/dev/stdin').re
 - Bilingual title (English + Chinese)
 - Colored regions, city labels, legend
 - Responsive viewBox, defs for gradients/shadows
+
+---
+
+## End Conditions (NEW in v2.0)
+
+This phase is **complete** when ALL of the following are true:
+
+1. ✅ Page Registry defined and used for nav generation + parity checker
+2. ✅ All generated pages render without errors in browser (spot-check ≥3 pages)
+3. ✅ All phase-exit gates pass:
+   - [ ] Gate 1: Encoding check — zero U+FFFD in all ZH files
+   - [ ] Gate 2: Recovery protocol complete (if corruption found)
+   - [ ] Gate 3: Render spot-check — nav, language switcher, figures, responsive layout
+   - [ ] Gate 4: HTML structure validation — div balance, title tags, footer dates
+   - [ ] Gate 5: Attribute consistency — no `confidence` without `data-` prefix
+4. ✅ Bilingual parity verified for all page pairs
+5. ✅ Cross-artifact consistency check passed (new findings propagated to all artifacts)
+6. ✅ Date freshness audit passed — all footers and meta lines match current epoch
+7. ✅ `task_state.json` updated if spanning multiple sessions

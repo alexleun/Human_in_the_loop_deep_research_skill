@@ -87,3 +87,31 @@ data_gaps:
   - "What could not be found or confirmed"
 next_action: "Collect sources for next subtopic or move to analysis"
 ```
+
+---
+
+## File Truncation Safeguard (NEW in v2.0)
+
+After fetching any source document or reading a cached file, check for truncation markers. If the file exceeds ~50KB, read in offset segments. The most important content (methodology section, data tables, footnotes) is often at the end.
+
+---
+
+## Non-ASCII Filename Handling (NEW in v2.0)
+
+If source filenames contain non-ASCII characters (é, ü, ñ, ç, CJK characters), rename with ASCII equivalents and record the mapping in `_filename_map.json` before reading with standard tools.
+
+---
+
+## End Conditions (NEW in v2.0)
+
+This phase is **complete** when ALL of the following are true:
+
+1. ✅ All source entries have: title, author, date, URL/DOI, exact quoted text, confidence level
+2. ✅ Local copies cached in `knowledge-base/sources/` named `YYYY-MM-DD-description.{pdf,html,md}`
+3. ✅ `knowledge-base/sources/sources_index.md` maintained with all metadata
+4. ✅ Every URL/DOI verified — `fetch_status` logged (ok / broken / paywalled)
+5. ✅ No hallucinated sources — all broken URLs replaced with real ones or flagged as `[Data Gap]`
+6. ✅ CSV data cross-checked against authoritative sources with correction log
+7. ✅ Review manifest appended documenting: sources collected, data gaps, next action
+8. ✅ Knowledge base entries (if applicable) link to source with exact quoted evidence
+9. ✅ `task_state.json` updated if spanning multiple sessions

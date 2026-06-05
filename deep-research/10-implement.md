@@ -91,3 +91,17 @@ Before leaving this phase, confirm:
 - [ ] Health-check or landing page responds
 - [ ] Seed data (or fallback data) is visible in the application
 - [ ] No deferred runtime errors — everything that runs, runs cleanly
+
+---
+
+## End Conditions (NEW in v2.0)
+
+This phase is **complete** when ALL of the following are true:
+
+1. ✅ Schema validation log exists (model vs migration vs DB reconciled)
+2. ✅ Seed script written and executed (if DB-backed application)
+3. ✅ Application entry point exists and starts without errors
+4. ✅ Smoke test passed — health-check or landing page responds
+5. ✅ Seed data (or fallback data) visible in the application
+6. ✅ Handoff to openspec-apply-change completed (if applicable)
+7. ✅ `task_state.json` updated

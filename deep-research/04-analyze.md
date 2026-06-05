@@ -50,3 +50,23 @@ data_gaps:
 next_action: "Interpret results or run next analysis"
 validation: "Script ran without errors"  # or list issues found
 ```
+
+---
+
+## File Truncation Safeguard (NEW in v2.0)
+
+Notebook outputs and data files may exceed 50KB. After reading any analysis output, check for truncation and read offset segments. Do not draw conclusions from truncated data.
+
+---
+
+## End Conditions (NEW in v2.0)
+
+This phase is **complete** when ALL of the following are true:
+
+1. ✅ All analysis scripts produce zero runtime errors when executed
+2. ✅ Scripts are preserved at `analysis/scripts/` or notebooks at `analysis/notebooks/`
+3. ✅ Figures saved to `analysis/figures/` with descriptive filenames
+4. ✅ Data files saved to `analysis/data/` with provenance notes
+5. ✅ Parameter choices and robustness checks documented in comments
+6. ✅ Review manifest appended: summary, key figures, data gaps, validation results
+7. ✅ task_state.json updated if spanning multiple sessions
