@@ -1,3 +1,7 @@
+---
+name: deep-research
+description: "A highly modular, objective-driven workflow for deep research across any topic, featuring code-first analysis and explicit cross-phase validation gates."
+---
 # Deep Research Skill v2.1
 
 A modular skill for structured deep research in collaboration with a human. Works on **any topic**.
