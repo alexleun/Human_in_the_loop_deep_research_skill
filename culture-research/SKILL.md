@@ -1,3 +1,8 @@
+---
+name: culture-research
+description: "A structured, multi-round workflow for exploratory and qualitative cultural research studies using region-parallel search."
+---
+
 # Culture Research Skill v3.1
 
 A structured workflow for **cultural one-off studies** focused on human behavior, social practices, and everyday life. Designed for web-search-based paper collection and qualitative synthesis — no programming, no human-subject data collection, no dashboards.
