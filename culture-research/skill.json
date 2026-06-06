@@ -1,0 +1,9 @@
+{
+  "id": "culture-research",
+  "version": "3.1",
+  "entrypoint": "SKILL.md",
+  "state_blueprint": {
+    "current_phase": "01-explore.md",
+    "project-state": "initialized"
+  }
+}
