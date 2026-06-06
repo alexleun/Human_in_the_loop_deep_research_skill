@@ -107,46 +107,85 @@ You will also need a terminal capable of running `openspec init` (PowerShell, ba
 ## 🚀 Quick Start
 
 ### Step 1 — Initialize OpenSpec in your project folder
-
+Your agent workspace must be prepared to track research states before deploying the skills.
 ```bash
 openspec init
 ```
 
-### Step 2 — Copy the skills into your OpenCode skills folder
+### Step 2 — Create the OpenCode Skill Directories
+OpenCode reads skills from independent, isolated subdirectories. Create the required directory trees:
 
-**Windows (cmd/PowerShell)**
-
+**Windows (PowerShell)**
 ```powershell
-Copy-Item -Recurse ".\deep-research" ".opencode\skills\deep-research"
-Copy-Item -Recurse ".\culture-research" ".opencode\skills\culture-research"
+New-Item -ItemType Directory -Path ".opencode\skills\deep-research", ".opencode\skills\culture-research" -Force
 ```
 
 **macOS / Linux (bash)**
-
 ```bash
-cp -R ./deep-research     .opencode/skills/deep-research
-cp -R ./culture-research  .opencode/skills/culture-research
+mkdir -p .opencode/skills/deep-research .opencode/skills/culture-research
 ```
 
-### Step 3 — Trigger the skill from a prompt
+### Step 3 — Populate the Skill Files and Components
+Copy your skill files into their respective subdirectories. OpenCode's parser will strictly ignore folders that lack valid YAML frontmatter headers and `skill.json` files.
 
-**Example — culture research**
-
-```text
-analysis topic "study human daily behavior",
-1. using skill .opencode\skills\culture-research
-2. using skill openspec to initial the project.
+#### For Deep Research (`.opencode/skills/deep-research/`):
+1. Copy all `deep-research/` files into `.opencode/skills/deep-research/`.
+2. Ensure your `SKILL.md` file starts with this exact YAML block:
+```markdown
+---
+name: deep-research
+description: "Topic-agnostic quantitative and qualitative research with code-first analysis."
+---
+```
+3. Create a `skill.json` file in that folder:
+```json
+{
+  "id": "deep-research",
+  "version": "2.1",
+  "entrypoint": "SKILL.md"
+}
 ```
 
-**Example — deep research**
-
-```text
-analysis topic "compare 10 open-source vector databases for production use",
-1. using skill .opencode\skills\deep-research
-2. using skill openspec to initial the project.
+#### For Culture Research (`.opencode/skills/culture-research/`):
+1. Copy all `culture-research/` files into `.opencode/skills/culture-research/`.
+2. Ensure your `SKILL.md` file starts with this exact YAML block:
+```markdown
+---
+name: culture-research
+description: "Cultural and behavioral qualitative studies with region-parallel search loops."
+---
+```
+3. Create a `skill.json` file in that folder:
+```json
+{
+  "id": "culture-research",
+  "version": "3.1",
+  "entrypoint": "SKILL.md"
+}
 ```
 
-The agent will run `openspec init` if needed, load the skill's `SKILL.md`, walk through the phases halting at human-gated checkpoints, and write all intermediate artifacts to your local project folder.
+### Step 4 — Authorize Execution Permissions
+Open your local `opencode.json` configuration file and explicitly allow your newly added custom skill IDs to bypass agent security filters:
+```json
+{
+  "agent": {
+    "allowed_skills": [
+      "deep-research",
+      "culture-research"
+    ]
+  }
+}
+```
+
+### Step 5 — Trigger the Skill
+Restart your active OpenCode TUI or terminal environment to flush the index cache. You can now invoke your custom research workflows directly using explicit skill targeting flags:
+
+**Example — Run Culture Research Workflow:**
+> "Initialize a research project on 'human daily behavior variations' using skill: culture-research"
+
+**Example — Run Deep Research Workflow:**
+> "Analyze 'open-source vector database performance matrices' using skill: deep-research"
+
 
 ---
 
