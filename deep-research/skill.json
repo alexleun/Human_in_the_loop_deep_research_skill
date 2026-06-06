@@ -1,0 +1,10 @@
+{
+  "id": "deep-research",
+  "version": "2.1",
+  "entrypoint": "SKILL.md",
+  "state_blueprint": {
+    "current_phase": "01-explore.md",
+    "task_state_path": "openspec/changes/research_task/task_state.json",
+    "status": "initialized"
+  }
+}
