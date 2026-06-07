@@ -3,13 +3,15 @@ name: culture-research
 description: "A structured, multi-round workflow for exploratory and qualitative cultural research studies using region-parallel search."
 ---
 
-# Culture Research Skill v3.1
+# Culture Research Skill v3.2
 
 A structured workflow for **cultural one-off studies** focused on human behavior, social practices, and everyday life. Designed for web-search-based paper collection and qualitative synthesis — no programming, no human-subject data collection, no dashboards.
 
 **v3.0 changes:** Added topic-intent analysis (global vs local scope), active Director role, state synchronization via `project-state.json`, formal cross-phase gates, 09-report-writing phase, paywall access protocol, machine-readable findings index, evidence model refinement (access + evidence tiers), contradiction-identification algorithm, sub-theme filter for matrix, and comprehensive truncation/encoding safeguards. Consolidated feedback from 17 sub-sessions on a 46-paper, 6-region project.
 
-**v3.1 changes:** Clarified sub-session execution model with two formal modes (human-executed and LLM-executed). Added source preservation requirement (save local copies of fetched content). Formalized PM review loop between sub-sessions as a cross-phase gate. Added scale-dependent MCP tool selection guidance. Added openspec bridge section (adapted from deep-research skill). Added generational/time-period as first-class dimension in tag taxonomy and entity schema. Consolidated feedback from a 67-paper, 8-region gift-giving project.
+**v3.1 changes:** Clarified sub-session execution model with two formal modes (human-executed and LLM-executed). Added source preservation requirement (save local copies of fetched content). Formalized PM review loop between sub-sessions as a cross-phase gate. Added scale-dependent MCP tool selection guidance. Added generational/time-period as first-class dimension in tag taxonomy and entity schema. Consolidated feedback from a 67-paper, 8-region gift-giving project.
+
+**v3.2 changes:** Added Discovery-First Framing principle (critical omission from report-writing). Overhauled 09-report-writing.md with style calibration heuristics, variable-length planning, pre-writing section plan approval gate, and methodology placement rule. Added human-approval gates after critical phases. Added project sizing guide (small/medium/large) for sub-session architecture. Added unfindable paper protocol. Added search-protocol.md template. Extended calibration run pattern to analysis rounds. Consolidated feedback from a 38-paper, 3-region pain-and-culture project including a failed-first-draft report-writing cycle.
 
 ---
 
@@ -147,6 +149,46 @@ Research questions involving generational comparison or historical change requir
 - **Search templates:** Add `"generational OR cohort OR longitudinal time-use"` to region query templates when generational comparison is in scope
 - **Round 4 addition:** Generational coverage gaps must be assessed alongside other dimensions
 
+### 14. Discovery-First Framing (NEW in v3.2)
+
+The most common failure in report-writing (Phase 9) is producing output that reads as a methodology report or academic literature review rather than a science story. To prevent this:
+
+**Discovery-first principle:** Every paragraph should answer the question "what does this tell us about [the research topic]?" not "what did we find in the literature?" The collection process (N papers, methods, regions) is supporting infrastructure — mentioned exactly once and then invisible.
+
+**Concrete rules:**
+- No section should open with a paper citation. Open with a claim about the world, then support with evidence.
+- The phrase "across X papers from Y studies" appears at most once in the entire document.
+- Methodology (search protocol, paper count, analysis rounds) is placed in a single endnote or "About this report" section — never in the main narrative.
+- Source papers are supporting evidence for claims about the world, mentioned only when they add authority.
+
+This principle applies to ALL communication outputs (articles, briefs, slide decks), not just the formal synthesis.
+
+### 15. Human-Approval Gates (NEW in v3.2)
+
+After critical phases, require explicit human approval before proceeding. These gates prevent the project from progressing on an incorrectly scoped or misaligned foundation:
+
+| Phase | Gate | What Human Approves |
+|---|---|---|
+| 1 — Explore | Research Question & Scope | The question is answerable, regions correct, scale appropriate |
+| 6 — Checkpoint | Verdict | PROCEED / PROCEED WITH NOTES / LOOP decision confirmed |
+| 7 — Synthesis | Final Document | All sections correct, no broken wikilinks |
+| 8 — Report Writing | Section Plan | Titles, narrative arc, key claims per section approved before drafting begins |
+| 9 — Archive | Retrospective | Skill evolution log reviewed |
+
+**Execution:** At each gate, the PM presents a summary to the human (in `messages/` or directly), the human responds, and the PM documents the approval in `skill-evolution-log.md`. For Phase 1, the human approval is obtained conversationally during the explore session.
+
+### 16. Unfindable Paper Protocol (NEW in v3.2)
+
+Papers may be unfindable — DOI returns 404, title yields no results, publisher site is down. Handle systematically:
+
+1. **Attempt priority:** DOI landing page → PubMed → Google Scholar exact-title search → search-log abstract → mark unfindable
+2. **Timebox:** 5 minutes of attempts per paper. If not found, move on.
+3. **Document in appraisal:** Create a minimal `.appraisal.md` with metadata only (title, authors, year, attempted URLs) and `evidence_status: no-abstract-available`
+4. **Do NOT replace:** Do not substitute a different paper. Note the unfindable status in the batch note and the cross-appraisal consistency check.
+5. **Impact:** Unfindable papers contribute 0 findings. Affected cells in the cross-region matrix are marked as "data absent."
+
+This prevents time sinks on individual papers while maintaining honest coverage reporting.
+
 ---
 
 ## Workflow Overview
@@ -275,7 +317,8 @@ Windows cmd/PowerShell treats non-ASCII characters in filenames inconsistently. 
 These verification steps happen BETWEEN phases and produce accountable artifacts:
 
 | Gate | After Phase | Artifact | Run By |
-|---|---|---|---|
+|---|---|---|---|---|
+| Human-Approval Gate (NEW in v3.2) | Explore, Checkpoint, Synthesis, Report Writing | Human signs off on scope/verdict/document/plan | Human |
 | Cross-Appraisal Consistency Check | Deep Reading | `papers/appraisals/_cross-appraisal-check.md` | Director / PM |
 | Cross-Region Relation Consistency | Knowledge Base | Check findings-index.json covers all papers | PM |
 | Sub-Theme Viability Filter | Round 1 | Decision: which sub-themes become matrix rows | Director |
@@ -284,25 +327,6 @@ These verification steps happen BETWEEN phases and produce accountable artifacts
 | Skill Evolution | Archive | `skill-evolution-log.md` | Director / PM |
 | PM Review Loop (NEW in v3.1) | Each Sub-Session | Batch note read + output spot-check + decision logged | PM |
 | Source Preservation (NEW in v3.1) | Each Fetch | Local copy saved to `papers/raw/` | Sub-agent |
-
----
-
-## Openspec Bridge (NEW in v3.1)
-
-Research outputs (papers, findings, design decisions) can seed openspec changes for downstream implementation (databases, dashboards, websites). Copy forward these artifacts:
-
-| From Research | To Openspec Change |
-|---|---|
-| `explore/scope-definition.md` | `proposal.md` — research questions, scope |
-| `papers/search-protocol.md` + `coverage-report.md` | `design.md` — data sources section |
-| `knowledge-base/findings-index.json` | `specs/<capability>/spec.md` — requirements |
-| Design decisions from explore phase | `design.md` — architecture decisions |
-| `skill-evolution-log.md` | Lessons for next change's `design.md` |
-
-**What NOT to carry forward:**
-- Do NOT copy raw appraisal files — link to them from `papers/`
-- Do NOT re-debate settled design decisions — reference them
-- Do NOT copy the entire knowledge base — link from the openspec change
 
 ---
 
@@ -325,8 +349,13 @@ Research outputs (papers, findings, design decisions) can seed openspec changes 
 │   ├── summary.md                # human-readable KB overview
 │   ├── analysis/                 # round1...round5 outputs + checkpoint
 │   ├── synthesis.md              # final synthesis
-│   └── article/                  # (NEW) report-writing outputs
-│       ├── final-article.md
+│   ├── report/                   # report-writing outputs
+│   │   ├── report-charter.md     # editor-in-chief charter
+│   │   ├── chapter-01-*.md       # sequential chapter files
+│   │   ├── ...
+│   │   ├── combined-report.md    # stitched full report
+│   │   └── rewrite/              # revision drafts (if needed)
+│   └── article/                  # (alternative) article outputs
 │       └── final-article.html
 ├── sub-sessions/
 │   ├── README.md

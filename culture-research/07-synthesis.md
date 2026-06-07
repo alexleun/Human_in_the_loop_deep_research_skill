@@ -141,8 +141,6 @@ These are frontmatter tags (in the YAML `tags:` field) or inline `#synthesis/...
 
 Once `synthesis.md` is verified and approved by the human:
 
-1. Mark all `tasks.md` checkboxes complete
-2. Update `project-state.json` with final deliverable paths
-3. Run openspec archive via the `openspec-archive-change` skill
-4. The project directory is the persistent record; Obsidian vault can be opened from `knowledge-base/`
-5. Produce a `skill-evolution-log.md` entry documenting lessons for the skill
+1. Update `project-state.json` with final deliverable paths
+2. The project directory is the persistent record; Obsidian vault can be opened from `knowledge-base/`
+3. Produce a `skill-evolution-log.md` entry documenting lessons for the skill

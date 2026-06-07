@@ -1,13 +1,13 @@
 # Human-in-the-Loop Research Skills
 
-A collection of structured, artifact-driven AI research skills for **OpenCode** + **OpenSpec** environments. Every skill in this repository is built around a single principle: **the human stays in the loop, learns alongside the AI, and never receives a finished black box.**
+A collection of structured, artifact-driven AI research skills for **OpenCode** environments. Every skill in this repository is built around a single principle: **the human stays in the loop, learns alongside the AI, and never receives a finished black box.**
 
 This repository currently ships two skills, both validated through real research projects:
 
 | Skill | Folder | Version | Best for |
 |---|---|---|---|
-| **deep-research** | `deep-research/` | v2.0 | Topic-agnostic, quantitative + qualitative research with code-first analysis, Jupyter notebooks, and bilingual website output |
-| **culture-research** | `culture-research/` | v3.0 | Cultural / behavioral one-off studies: paper collection, deep reading, knowledge graph, multi-round qualitative analysis, Obsidian vault |
+| **deep-research** | `deep-research/` | v2.1 | Topic-agnostic, quantitative + qualitative research with code-first analysis, Jupyter notebooks, and bilingual website output |
+| **culture-research** | `culture-research/` | v3.2 | Cultural / behavioral one-off studies: paper collection, deep reading, knowledge graph, multi-round qualitative analysis, Obsidian vault |
 
 ---
 
@@ -45,10 +45,11 @@ The loop is yours. The AI proposes; you dispose. Whether you actively steer ever
 
 ## 📦 What's New — Upgrades from Real Research
 
-Both skills were upgraded after being used in production research. culture-research v3.0 was rewritten based on consolidated feedback from **17 sub-sessions across a 46-paper, 6-region cultural study** and produced a validated demo report. deep-research v2.0 absorbed the same methodological discipline.
+Both skills were upgraded after being used in production research. culture-research v3.2 incorporates lessons from a 38-paper, 3-region pain-and-culture study including a failed-first-draft report-writing cycle that drove the Discovery-First Framing principle. deep-research v2.1 absorbed methodological discipline from the same lineage.
 
-### culture-research v3.0 Highlights
+### culture-research v3.2 Highlights (v3.0 → v3.1 → v3.2)
 
+#### v3.0 Foundation
 | Feature | What It Does |
 |---|---|
 | **Science Communication Phase** (`09-report-writing.md`) | Generates a science magazine article, research brief, executive summary, and slide deck from the synthesis — with style calibration, sub-agent chapter writing, and HTML export |
@@ -58,10 +59,31 @@ Both skills were upgraded after being used in production research. culture-resea
 | **Director Observations** | Every sub-session batch note includes a Director Observations section — aggregated methodology patterns tracked and fed back into the skill. |
 | **File Truncation Safeguard** | Every file read checks for the 50KB cap. Critical end-of-file content (data tables, references) is no longer silently missed. |
 | **Windows Encoding & Non-ASCII** | `ï`, `é`, `ü` in filenames and CJK content no longer cause inaccessible files. |
-| **Sub-Theme Derivation Procedure** | Round 1 of multi-round analysis now uses a 3-step inductive procedure with granularity rules (4-8 per domain). |
+| **Sub-Theme Derivation Procedure** | Round 1 uses a 3-step inductive procedure with granularity rules (4-8 per domain). |
 | **Contradiction Identification Algorithm** | Round 3 replaced vague "find contradictions" with a deterministic matrix-scan → direction flag → entity verification pipeline. |
-| **3-Tier Speculation Classification** | Checkpoint distinguishes evidence-derived, gap-derived, and speculative claims (replaces binary "speculative vs not"). |
+| **3-Tier Speculation Classification** | Checkpoint distinguishes evidence-derived, gap-derived, and speculative claims (replaces binary). |
 | **state.json Synchronization** | Sub-sessions read `project-state.json` for current deliverable paths instead of trusting static prompt descriptions. |
+
+#### v3.1 Additions
+| Feature | What It Does |
+|---|---|
+| **Source Preservation** | Fetching any paper content requires saving a local copy (`papers/raw/`) before extraction — findings remain verifiable after URLs go offline. |
+| **Sub-Session Execution Modes** | Two formal modes: human-executed (prompt written to disk, human launches) vs LLM-executed (agent launches via task tool). Decision tree included. |
+| **PM Review Loop** | After each sub-session, PM reads batch note, spot-checks output, updates state, logs PROCEED/LOOP/PAUSE decision. Prevents undetected quality drift. |
+| **Scale-Dependent MCP Guidance** | < 50 entities → MCP tools, 50–500 → write files + JSON, 500+ → add batch-import script. Prevents tool-bottleneck on large knowledge bases. |
+| **Generational / Time-Period Dimension** | Optional `time_period` field on `cultural_context` entities; `#generation/{cohort}` tag taxonomy. Enables cross-generational comparison. |
+
+#### v3.2 Additions
+| Feature | What It Does |
+|---|---|
+| **Discovery-First Framing** | Report-writing outputs must lead with claims about the world, not the research process. Methodology relegated to a single endnote. Prevents the "reads as a lit review" failure mode. |
+| **Human-Approval Gates** | Formal gates after Explore (question), Checkpoint (verdict), Synthesis (document), and Report Writing (section plan) require explicit human sign-off before proceeding. |
+| **Pre-Writing Section Plan Gate** | Before drafting any chapter, the human must approve a section plan (titles, narrative arc, key claims). Catches misaligned voice before it propagates. |
+| **Style Calibration Heuristics** | Concrete, checkable style profiles for Aeon, The Atlantic, Sapiens, and Nature News — sentence length, paragraph structure, opening patterns, citation style. |
+| **Variable-Length Planning** | Long-form articles (5,000–10,000 words) use a density planning table (tight 200-word sections to expansive 1,000-word sections) instead of the fixed 400-500 word template. |
+| **Unfindable Paper Protocol** | 5-minute timebox per unfindable paper; minimal appraisal with `no-abstract-available`; no replacement. Prevents time sinks while maintaining honest coverage. |
+| **Project Sizing Guide** | Small (5 SS, 1–2 regions), Medium (13–15 SS, 3–4 regions, recommended), Large (18–22 SS, 5–6 regions), Exhaustive (25+ SS). Replaces the fixed 15-SS sequence. |
+| **Calibration Run for Analysis Rounds** | Test Round 1 on one domain, Round 2 on 2–3 rows, Round 3 on 1–2 cells before scaling. Prevents format drift across large outputs. |
 
 ### deep-research v2.0 Highlights
 
@@ -84,10 +106,10 @@ Both skills were upgraded after being used in production research. culture-resea
 │   ├── SKILL.md
 │   ├── 01-explore.md … 10-implement.md
 │   └── state-management.md
-├── culture-research/     # Cultural / qualitative research skill (v3.0)
+├── culture-research/     # Cultural / qualitative research skill (v3.2)
 │   ├── SKILL.md
 │   ├── 01-explore.md … 09-report-writing.md
-│   └── 08-sub-session-orchestration.md (v3.0 update)
+│   └── 08-sub-session-orchestration.md (v3.2 update)
 └── README.md
 ```
 
@@ -98,21 +120,12 @@ Each `SKILL.md` is the entry point; numbered `.md` files are phase-specific inst
 ## ✅ Prerequisites
 
 1. **OpenCode** — the agent runtime. Initialize your local OpenCode environment first.
-2. **OpenSpec** — the change/spec/task workflow. Your agent workspace must be able to read OpenSpec schemas.
-
-You will also need a terminal capable of running `openspec init` (PowerShell, bash, or zsh).
 
 ---
 
 ## 🚀 Quick Start
 
-### Step 1 — Initialize OpenSpec in your project folder
-
-```bash
-openspec init
-```
-
-### Step 2 — Copy the skills into your OpenCode skills folder
+### Step 1 — Copy the skills into your OpenCode skills folder
 
 **Windows (cmd/PowerShell)**
 
@@ -128,25 +141,23 @@ cp -R ./deep-research     .opencode/skills/deep-research
 cp -R ./culture-research  .opencode/skills/culture-research
 ```
 
-### Step 3 — Trigger the skill from a prompt
+### Step 2 — Trigger the skill from a prompt
 
 **Example — culture research**
 
 ```text
 analysis topic "study human daily behavior",
-1. using skill .opencode\skills\culture-research
-2. using skill openspec to initial the project.
+using skill .opencode\skills\culture-research
 ```
 
 **Example — deep research**
 
 ```text
 analysis topic "compare 10 open-source vector databases for production use",
-1. using skill .opencode\skills\deep-research
-2. using skill openspec to initial the project.
+using skill .opencode\skills\deep-research
 ```
 
-The agent will run `openspec init` if needed, load the skill's `SKILL.md`, walk through the phases halting at human-gated checkpoints, and write all intermediate artifacts to your local project folder.
+The agent will load the skill's `SKILL.md`, walk through the phases halting at human-gated checkpoints, and write all intermediate artifacts to your local project folder.
 
 ---
 
@@ -200,8 +211,8 @@ Explore → Search Design → Region-Parallel Search → Acquisition
                                                   ▼
                               Science Communication
                               (article, brief, summary, slide deck)
-                              ←── NEW in v3.0
 ```
+
 
 Supports projects with 20+ papers via sub-session orchestration — each sub-session has explicit end-conditions, batch notes, and file persistence to the same project directory.
 
@@ -241,7 +252,7 @@ The more you research with these skills, the sharper they become.
 
 This project is an **experimental, independent-developer** project shared publicly for educational and collaborative purposes.
 
-> **Use at your own risk.** No guarantees or warranties are provided regarding stability, security, API cost / token management, or performance. OpenCode and OpenSpec update frequently outside this project — breaking changes may occur. Anyone adapting or executing these skills in their own agent environments assumes full responsibility for any outcomes.
+> **Use at your own risk.** No guarantees or warranties are provided regarding stability, security, API cost / token management, or performance. OpenCode update frequently outside this project — breaking changes may occur. Anyone adapting or executing these skills in their own agent environments assumes full responsibility for any outcomes.
 
 ## 📄 License
 

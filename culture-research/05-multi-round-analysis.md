@@ -14,7 +14,17 @@ All file reads may be capped at ~50KB. After reading any file:
 2. If truncated, read the remainder with `offset=N`
 3. **Batch notes and open questions at the end of each file are critical inputs** — always verify they are captured
 
-### Cross-Round Dependency Check (NEW in v3.0)
+### Calibration Run for Analysis Rounds (NEW in v3.2)
+
+Before running a full analysis round on all sub-themes or all findings, run a calibration pass on a small subset:
+
+- **R1 (Thematic):** Run on 1 domain first (e.g., 8–15 findings). Verify sub-theme naming conventions and granularity rule before scaling to all domains.
+- **R2 (Matrix):** Build matrix for 2–3 sub-themes first. Verify cell symbols and evidence strength rules produce expected output before scaling to 15+ rows.
+- **R3 (Contradictions):** Identify contradictions for 1–2 flagged cells first. Verify the resolvability classification is calibrated before scanning all cells.
+
+This prevents format drift across large analysis outputs. Document calibration results in the batch note.
+
+## Cross-Round Dependency Check (NEW in v3.0)
 Before starting any round, verify the prior round's end conditions were met:
 - Check the prior round's batch note for completion counts
 - If any count is below the minimum end condition, flag and notify PM

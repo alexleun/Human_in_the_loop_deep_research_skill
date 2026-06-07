@@ -18,7 +18,7 @@
 ```
 ┌──────────────────────────────────────────────────────────┐
 │  MAIN SESSION (Project Manager)                          │
-│  - Holds openspec change, tasks.md                       │
+│  - Holds project state, tasks.md                        │
 │  - Writes sub-session prompts                            │
 │  - Verifies outputs from each sub-session                │
 │  - Updates project-state.json                            │
@@ -249,24 +249,61 @@ This turns the retrospective into a living improvement cycle.
 
 ---
 
-## Sub-Session Sequence (15 SS for a 46-paper project)
+## Project Sizing Guide (NEW in v3.2)
 
-| SS | Phase | Output | Depends On |
-|---|---|---|---|
-| SS1-SS6 | Deep reading (one per region) | 46 .appraisal.md | SS0 (search logs) |
-| SS7 | Entity extraction | 5 entity types + findings-index.json | SS1-SS6 |
-| SS8 | Relations | relations.json + summary.md | SS7 |
-| SS9 | Round 1 Thematic | round1-thematic-map.md | SS7-SS8 |
-| SS10 | Round 2 Comparison | round2-comparison-matrix.md | SS9 |
-| SS11 | Round 3 Contradictions | round3-contradictions.md | SS10 |
-| SS12 | Round 4 Gaps | round4-gaps.md | SS10-SS11 |
-| SS13 | Round 5 Questions | round5-research-questions.md | SS11-SS12 |
-| SS14 | Checkpoint | checkpoint-review.md | SS9-SS13 |
-| SS15 | Synthesis | synthesis.md | SS14 |
-| SS16+ | Report writing | article/report | SS15 |
-| SS17 | Retrospective + Archive | project-retrospective.md | All |
+The sub-session sequence scales with project size. Use this guide to select the right template:
 
-For projects of different sizes, scale the deep-reading sub-sessions (more or fewer regions).
+### Small: 1–2 regions, 5–15 papers (Local scope)
+
+| SS | Phase | Output |
+|---|---|---|
+| SS1 | Deep reading (all papers) | N .appraisal.md |
+| SS2 | Entity extraction + relations | Entities, findings-index.json, relations.json |
+| SS3 | Round 1–2 (thematic + comparison, combined) | Thematic map + matrix |
+| SS4 | Round 3–4 (contradictions + gaps, combined) | Contradictions + gaps |
+| SS5 | Round 5 + Checkpoint + Synthesis (combined) | Questions + checkpoint + synthesis |
+
+Total: 5 sub-sessions. Rounds can be combined because fewer findings means smaller context per round.
+
+### Medium: 3–4 regions, 20–50 papers (Focused global) — RECOMMENDED
+
+| SS | Phase | Output |
+|---|---|---|
+| SS1-SS4 | Deep reading (one per region) | N .appraisal.md |
+| SS5 | Entity extraction | Entities + findings-index.json |
+| SS6 | Relations | relations.json + summary.md |
+| SS7 | Round 1 Thematic | round1-thematic-map.md |
+| SS8 | Round 2 Comparison | round2-comparison-matrix.md |
+| SS9 | Round 3 Contradictions | round3-contradictions.md |
+| SS10 | Round 4 Gaps | round4-gaps.md |
+| SS11 | Round 5 Questions | round5-research-questions.md |
+| SS12 | Checkpoint | checkpoint-review.md |
+| SS13 | Synthesis | synthesis.md |
+| SS14+ | Report writing | report/ |
+| SS15+ | Retrospective | skill-evolution-log.md |
+
+Total: 13–15 sub-sessions. Each round gets its own session. Report writing is optional.
+
+### Large: 5–6 regions, 40–80 papers (Broad global)
+
+Same as Medium, but:
+- Deep reading: 1 SS per region (SS1-SS6)
+- Entity extraction: split into 2 SS (SS7a East + South, SS7b West)
+- Relations: 1 SS (SS8)
+- Analysis: same 5 rounds, but each round may need sub-splitting (SS10a/SS10b/SS10c for Round 2)
+- Report writing: 2+ SS if long-form article
+
+Total: 18–22 sub-sessions.
+
+### Exhaustive: 7+ regions, 60+ papers
+
+Same as Large, but:
+- Deep reading: 1 SS per region (SS1-SS7+)
+- Entity extraction: 3 SS (East, West, South)
+- Analysis rounds may each need 2-3 sub-sessions
+- A dedicated PM sub-session may be needed for state tracking
+
+Total: 25+ sub-sessions. Consider whether exhaustive coverage is necessary — 3-4 regions at 30-50 papers typically yields the best depth-to-coverage ratio.
 
 ---
 
@@ -274,12 +311,6 @@ For projects of different sizes, scale the deep-reading sub-sessions (more or fe
 
 ```
 {project_root}/
-├── openspec/
-│   └── changes/{change-name}/
-│       ├── proposal.md
-│       ├── design.md
-│       ├── specs/...
-│       └── tasks.md
 ├── papers/
 │   ├── search-protocol.md
 │   ├── raw/                             # search logs per region
@@ -353,4 +384,4 @@ After all sub-sessions complete:
 - `tasks.md` with all phases marked complete
 - A final status report to the human
 
-The `synthesis.md` is the terminal analytical deliverable. After it is written and verified, the openspec change can be archived.
+The `synthesis.md` is the terminal analytical deliverable. After it is written and verified, all phases are marked complete in `project-state.json` and the project directory serves as the persistent record.

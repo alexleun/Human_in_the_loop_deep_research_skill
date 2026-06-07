@@ -59,18 +59,34 @@ If the project is small (<20 papers, <3 regions), single-session execution is fi
 
 ---
 
+### Region-Count Sizing Guide (NEW in v3.2)
+
+When defining regions, consider the relationship between region count and project depth:
+
+| Regions | Typical Papers | Sub-Sessions | Best For |
+|---------|---------------|--------------|----------|
+| 1–2 (local scope) | 5–15 | 3–5 | Deep dive into single culture, pilot studies |
+| 3–4 (focused global) | 20–50 | 10–15 | Balanced depth × breadth, one major comparison |
+| 5–6 (broad global) | 40–80 | 15–20 | Comprehensive survey, shallow per region |
+| 7+ (exhaustive) | 60+ | 20+ | Encyclopedia coverage; sub-session architecture essential |
+
+Choose the smallest region count that answers the research question. **3–4 regions with 20–50 papers** typically yields the best depth-to-coverage ratio for cross-cultural comparison.
+
+---
+
 ## End Conditions
 
 This phase is **complete** when ALL of the following are true:
 
 1. ✅ Topic-intent analysis complete: scope documented as global or local
-2. ✅ A research question is defined in writing (1-3 sentences)
+2. ✅ A research question is defined in writing (1-3 sentences) **AND approved by human**
 3. ✅ Geographic regions and disciplines are listed
 4. ✅ Population segments and time scope are specified
 5. ✅ Key unknowns/assumptions are surfaced and documented
-6. ✅ Scope decision made: sub-session architecture vs single-session
-7. ✅ If sub-sessions, `sub-sessions/` and `messages/` directories created, `SS_TEMPLATE.md` in place
-8. ✅ `project-state.json` created with initial state
+6. ✅ Region-count sizing guidance consulted; count justified
+7. ✅ Scope decision made: sub-session architecture vs single-session
+8. ✅ If sub-sessions, `sub-sessions/` and `messages/` directories created, `SS_TEMPLATE.md` in place
+9. ✅ `project-state.json` created with initial state
 
 ---
 
@@ -85,4 +101,4 @@ Shared understanding between human and main session. Move to Phase 2 to formaliz
 - Do NOT skip the topic-intent analysis — scope decision affects every downstream phase
 - Do NOT skip the scope check — sub-session decision must be made early
 - Do NOT commit to specific paper counts before searching
-- Do NOT start the openspec change before research question is defined
+- Do NOT proceed to search (Phase 2) before research question is defined

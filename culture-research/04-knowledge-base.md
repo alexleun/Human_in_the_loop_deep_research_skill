@@ -65,6 +65,11 @@ Use these rules consistently:
 - **For quantitative studies with national samples:** `country_national` (e.g., `japan_national`)
 - **For multi-country comparisons:** `region_scale` (e.g., `east_asia_multi`, `eu_multi_country`)
 
+**For multi-context findings (NEW in v3.2):** A finding may involve multiple cultural contexts (e.g., a multi-country comparison study where one finding applies to multiple countries). Handle as:
+- Create separate finding entities per context with the same verbatim quote, differentiated by the `cultural_context` field
+- OR create one finding entity with an array of `cultural_context` references in the markdown body (YAML frontmatter keeps the primary context)
+- Document the approach in the batch note so all sub-agents follow the same rule
+
 This ensures consistent granularity across different sub-agents.
 
 ### Researcher Naming Rules (NEW in v3.0)

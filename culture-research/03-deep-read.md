@@ -68,6 +68,32 @@ Sections:
 
 ---
 
+## Unfindable Paper Protocol (NEW in v3.2)
+
+Papers may be unfindable — DOI returns 404, title yields no results, publisher site is down. Handle systematically:
+
+1. **Attempt order:** DOI landing page → PubMed (if PMID known) → Google Scholar exact-title search → search-log abstract → mark unfindable
+2. **Timebox:** 5 minutes total per paper. If not accessible after 5 minutes, move on.
+3. **Document:** Create a minimal `papers/appraisals/{paper-id}.appraisal.md` with:
+   - YAML frontmatter: `paper_id`, `evidence_status: no-abstract-available`
+   - Metadata section: title, authors, year, attempted URLs, reason unfindable (404 / no GS result / paywall with no alternative)
+   - No findings (contributes 0 to knowledge base)
+4. **Do NOT replace:** Do not substitute a different paper. Document the gap. The cross-appraisal consistency check will note the empty slot.
+5. **Coverage impact:** This paper contributes 0 findings. Affected cells in the cross-region matrix are marked as "data absent."
+
+This prevents time sinks while maintaining honest coverage reporting.
+
+## Mid-Phase Calibration (NEW in v3.2)
+
+Do not write all appraisals before checking quality. After the first 3–5 appraisals (or the smallest region batch), pause and review:
+
+1. Read 2 appraisals from that batch
+2. Check: verbatim quotes present? evidence_status honest? methodology quality calibrated correctly?
+3. If quality is acceptable, proceed with remaining appraisals
+4. If quality is off, write calibration guidance to the next sub-session prompt (e.g., "Be more conservative with evidence/high tags"; "Extract 5+ verbatim quotes per paper")
+
+This catches the common failure of uniform quality drift across an entire region batch.
+
 ## Source Preservation Requirement (NEW in v3.1)
 
 After fetching any paper content, save a local copy BEFORE extracting findings:

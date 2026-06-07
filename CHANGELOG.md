@@ -1,5 +1,37 @@
 # opencode Skill Changelog
 
+## culture-research v3.2 — 2026-06-07
+
+Major upgrade from a 38-paper, 3-region pain-and-culture project. Consolidates a failed-first-draft report-writing cycle into structural improvements. New principles added — no new files created.
+
+### New Principles (SKILL.md)
+
+| Principle | Description |
+|-----------|-------------|
+| **14. Discovery-First Framing** | Every report-writing output must lead with claims about the world, not claims about the research process. Methodology mentioned exactly once in an endnote. Critical omission from v3.0/3.1 that caused a full-report rewrite. |
+| **15. Human-Approval Gates** | Formal gates after Explore (research question), Checkpoint (verdict), Synthesis (document), and Report Writing (section plan) require explicit human sign-off before proceeding. Prevents progressing on misaligned foundation. |
+| **16. Unfindable Paper Protocol** | Systematic handling of papers that cannot be accessed: timeboxed attempts, minimal appraisal with `no-abstract-available`, no replacement, documented in coverage report. |
+
+### Updated Sections (SKILL.md)
+
+| Section | Change |
+|---------|--------|
+| **Header** | Version bumped from v3.1 to v3.2; v3.2 changes summary paragraph added |
+| **Cross-Phase Gates** | Added Human-Approval Gate row (after Explore, Checkpoint, Synthesis, Report Writing) |
+| **File Persistence** | Updated to reflect `report/` directory convention (not `knowledge-base/article/`); added `report-charter.md`, `rewrite/` subdirectory, `section-plan.md` |
+
+### Phase File Updates
+
+| File | Changes |
+|------|---------|
+| `09-report-writing.md` | **Major rewrite.** Added Core Principle: Discovery-First Framing with concrete checks. Added pre-writing section plan approval gate. Added style calibration heuristic table (Aeon/Atlantic/Sapiens/Nature profiles). Added variable-length planning table (200-1000 words per section role). Added methodology placement rule (endnote only). Added collaboration-first pattern as alternative to sub-agents. Added failure mode #7 ("Article reads as methodology report"). Expanded quality checklist with discovery-first checks. Updated file naming conventions to `report/`. |
+| `01-explore.md` | Added region-count sizing guide table (1-2 / 3-4 / 5-6 / 7+ regions with paper count, SS count, best-fit). Added human-approval gate to end conditions. |
+| `02-search-collect.md` | Added search-protocol.md template reference. Added cross-region deduplication rules (DOI match, title+surname match, conflict resolution). |
+| `03-deep-read.md` | Added Unfindable Paper Protocol (5-minute timebox, minimal appraisal, no replacement). Added Mid-Phase Calibration guidance (review after first 3-5 appraisals before scaling). |
+| `04-knowledge-base.md` | Added multi-context finding handling guidance (array of contexts vs separate entities). |
+| `05-multi-round-analysis.md` | Added calibration run guidance for analysis rounds (test on 1 domain for R1, 2-3 rows for R2, 1-2 cells for R3 before scaling). |
+| `08-sub-session-orchestration.md` | Replaced fixed 15-SS sequence table with Project Sizing Guide: Small (5 SS, 1-2 regions, 5-15 papers), Medium (13-15 SS, 3-4 regions, 20-50 papers, recommended), Large (18-22 SS, 5-6 regions, 40-80 papers), Exhaustive (25+ SS, 7+ regions, 60+ papers). |
+
 ## deep-research v2.1 — 2026-06-05
 
 Consolidated cross-skill lessons from the culture-research v3.1 upgrade (67-paper, 8-region gift-giving project). Targeted edits — no new files created.

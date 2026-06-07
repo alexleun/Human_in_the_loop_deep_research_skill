@@ -17,6 +17,7 @@ Before any search, produce a written protocol at `papers/search-protocol.md`:
 - **Per-region working languages** — for non-English sources
 - **Search log conventions** — what to record per query
 - **Per-paper metadata schema** — JSON fields required
+- **Search protocol template (NEW in v3.2):** Use the template at `sub-sessions/SS_TEMPLATE_search-protocol.md` as a starting point. Fill in regions, disciplines, and time scope. The template provides: inclusion/exclusion criteria table, per-region query template, metadata schema skeleton, and tier classification rules. This prevents each project from rebuilding the protocol from scratch.
 - **Quality tier classification** — Tier A (peer-reviewed, full text), Tier B (peer-reviewed but access restricted OR non-peer-reviewed report with full text), Tier C (working paper, preprint, secondary)
 - **Stopping criteria** — per-region paper count target
 - **Generational/cohort dimension (NEW in v3.1):** If generational comparison is in scope, add `"generational OR cohort OR longitudinal time-use"` to region query templates. Note expected cohort labels per region in `search-protocol.md`.
@@ -45,7 +46,11 @@ Run searches organized by geographic region, **each as a parallel sub-agent**:
 ## 2c. Collation & Deduplication
 
 - Merge all region results into a unified candidate list at `papers/unified-candidate-list.md`
-- Deduplicate (same paper found by multiple region agents)
+- **Deduplication rules (NEW in v3.2):**
+  - Match on DOI first. If no DOI, match on exact title + first-author surname + year.
+  - If same paper found by 2+ region agents: keep one entry, tag all regions that found it in `regions_found` field
+  - If same paper found but with different metadata (different abstract length, different author list): flag for PM review, do not discard — one region's agent may have more complete data
+  - Document deduplication results in coverage report: N unique papers from N raw hits, N cross-region duplicates
 - Note region balance and discipline balance
 - Flag the borderline cases for project-manager review
 - **Search-log cross-check (NEW in v3.0):** Before finalizing, verify that search-log DOIs resolve correctly, abstract figures match the source, and author affiliations/professor status are independently confirmed
