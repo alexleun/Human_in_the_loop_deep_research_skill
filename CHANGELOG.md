@@ -1,5 +1,26 @@
 # opencode Skill Changelog
 
+## culture-research v3.2.1 — 2026-06-08
+**Focus: Structural Map-Reduce Optimization.**
+Informed by the 38-paper pain-and-culture project, this minor update formalizes the Map-Reduce dispatch logic within the existing v3.2 workflow. No new files or principles created; existing analysis phases now strictly enforce thematic decomposition.
+### Updated Principles (SKILL.md)
+| Principle | Change |
+|---|---|
+| **3. Analysis Multi-Round** | Explicitly redefined as a **Map-Reduce** process: 1. MAP (Map findings to #theme tags during reading); 2. SHUFFLE (Group findings by tag in findings-index.json); 3. REDUCE (Dispatch theme-specific sub-sessions). |
+| **17. Map-Reduce Analysis Architecture** | **NEW.** Formalized requirement for Phase 5 (Analysis). Requires theme-based sub-session dispatching rather than paper-based aggregation. |
+### Updated Workflow Structure (SKILL.md)
+| Section | Change |
+|---|---|
+| **Workflow Overview** | Replaced flow diagram with a **Map-Reduce visualized architecture**, explicitly highlighting the "Map-Reduce Dispatch" gate between Phase 4 and Phase 5. |
+### Phase File Updates
+| File | Changes |
+|---|---|
+| 03-deep-read.md | Added mandatory **Atomic Finding + Tag Mapping** instruction: every extracted finding must be bound to a #behavior/{domain} or #theme tag at the point of extraction. |
+| 04-knowledge-base.md | Updated findings-index.json logic: mandated theme-based grouping (theme -> [list of findings]) to facilitate the Shuffle layer of Map-Reduce. |
+| 05-multi-round-analysis.md | Formalized **Dispatch Rule**: PM must launch one sub-session per theme identified in findings-index.json. Each sub-session receives ONLY findings related to its theme to reduce context noise and improve cross-cultural contradiction analysis. |
+| 07-synthesis.md | Added **Assembly Instruction**: synthesis synthesis must be performed by stitching together the pre-analyzed/reduced theme documents, enforcing Discovery-First Framing. |
+
+
 ## culture-research v3.2 — 2026-06-07
 
 Major upgrade from a 38-paper, 3-region pain-and-culture project. Consolidates a failed-first-draft report-writing cycle into structural improvements. New principles added — no new files created.

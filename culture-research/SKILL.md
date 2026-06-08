@@ -44,14 +44,15 @@ Cultural behavior is studied differently across academic traditions. A single En
 
 Do not extract entities or build graphs from papers you have not read carefully. Each paper gets a **critical appraisal** (methodology quality, cultural positioning, evidence strength, verbatim key quotes) before any knowledge base entry. This prevents propagating shallow or misinterpreted findings.
 
-### 3. Analysis Must Be Multi-Round and Sequential
 
-One pass of analysis cannot surface deep patterns. The workflow uses **five sequential rounds**, each building on the previous:
-1. Thematic categorization (what behaviors are studied?)
-2. Cross-cultural comparison (how do behaviors differ by region?)
-3. Contradiction deep-dive (where do findings disagree and why?)
-4. Gap mapping (what is not studied and who is not represented?)
-5. Research question generation (what new studies would fill the gaps?)
+### 3. Analysis Must Be Multi-Round and Sequential (Powered by Map-Reduce)(New in 3.2.1)
+
+One pass of analysis cannot surface deep patterns. The workflow uses **five sequential rounds** leveraging the Map-Reduce sub-session architecture:
+1. **Thematic Categorization (Map & Shuffle):** What behaviors are studied? Generate the `findings-index.json` grouping findings by `#behavior` or `#theme`.
+2. **Cross-Cultural Comparison (Reduce):** PM launches parallel sub-sessions *per theme*. How do behaviors differ by region within this specific theme?
+3. **Contradiction Deep-Dive (Reduce):** Within each theme, where do findings disagree and why (methodology vs. actual cultural difference)?
+4. **Gap Mapping:** After reduction, what dimensions or generations are not studied?
+5. **Research Question Generation:** What new studies would fill the gaps?
 
 ### 4. Iteration Checkpoint Before Final Output
 
@@ -190,26 +191,36 @@ Papers may be unfindable — DOI returns 404, title yields no results, publisher
 This prevents time sinks on individual papers while maintaining honest coverage reporting.
 
 ---
+### 17. Map-Reduce Analysis Architecture (NEW in v3.2.1)
 
-## Workflow Overview
+For Phase 5 (Multi-Round Analysis), the PM must strictly use a Map-Reduce architecture to prevent LLM context-window overload and to enforce cross-paper contradiction discovery. Do not send all papers to a single sub-session.
 
+- **MAP (Phase 3 & 4):** During deep reading, every extracted finding MUST be atomic and tagged with a `#behavior/{domain}` or `#theme` tag. 
+- **SHUFFLE (Phase 4):** The `findings-index.json` acts as the shuffle layer. It must group findings by their tags (e.g., `theme: #behavior/sleep` -> `[Paper_A_Finding1, Paper_C_Finding2]`), NOT just by paper.
+- **REDUCE (Phase 5):** The PM dispatches **one sub-session per theme** (e.g., SS10-Sleep, SS11-Eating). The sub-session receives ONLY the shuffled findings for that specific theme across all regions. This forces the LLM to focus purely on cross-cultural comparison and contradiction within that specific domain.
+---
+## Workflow Overview (New in 3.2.1)
 ```
 Topic-Intent Analysis (global vs local)
        │
-Explore ──→ Search Design ──→ Region Searches ──→ Unified Roster ──→ Deep Reading
-                                       (parallel sub-sessions)    (1 SS per region)
+Explore ──→ Search Design ──→ Region Searches ──→ Unified Roster ──→ Deep Reading (MAP)
+                                       (parallel sub-sessions)    (1 SS per region, tag findings)
                                                                        │
                                                                        ▼
-                         Knowledge Base ──→ Entities + Relations + findings-index.json
-                         (SS7 entities,     (SS8 relations)
+                         Knowledge Base ──→ Entities + Relations + findings-index.json (SHUFFLE)
+                         (SS7 entities,     (groups findings by #theme instead of by paper)
                           SS8 relations)
                                                                        │
                                                                        ▼
                 ┌── Round 1: Thematic Categorization (SS9)
-                │── Round 2: Cross-Cultural Comparison (SS10)
-                │── Round 3: Contradiction Deep-Dive (SS11)
-                │── Round 4: Gap & Blind Spot Mapping (SS12)
-                │── Round 5: Research Question Generation (SS13)
+                │
+                │   [ MAP-REDUCE DISPATCH: 1 Sub-Session PER THEME ]
+                ├── Round 2: Cross-Cultural Comparison (SS10a: Sleep, SS10b: Pain, etc.)
+                ├── Round 3: Contradiction Deep-Dive (SS11a: Sleep, SS11b: Pain, etc.)
+                │   [ ASSEMBLE REDUCED THEMES ]
+                │
+                ├── Round 4: Gap & Blind Spot Mapping (SS12)
+                └── Round 5: Research Question Generation (SS13)
                 │
   Cross-Phase Gates ──→ Cross-Appraisal Consistency Check
                 │       Director Observations Aggregation
@@ -217,15 +228,11 @@ Explore ──→ Search Design ──→ Region Searches ──→ Unified Rost
  Iteration Checkpoint ←─┘ (SS14)
        │
        ▼ (if weak links, loop back)
-  Synthesis (SS15)
+  Synthesis (SS15) ——→ Stitches the "Reduced" theme documents using Discovery-First Framing.
        │
        ▼
   Report Writing (SS16+) — optional: science article, research brief, slide deck
-       │
-       ▼
-  Skill Evolution (SS17+) — retrospective, skill updates
 ```
-
 ---
 
 ## Phase Router
