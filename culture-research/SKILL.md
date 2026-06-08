@@ -3,15 +3,9 @@ name: culture-research
 description: "A structured, multi-round workflow for exploratory and qualitative cultural research studies using region-parallel search."
 ---
 
-# Culture Research Skill v3.2
+# Culture Research Skill
 
 A structured workflow for **cultural one-off studies** focused on human behavior, social practices, and everyday life. Designed for web-search-based paper collection and qualitative synthesis — no programming, no human-subject data collection, no dashboards.
-
-**v3.0 changes:** Added topic-intent analysis (global vs local scope), active Director role, state synchronization via `project-state.json`, formal cross-phase gates, 09-report-writing phase, paywall access protocol, machine-readable findings index, evidence model refinement (access + evidence tiers), contradiction-identification algorithm, sub-theme filter for matrix, and comprehensive truncation/encoding safeguards. Consolidated feedback from 17 sub-sessions on a 46-paper, 6-region project.
-
-**v3.1 changes:** Clarified sub-session execution model with two formal modes (human-executed and LLM-executed). Added source preservation requirement (save local copies of fetched content). Formalized PM review loop between sub-sessions as a cross-phase gate. Added scale-dependent MCP tool selection guidance. Added generational/time-period as first-class dimension in tag taxonomy and entity schema. Consolidated feedback from a 67-paper, 8-region gift-giving project.
-
-**v3.2 changes:** Added Discovery-First Framing principle (critical omission from report-writing). Overhauled 09-report-writing.md with style calibration heuristics, variable-length planning, pre-writing section plan approval gate, and methodology placement rule. Added human-approval gates after critical phases. Added project sizing guide (small/medium/large) for sub-session architecture. Added unfindable paper protocol. Added search-protocol.md template. Extended calibration run pattern to analysis rounds. Consolidated feedback from a 38-paper, 3-region pain-and-culture project including a failed-first-draft report-writing cycle.
 
 ---
 
@@ -27,7 +21,7 @@ A structured workflow for **cultural one-off studies** focused on human behavior
 
 ## Core Point of View
 
-### 0. Topic-Intent Analysis (NEW in v3.0)
+### 0. Topic-Intent Analysis
 
 Before any search, determine whether the research question is **global** or **local**:
 
@@ -45,7 +39,7 @@ Cultural behavior is studied differently across academic traditions. A single En
 Do not extract entities or build graphs from papers you have not read carefully. Each paper gets a **critical appraisal** (methodology quality, cultural positioning, evidence strength, verbatim key quotes) before any knowledge base entry. This prevents propagating shallow or misinterpreted findings.
 
 
-### 3. Analysis Must Be Multi-Round and Sequential (Powered by Map-Reduce)(New in 3.2.1)
+### 3. Analysis Must Be Multi-Round and Sequential
 
 One pass of analysis cannot surface deep patterns. The workflow uses **five sequential rounds** leveraging the Map-Reduce sub-session architecture:
 1. **Thematic Categorization (Map & Shuffle):** What behaviors are studied? Generate the `findings-index.json` grouping findings by `#behavior` or `#theme`.
@@ -74,7 +68,7 @@ The MCP knowledge graph tool provides structured query and persistence. Simultan
 
 Every factual output must cite **exact quoted text** from the source. Paraphrasing introduces hallucination risk. Each paper's metadata includes the search query that found it, the URL, and the professor's institutional affiliation.
 
-### 7. Sub-Session Orchestration (NEW in v2.0, Refined in v3.1)
+### 7. Sub-Session Orchestration
 
 For projects with >20 papers, split work into **sub-sessions**, each with tight scope, explicit end conditions, and batch notes. The main session is the **project manager** — it creates prompts, verifies outputs, and tracks state.
 
@@ -94,11 +88,11 @@ Choose based on complexity. See Principle 12 for the decision tree.
 
 Without this loop, sub-sessions proceed without quality verification until the cross-appraisal check, which is too late for course correction.
 
-### 8. State Synchronization & Cross-Phase Gates (NEW in v3.0)
+### 8. State Synchronization & Cross-Phase Gates
 
 Sub-sessions no longer trust static prompt descriptions. A `project-state.json` in the project root tracks current deliverable paths, entity counts, and completion status. Cross-phase gates (e.g., cross-appraisal consistency check) produce accountable artifacts that downstream phases can reference.
 
-### 9. Active Director Role (NEW in v3.0)
+### 9. Active Director Role
 
 No longer a placeholder. The Director is a dedicated sub-session (or part of the Project Manager) that:
 - Aggregates Director Observations from all sub-sessions
@@ -107,7 +101,7 @@ No longer a placeholder. The Director is a dedicated sub-session (or part of the
 - Runs the cross-appraisal consistency check
 - Maintains the skill evolution log
 
-### 10. Evidence Model: Dual Access + Evidence Tiers (NEW in v3.0)
+### 10. Evidence Model: Dual Access + Evidence Tiers
 
 Replace the single `evidence/` tag with two orthogonal fields:
 - **`access/`** — `full-text`, `abstract-only`, `metadata-only` (how we accessed it)
@@ -115,7 +109,7 @@ Replace the single `evidence/` tag with two orthogonal fields:
 
 This allows downstream rounds to differentiate "high-confidence claim from abstract-only paper" from "speculative claim from full-text paper."
 
-### 11. Source Preservation (NEW in v3.1)
+### 11. Source Preservation
 
 After fetching any paper content (full-text, abstract, or metadata), save a local copy before extracting findings:
 - Full-text PDF → `papers/raw/{paper-id}.pdf`
@@ -124,7 +118,7 @@ After fetching any paper content (full-text, abstract, or metadata), save a loca
 
 Without local copies, findings become unrecoverable if URLs change or go offline. This is a **mandatory** step, not optional.
 
-### 12. Sub-Session Execution Modes (NEW in v3.1)
+### 12. Sub-Session Execution Modes
 
 Sub-sessions can execute in two modes. Choose before launching:
 
@@ -141,7 +135,7 @@ Decision tree:
 
 Both modes produce the same output. The difference is the review/approval step before execution. In LLM-executed mode, the PM must still verify output before proceeding (see PM Review Loop below).
 
-### 13. Generational / Time-Period Dimension (NEW in v3.1)
+### 13. Generational / Time-Period Dimension
 
 Research questions involving generational comparison or historical change require `time_period` / `generation` as a first-class dimension:
 
@@ -150,7 +144,7 @@ Research questions involving generational comparison or historical change requir
 - **Search templates:** Add `"generational OR cohort OR longitudinal time-use"` to region query templates when generational comparison is in scope
 - **Round 4 addition:** Generational coverage gaps must be assessed alongside other dimensions
 
-### 14. Discovery-First Framing (NEW in v3.2)
+### 14. Discovery-First Framing
 
 The most common failure in report-writing (Phase 9) is producing output that reads as a methodology report or academic literature review rather than a science story. To prevent this:
 
@@ -164,7 +158,7 @@ The most common failure in report-writing (Phase 9) is producing output that rea
 
 This principle applies to ALL communication outputs (articles, briefs, slide decks), not just the formal synthesis.
 
-### 15. Human-Approval Gates (NEW in v3.2)
+### 15. Human-Approval Gates
 
 After critical phases, require explicit human approval before proceeding. These gates prevent the project from progressing on an incorrectly scoped or misaligned foundation:
 
@@ -178,7 +172,7 @@ After critical phases, require explicit human approval before proceeding. These 
 
 **Execution:** At each gate, the PM presents a summary to the human (in `messages/` or directly), the human responds, and the PM documents the approval in `skill-evolution-log.md`. For Phase 1, the human approval is obtained conversationally during the explore session.
 
-### 16. Unfindable Paper Protocol (NEW in v3.2)
+### 16. Unfindable Paper Protocol
 
 Papers may be unfindable — DOI returns 404, title yields no results, publisher site is down. Handle systematically:
 
@@ -191,7 +185,7 @@ Papers may be unfindable — DOI returns 404, title yields no results, publisher
 This prevents time sinks on individual papers while maintaining honest coverage reporting.
 
 ---
-### 17. Map-Reduce Analysis Architecture (NEW in v3.2.1)
+### 17. Map-Reduce Analysis Architecture
 
 For Phase 5 (Multi-Round Analysis), the PM must strictly use a Map-Reduce architecture to prevent LLM context-window overload and to enforce cross-paper contradiction discovery. Do not send all papers to a single sub-session.
 
@@ -199,7 +193,7 @@ For Phase 5 (Multi-Round Analysis), the PM must strictly use a Map-Reduce archit
 - **SHUFFLE (Phase 4):** The `findings-index.json` acts as the shuffle layer. It must group findings by their tags (e.g., `theme: #behavior/sleep` -> `[Paper_A_Finding1, Paper_C_Finding2]`), NOT just by paper.
 - **REDUCE (Phase 5):** The PM dispatches **one sub-session per theme** (e.g., SS10-Sleep, SS11-Eating). The sub-session receives ONLY the shuffled findings for that specific theme across all regions. This forces the LLM to focus purely on cross-cultural comparison and contradiction within that specific domain.
 ---
-## Workflow Overview (New in 3.2.1)
+## Workflow Overview
 ```
 Topic-Intent Analysis (global vs local)
        │
@@ -271,7 +265,7 @@ Without end-conditions, sub-sessions exit prematurely or drift. With end-conditi
 
 ---
 
-## Paywall & Access Protocol (NEW in v3.0)
+## Paywall & Access Protocol
 
 Many academic papers are paywalled. Follow this priority protocol:
 
@@ -291,7 +285,7 @@ An `abstract-only` paper typically contributes 2–4 directional claims (no effe
 
 ---
 
-## File Truncation Safeguard (NEW in v3.0)
+## File Truncation Safeguard
 
 All file reads may be capped at ~50KB by the `read` tool. After reading any file:
 
@@ -304,7 +298,7 @@ This safeguard applies to ALL phases: deep-read, entity extraction, relations, a
 
 ---
 
-## Windows Encoding & Non-ASCII Filenames (NEW in v3.0)
+## Windows Encoding & Non-ASCII Filenames
 
 Windows cmd/PowerShell treats non-ASCII characters in filenames inconsistently. `ï`, `é`, `ü`, `ñ`, `ç` are common in author surnames.
 
@@ -319,7 +313,7 @@ Windows cmd/PowerShell treats non-ASCII characters in filenames inconsistently. 
 
 ---
 
-## Cross-Phase Gates (NEW in v3.0)
+## Cross-Phase Gates
 
 These verification steps happen BETWEEN phases and produce accountable artifacts:
 
@@ -386,7 +380,7 @@ Every sub-session appends a `# SS{n} Batch Note` section to its primary output. 
 
 The main session reads the batch note first to decide whether to proceed, loop, or intervene.
 
-## Tag Taxonomy (Extended in v3.1)
+## Tag Taxonomy
 
 Use ONLY these tag categories:
 
@@ -402,7 +396,7 @@ Use ONLY these tag categories:
 
 No ad-hoc tags. If a tag doesn't fit a category, do not create one.
 
-## Entity Schema (Extended in v3.1)
+## Entity Schema
 
 The `cultural_context` entity gains an optional `time_period` field:
 
@@ -419,7 +413,7 @@ tags:
 
 When the research question involves generational comparison, every cultural_context should include a `time_period` field. When the question is purely cross-sectional, it can be omitted.
 
-## Director Observations (NEW in v3.0 — Active, Not Placeholder)
+## Director Observations
 
 Every sub-session includes a `## Director Observations` section in its batch note. The Director (a dedicated sub-session or PM role) aggregates these into quarterly observations:
 
