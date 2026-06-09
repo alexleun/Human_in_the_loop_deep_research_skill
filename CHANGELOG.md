@@ -1,5 +1,21 @@
 # opencode Skill Changelog
 
+## deep-research v2.2 — 2026-06-09
+**Focus: Cross-skill refinement from quantitative project experience.**
+Informed by a 202-day Hong Kong passenger statistics project (single-language, quantitative, 5M+ records). Adds new principles, shortcuts, and optional features based on real-world pain points — no new files created.
+### Updated Principles (SKILL.md)
+| Principle | Change |
+|---|---|
+| **6. Encoding Awareness** | Added Windows stdout encoding guidance: `sys.stdout.reconfigure(encoding='utf-8')` with try/except, required before any `print()` containing CJK/Unicode characters on Windows. |
+| **Cross-Phase Gates: Parity Check** | Made optional — annotated "(skip for single-language projects)" in gate table. |
+### Phase File Updates
+| File | Changes |
+|------|---------|
+| `03-collect.md` | Added **Existing-data shortcut** at top: skip fetch if data pre-exists, go directly to validation and pipeline setup |
+| `04-analyze.md` | Added **CJK Font Verification** section (before batch figure generation): matplotlib font check script, font fallback config, placement instruction |
+| `05-report.md` | Added **Discovery-First Framing** as optional report-writing mode (cross-pollinated from culture-research), with key rules and audience-based selection guidance |
+| `08-iterate.md` | Added **Dashboard-first iteration** note: prefer dashboard updates over full report regeneration for data-heavy projects |
+
 ## culture-research v3.2.1 — 2026-06-08
 **Focus: Structural Map-Reduce Optimization.**
 Informed by the 38-paper pain-and-culture project, this minor update formalizes the Map-Reduce dispatch logic within the existing v3.2 workflow. No new files or principles created; existing analysis phases now strictly enforce thematic decomposition.

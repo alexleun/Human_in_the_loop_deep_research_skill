@@ -10,6 +10,8 @@ A modular skill for structured deep research in collaboration with a human. Work
 
 **v2.1 changes:** Added Principle 20 (Source Preservation as formal methodology principle). Updated Post-Research → openspec Bridge with detailed artifact mapping table. Based on cross-skill lessons from a 67-paper, 8-region gift-giving project (culture-research v3.1).
 
+**v2.2 changes:** Added Windows stdout encoding guidance to Principle 6, enriched Phase 3 with existing-data shortcut, added CJK font verification to Phase 4, introduced Discovery-First Framing as optional report-writing mode in Phase 5, made Parity Check gate optional for single-language projects, and added dashboard-first iteration note to Phase 8. Based on cross-skill lessons from a 202-day HK passenger statistics project with single-language (Traditional Chinese) output.
+
 ---
 
 ## Research Lifecycle
@@ -65,6 +67,8 @@ Source citations must be embedded from Phase 2, not added in Phase 7 review. Eve
 ### 6. Encoding Awareness (for CJK Content)
 
 When generating Chinese/Japanese/Korean content on Windows systems, PowerShell encoding behavior corrupts files. Always use Python `open(path, "w", encoding="utf-8")` or .NET `[System.IO.File]::WriteAllText()`. Verify after writing: check for U+FFFD and `??` (degraded em dashes).
+
+**Windows stdout encoding:** Python `print()` output containing Unicode characters (e.g., `✗`, `—`, CJK characters) may crash on Windows consoles using cp950. Always add `sys.stdout.reconfigure(encoding='utf-8')` at the top of analysis scripts, wrapped in a try/except for cross-platform compatibility.
 
 ### 7. Bilateral Parity Verification
 
@@ -126,7 +130,7 @@ Between major phases, run automated verification gates that produce accountable 
 | Data Validation | 3 (Collect) | CSV key inflection points cross-checked vs authoritative sources | `verification_log.md` |
 | Code Validation | 4 (Analyze) | Every script runs without errors | Console output logged |
 | Encoding Check | 6 (Web Output) | Zero U+FFFD and no `??` degradation in all HTML files | Script output |
-| Parity Check | 6 (Web Output) | EN/ZH finding counts match, attributes consistent | `check-parity.py` output |
+| Parity Check | 6 (Web Output) | EN/ZH finding counts match, attributes consistent (skip for single-language projects) | `check-parity.py` output |
 | HTML Structure | 6 (Web Output) | Div balance, title tags, footer dates | `div_balance_check.py` output |
 | Cross-Artifact | 6 (Web Output) | New findings propagate to all output artifacts | Mapping checklist |
 | Archive Readiness | 9 (Archive) | All pre-archive checklist items confirmed | Checklist |

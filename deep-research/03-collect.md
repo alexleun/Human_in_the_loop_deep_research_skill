@@ -2,6 +2,8 @@
 
 **Purpose:** Gather raw material — documents, datasets, primary sources.
 
+**Existing-data shortcut:** If data already exists (pre-collected CSV, pre-downloaded documents, pre-compiled datasets), skip the fetch step and go directly to data validation (Section 3d) and pipeline setup (Section 3b). This applies when the human provides a data directory or the project is resumed from a prior scraping session.
+
 ## 3a. Source Collection
 
 **Source hierarchy:** Government/regulatory > Statistical agencies > Academic papers > Think tank reports > Industry reports > News (context only)

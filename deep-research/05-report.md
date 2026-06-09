@@ -2,6 +2,17 @@
 
 **Purpose:** Turn findings into a well-structured research document.
 
+## Optional: Discovery-First Framing (for narrative-style reports)
+
+For public-facing or narrative-style reports, apply the **Discovery-First Framing** principle from the culture-research skill instead of the standard template below. Key rules:
+
+- Every section opens with a **claim about the world**, not a claim about your research process.
+- **Methodology appears exactly once** — in a single "About this report" endnote, never in the main narrative.
+- The report reads as a story about the topic, not a documentation of the analysis process.
+- Use an **opening hook** (anecdote, scene, striking data point) to establish stakes before presenting findings.
+
+This framing is recommended when the audience is stakeholders, the public, or cross-disciplinary readers. Use the standard template below when the audience is researchers or technical peers.
+
 ## Report Template
 
 ```

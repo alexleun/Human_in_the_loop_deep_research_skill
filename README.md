@@ -6,7 +6,7 @@ This repository currently ships two skills, both validated through real research
 
 | Skill | Folder | Version | Best for |
 |---|---|---|---|
-| **deep-research** | `deep-research/` | v2.1 | Topic-agnostic, quantitative + qualitative research with code-first analysis, Jupyter notebooks, and bilingual website output |
+| **deep-research** | `deep-research/` | v2.2 | Topic-agnostic, quantitative + qualitative research with code-first analysis, Jupyter notebooks, and bilingual or single-language website output |
 | **culture-research** | `culture-research/` | v3.2 | Cultural / behavioral one-off studies: paper collection, deep reading, knowledge graph, multi-round qualitative analysis, Obsidian vault |
 
 ---
@@ -45,7 +45,7 @@ The loop is yours. The AI proposes; you dispose. Whether you actively steer ever
 
 ## 📦 What's New — Upgrades from Real Research
 
-Both skills were upgraded after being used in production research. culture-research v3.2 incorporates lessons from a 38-paper, 3-region pain-and-culture study including a failed-first-draft report-writing cycle that drove the Discovery-First Framing principle. deep-research v2.1 absorbed methodological discipline from the same lineage.
+Both skills were upgraded after being used in production research. culture-research v3.2 incorporates lessons from a 38-paper, 3-region pain-and-culture study including a failed-first-draft report-writing cycle that drove the Discovery-First Framing principle. deep-research v2.1 absorbed methodological discipline from the same lineage. deep-research v2.2 incorporates quantitative project lessons from a 202-day Hong Kong passenger statistics analysis (5M+ records, Traditional Chinese only), adding Windows encoding resilience, existing-data shortcuts, CJK font verification, and optional Discovery-First Framing cross-pollinated from culture-research v3.2.
 
 ### culture-research v3.2 Highlights (v3.0 → v3.1 → v3.2)
 
@@ -85,7 +85,7 @@ Both skills were upgraded after being used in production research. culture-resea
 | **Project Sizing Guide** | Small (5 SS, 1–2 regions), Medium (13–15 SS, 3–4 regions, recommended), Large (18–22 SS, 5–6 regions), Exhaustive (25+ SS). Replaces the fixed 15-SS sequence. |
 | **Calibration Run for Analysis Rounds** | Test Round 1 on one domain, Round 2 on 2–3 rows, Round 3 on 1–2 cells before scaling. Prevents format drift across large outputs. |
 
-### deep-research v2.0 Highlights
+### deep-research v2.x Highlights
 
 | Feature | What It Does |
 |---|---|
@@ -96,13 +96,23 @@ Both skills were upgraded after being used in production research. culture-resea
 | **State Synchronization** | `task_state.json` promoted from optional to recommended. Every phase end-condition includes a state update step. |
 | **Skill Evolution Log** | Post-archive step produces `skill-evolution-log.md` entries — each completed change feeds back into skill improvement. |
 
+#### v2.2 Additions
+| Feature | What It Does |
+|---|---|
+| **Windows stdout Encoding** | `sys.stdout.reconfigure(encoding='utf-8')` guidance added to Principle 6 — prevents `print()` crashes on cp950 Windows consoles with CJK/Unicode output. |
+| **Existing-Data Shortcut** | Phase 3 now documents that when data pre-exists, skip fetch and go directly to validation + pipeline setup. |
+| **CJK Font Verification** | New pre-render font check in Phase 4: verifies CJK font availability before batch figure generation, prevents silent tofu-box rendering. |
+| **Discovery-First Framing (optional)** | Phase 5 adds optional narrative-style report mode cross-pollinated from culture-research v3.2 — methodology in endnote only, opening hook required. |
+| **Dashboard-First Iteration** | Phase 8 recommends updating interactive dashboards over full report regeneration for data-heavy projects. |
+| **Single-Language Gate Support** | Parity Check gate made optional — annotated "(skip for single-language projects)" in cross-phase gates table. |
+
 ---
 
 ## 📦 Repository Structure
 
 ```
 .
-├── deep-research/        # Core deep-research skill (v2.0)
+├── deep-research/        # Core deep-research skill (v2.2)
 │   ├── SKILL.md
 │   ├── 01-explore.md … 10-implement.md
 │   └── state-management.md

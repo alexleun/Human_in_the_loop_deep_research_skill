@@ -17,6 +17,23 @@ Each analysis step produces exactly **one** of:
 
 Never mix both in the same block.
 
+## CJK Font Verification (before batch figure generation)
+
+When generating figures containing Chinese/Japanese/Korean characters, verify CJK font availability before batch rendering to avoid silent fallback warnings:
+
+```python
+import matplotlib.font_manager as fm
+cjk_candidates = [f.name for f in fm.fontManager.ttflist 
+                  if any(k in f.name.lower() for k in ['microsoft','noto','simsun','simhei','yahei','jhenghei','ming','cjk','kai','fang'])]
+if not cjk_candidates:
+    print("WARNING: No CJK fonts found — text may render as boxes")
+else:
+    print(f"CJK fonts available: {cjk_candidates[:5]}")
+    plt.rcParams['font.family'] = [cjk_candidates[0], 'sans-serif']
+```
+
+Place this before any `plt.figure()` call when CJK labels are used.
+
 ## Requirements for Every Artifact
 
 1. **Self-contained and reproducible**: load from `analysis/data/`, full pipeline documented, dependencies in `requirements.txt`

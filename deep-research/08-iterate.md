@@ -17,6 +17,8 @@
 **If new PoV needs more data/analysis → cycle to Phase 3 or 4.**
 **If new PoV changes narrative → update Phase 5 and 6 outputs.**
 
+**Dashboard-first iteration:** For data-heavy projects with many time-series or cross-sectional visualizations, prefer updating the interactive dashboard (Phase 6 output) over regenerating static figures and reports. One dashboard update can surface a dozen new views, while a report regeneration requires a full Phase 5→6 cycle. Use dashboards as the primary iteration canvas; only regenerate the report when the narrative arc itself changes.
+
 ## Backporting Iteration → Implementation Feedback
 
 When iteration leads to a new openspec change (implementation), discoveries made during implementation must feed back into the research artifacts:

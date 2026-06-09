@@ -1,6 +1,6 @@
 {
   "id": "deep-research",
-  "version": "2.1",
+  "version": "2.2",
   "entrypoint": "SKILL.md",
   "state_blueprint": {
     "current_phase": "01-explore.md",
