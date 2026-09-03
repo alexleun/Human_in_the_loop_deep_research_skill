@@ -2,7 +2,7 @@
 name: deep-research
 description: "A highly modular, objective-driven workflow for deep research across any topic, featuring code-first analysis and explicit cross-phase validation gates."
 ---
-# Deep Research Skill v2.1
+# Deep Research Skill v2.3
 
 A modular skill for structured deep research in collaboration with a human. Works on **any topic**.
 
@@ -11,6 +11,8 @@ A modular skill for structured deep research in collaboration with a human. Work
 **v2.1 changes:** Added Principle 20 (Source Preservation as formal methodology principle). Updated Post-Research → openspec Bridge with detailed artifact mapping table. Based on cross-skill lessons from a 67-paper, 8-region gift-giving project (culture-research v3.1).
 
 **v2.2 changes:** Added Windows stdout encoding guidance to Principle 6, enriched Phase 3 with existing-data shortcut, added CJK font verification to Phase 4, introduced Discovery-First Framing as optional report-writing mode in Phase 5, made Parity Check gate optional for single-language projects, and added dashboard-first iteration note to Phase 8. Based on cross-skill lessons from a 202-day HK passenger statistics project with single-language (Traditional Chinese) output.
+
+**v2.3 changes:** Added **Principle 21 (Epistemic Stress-Test & Systems Mapping)**, adapting the culture-research Phase 5 concept to the code-first analysis model, and added a **Phase 7 Epistemic Audit** guidance block to `07-review.md`. No new mid-phase inserted — the audit integrates into the existing Review phase to preserve the stable 10-phase lifecycle. Based on the culture-research v3.3 epistemic stress-test design.
 
 ---
 
@@ -179,6 +181,16 @@ After fetching any source content (web page, PDF, API response, dataset), save a
 
 Without local copies, findings become unrecoverable if URLs change or sources go offline. This is a **mandatory** step, not optional. Add the saved filename to the source metadata as `local_copy: knowledge-base/sources/{filename}`.
 
+### 21. Epistemic Stress-Test & Systems Mapping (NEW in v2.3)
+
+Before finalizing any report, run a **destructive verification pass** over the analysis artifacts to combat AI hallucinations, confirmation bias, and premature convergence. Adapted from the culture-research Phase 5 design to the code-first model (see `07-review.md`):
+
+- **Axiomatic Audit (integrates with P2 Grounding & P5 Citation-First):** Every finding MUST carry a `data-source` ID and confidence level. Any finding lacking citation grounding, or containing an unsupported logical leap, is flagged and stripped from the primary evidence pool.
+- **Steelman Red Teaming (P1-compatible):** Construct counter-hypotheses that fit the same data; identify edge cases and boundary conditions before report finalization. Respect the objective-driven principle — state the task (generate counter-arguments), do not assign a persona.
+- **Causal Loop & Emergence Mapping (code-first adaptation of P3):** Output a **machine-readable systems map** (JSON/DOT) of reinforcing/balancing feedback loops, time delays, and leverage points. When quantitative data is available, compute the **Cognitive Complexity Score** `= min(10, Contradiction_Density×3.5 + Chain_Length×0.3 + Loop_Count×0.8)` via an **executable script**, not LLM estimation.
+
+**Integration point:** These audits run inside the existing **Phase 7 Review** as the "Phase 7 Epistemic Audit" — no new mid-phase is inserted, preserving the stable 10-phase lifecycle. Results feed the review manifest and (if significant) a proposed follow-on change. Epistemic limitations discovered are surfaced via Discovery-First Framing (P14 in culture-research): limitations go in the endnote, claims about the world lead.
+
 ---
 
 ## Phase Router
@@ -285,3 +297,4 @@ This turns every completed change into a skill improvement cycle. Over multiple 
 - **Check file truncation** after every read (NEW in v2.0)
 - **Update task_state.json** after every meaningful action (NEW in v2.0)
 - **Map artifacts to openspec** before archiving (NEW in v2.1) — use the bridge table to seed downstream openspec changes
+- **Run the epistemic audit at review** (NEW in v2.3) — axiomatic citation validation, steelman counter-hypotheses, systems map, and scripted CCS before report finalization (Principle 21)

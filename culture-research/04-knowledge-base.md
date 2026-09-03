@@ -2,7 +2,7 @@
 
 **Purpose:** Extract structured entities and relations from appraised papers, persist in MCP knowledge graph + Obsidian-compatible markdown vault.
 
-**Execution pattern:** For >20 appraised papers, run as sub-sessions (SS7 = entities, SS8 = relations). For ≤20 papers, can run in one session.
+**Execution pattern:** For >20 appraised papers, run as sub-sessions (SS5 = entities, SS6 = relations). For ≤20 papers, can run in one session.
 
 ---
 
@@ -141,11 +141,14 @@ Alongside markdown entity files, produce `knowledge-base/findings-index.json` �
   "method": "method_type",
   "behavior_domains": ["work", "family"],
   "quote": "Exact verbatim quote...",
-  "tags": ["evidence/medium", "access/abstract-only", "region/east-asia"]
+  "tags": ["evidence/medium", "access/abstract-only", "region/east-asia"],
+  "epistemic_status": null
 }
 ```
 
-This file serves as the programmatic input for SS8 (relations) and all analysis rounds, eliminating the need to re-read all 92 finding files manually.
+**`epistemic_status` field (NEW in v3.3):** Optional field, `null` at extraction time. It is set by the **Phase 5 Epistemic Stress-Test** to one of `Verified_Axiom`, `Inferred_Bridge`, or `Unsubstantiated_Speculation` (see `05-epistemic-stress-test.md`). It is orthogonal to the `access/` and `evidence/` tags — it reflects post-audit verification confidence, independent of access method.
+
+This file serves as the programmatic input for SS6 (relations) and the Phase 5 Epistemic Stress-Test, eliminating the need to re-read all 92 finding files manually.
 
 ---
 
@@ -233,7 +236,7 @@ Every finding entity must include a verbatim quote pulled directly from an appra
 
 ## What NOT to Do
 
-- Do NOT run analysis rounds in this phase — that is Phase 5
+- Do NOT run analysis rounds in this phase — that is Phase 6 (first the Phase 5 Epistemic Stress-Test)
 - Do NOT create the synthesis document
 - Do NOT use ad-hoc tags outside the approved taxonomy
 - Do NOT fabricate verbatim quotes

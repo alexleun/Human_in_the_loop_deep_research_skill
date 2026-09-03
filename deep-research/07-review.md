@@ -117,13 +117,65 @@ Reserve full YAML manifests for autonomous sub-agent tasks where the human canno
 
 ---
 
+## Phase 7 Epistemic Audit (NEW in v2.3)
+
+Adapted from the culture-research Phase 5 Epistemic Stress-Test (see Principle 21 in SKILL.md). This audit operates on the **code-driven analysis artifacts** (notebooks, generated figures, computed JSON/CSV), not raw LLM output. It runs before the report is finalized.
+
+### Module 1: Axiomatic Audit (citation validation)
+
+For every finding that will appear in the report, verify:
+- [ ] Does the finding carry a `data-source` ID (from Phase 2 citation-first embedding)?
+- [ ] Is there a confidence level, not just an assertion?
+- [ ] Can the finding be traced to a cached source in `knowledge-base/sources/` (P20)?
+- [ ] Does any "inference bridge" (a claim needing intermediate steps not in the data) get flagged, not presented as established?
+
+If a finding fails, flag it as `Unsubstantiated_Speculation` and exclude it from the primary evidence pool.
+
+### Module 2: Steelman Red Teaming (anti-confirmation-bias)
+
+- [ ] For each dominant conclusion, construct the **strongest** counter-hypothesis that fits the same data
+- [ ] Identify what data should be present if the primary claim holds — and whether it is absent
+- [ ] Capture boundary conditions: under what circumstances does the conclusion fail?
+- [ ] Note alternative explanations, especially single-source conclusions presented as facts
+
+### Module 3: Causal Loop & Emergence Mapping (anti-premature-convergence)
+
+- [ ] Go beyond linear cause-and-effect (*A*→*B*): map reinforcing (R) and balancing (B) feedback loops
+- [ ] Identify time delays between causes and systemic effects
+- [ ] Locate non-intuitive leverage points (small intervention → disproportionate shift)
+- [ ] **Produce a machine-readable systems map** (JSON/DOT) when code-first analysis applies
+- [ ] **Compute the CCS by script** when quantitative data is available, rather than LLM estimation
+
+### CCS Script Pattern
+
+When quantitative contradictions/chain-length data exist, compute the Cognitive Complexity Score with a script rather than estimating:
+
+```python
+def ccs(contradiction_density, chain_length, loop_count):
+    return min(10.0, contradiction_density * 3.5 + chain_length * 0.3 + loop_count * 0.8)
+```
+
+### Manifest Output
+
+Fold the audit results into the review manifest. Add an `Epistemic Audit` line, e.g.:
+
+```
+Audit: Epistemic Stress-Test & Systems Mapping
+Issues found: 1
+- HIGH: Finding X is an unsupported inference bridge (systems-map → final-report)
+Passed: All citations grounded, CCS computed by script = 4.2 (auto mode)
+Action: Propose change to add source grounding for Finding X
+```
+
+---
+
 ## File Truncation Safeguard (NEW in v2.0)
 
 Report files and source documents may exceed 50KB. After reading any file during audit, check for truncation. A truncated data table or reference section could hide methodological weaknesses.
 
 ---
 
-## End Conditions (NEW in v2.0)
+## End Conditions (NEW in v2.0, +Epistemic Audit in v2.3)
 
 This phase is **complete** when ALL of the following are true:
 
@@ -133,6 +185,7 @@ This phase is **complete** when ALL of the following are true:
 4. ✅ Output checklist completed — parity, encoding, structure, nav, dates, images verified
 5. ✅ Cross-artifact consistency checklist completed for all recent additions
 6. ✅ Quantitative data verification completed — CSV values cross-checked, correction log propagated
-7. ✅ Audit results summarized (issues found, severity, recommended changes)
-8. ✅ If significant issues → new change proposed to fix them, or tasks added to current change
-9. ✅ `task_state.json` updated if spanning multiple sessions
+7. ✅ **Epistemic Audit completed (v2.3):** Axiomatic (all findings cited + confidence), Steelman (counter-hypotheses + boundary conditions), Systems map (loops + leverage point); CCS computed by script when quantitative data available
+8. ✅ Audit results summarized (issues found, severity, recommended changes)
+9. ✅ If significant issues → new change proposed to fix them, or tasks added to current change
+10. ✅ `task_state.json` updated if spanning multiple sessions

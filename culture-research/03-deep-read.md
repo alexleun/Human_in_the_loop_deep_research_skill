@@ -2,7 +2,7 @@
 
 **Purpose:** Read each paper thoroughly, extract grounded findings, assess quality — before any knowledge base entry.
 
-**Execution pattern:** For >5 papers, run as **sub-sessions** (see `08-sub-session-orchestration.md`). For ≤5 papers, can run in one session with one sub-agent per paper.
+**Execution pattern:** For >5 papers, run as **sub-sessions** (see `09-sub-session-orchestration.md`). For ≤5 papers, can run in one session with one sub-agent per paper.
 
 ---
 
@@ -176,7 +176,7 @@ One `.appraisal.md` per paper in `papers/appraisals/`. These serve as the ground
 - Do NOT fabricate quotes — if paywalled, use `[inferred from abstract]` markers
 - Do NOT mark paywalled papers as `full-text`
 - Do NOT skip the cross-appraisal consistency check
-- Do NOT create entities or run analysis — that is Phase 4+
+- Do NOT create entities (that is Phase 4) or run analysis (that is Phase 6+)
 
 ---
 

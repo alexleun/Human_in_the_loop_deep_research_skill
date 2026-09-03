@@ -1,5 +1,39 @@
 # opencode Skill Changelog
 
+## frontier-research v1.0 — 2026-09-03
+**New skill: Engineering / Science / Frontier-Tech Research.**
+Adds a third skill to the repository, designed for topics where rigorous technical claims, complex systemic dynamics, and honest uncertainty reporting matter. Built from the branch chat log `Introduction to Critical Thinking.md`, it ships a 10-phase protocol with a **dedicated epistemic stress-test gate** and a **user-calibration gate**, driven by three core mental frameworks (Systems Thinking; Critical Thinking & Anti-Bias; Epistemic First Principles & Triangulation).
+### frontier-research v1.0
+| Feature | Detail |
+|---|---|
+| **10-Phase Protocol** | `01-system-map → 02-harvest → 03-epistemic-ledger → 04-red-team → 05-epistemic-stress-test → 06-generative-synthesis → 07-calibration → 08-deep-convergence → 09-report-drafting → 10-self-audit`. |
+| **Phase 5 Stress-Test Gate** | **Reuses the shared culture-research v3.3 methodology** (Axiomatic Audit, Steelman Red Team, Causal Loops & Systems Mapping, CCS routing) rather than redefining it — keeping methodology aligned across skills. Input `evidence/03-epistemic-ledger.md`; output `evidence/05-stress-tested-matrix.json`; downstream phases (6/8/10) must not cite `Unsubstantiated_Speculation` claims. |
+| **Phase 7 Calibration Gate** | Presents the systems map, red-team findings, stress-test matrix, and innovation hypotheses to the user and folds budget / timeline / technical preference into `project-state.json → user_constraints` before convergence. |
+| **Three Mental Frameworks** | Systems Thinking (causal loops, stocks & flows, feedback), Critical Thinking & Anti-Bias (premise verification, red-teaming, steel-manning, counterfactual), Epistemic First Principles & Triangulation (≥2 independent sources, `[Fact]/[Hypothesis]/[Speculation]` labeling, physical/mathematical consistency). |
+| **Anti-Hallucination Guardrails** | Calculations First, Citation Requirement (every metric carries source + epistemic tag), Uncertainty Quantification (`[DATA DEFICIT: Requires Empirical Testing]`). |
+| **State Model** | `project-state.json` with `user_constraints` + `epistemic_ledger` (`verified_facts` / `unverified_claims` / `falsified_hypotheses`) for honest multi-session resume. |
+| **Public Docs** | README skill-table row, repository-structure block, feature-table, and 10-phase pattern diagram added; CHANGELOG entry created. |
+
+**Focus: Epistemic Stress-Test & Systems Mapping phase.**
+Adds a destructive evidence-verification phase to culture-research and adapts it to deep-research's code-first Phase 7 Review. Replaces the earlier "Phase 2.5" proposal after SHUFFLE resolved the matrix structure; the new phase is inserted as **Phase 5** (post-Knowledge Base), shifting Phases 5–9 to 6–10. See `GAP-ANALYSIS.md` at repo root for the full before/after mapping and applicability matrix.
+### culture-research v3.3
+| Change | Detail |
+|---|---|
+| **New Phase 5** (`05-epistemic-stress-test.md`) | Axiomatic Audit (evidence grounding), Steelman Red Team (anti-confirmation-bias), Causal Loops & Systems Mapping (emergence lens). Emits `stress-tested-matrix.json`. |
+| **Cognitive Complexity Score (CCS)** | `CCS = min(10, Contradiction_Density×3.5 + Chain_Length×0.3 + Loop_Count×0.8)`. Routes to Mode A (automated) or Mode B (Strategic HITL, 2–3 forks). |
+| **New Principle 18** (SKILL.md) | Epistemic Stress-Test & Systems Mapping. |
+| **Principle 17** (SKILL.md) | Updated: GATE = Phase 5, REDUCE = Phase 6, SS8→SS9, SS9→SS7 references for Sleep/Eating. |
+| **Renumbered phase files** | `05-multi-round-analysis.md`→`06`, `06-checkpoint.md`→`07`, `07-synthesis.md`→`08`, `08-sub-session-orchestration.md`→`09`, `09-report-writing.md`→`10`. Use `git mv` (folder is a git repo). |
+| **Cross-references updated** | `03-deep-read.md`, `04-knowledge-base.md`, `06/07/08/09/10-*.md`: input gates, SS renumber (SS7 audit, SS9 Eating/Sleep, SS13 checkpoint, etc.), report-writing Phase 10. |
+| **SKILL.md** | Workflow diagram, Phase Router, Cross-Phase Gates (Epistemic Stress-Test Completion Gate), File Persistence (`stress-tested-matrix.json`), findings-index `epistemic_status` field. Version `skill.json` 3.1 → 3.3. |
+### deep-research v2.3
+| Change | Detail |
+|---|---|
+| **New Principle 21** (SKILL.md) | Epistemic Stress-Test & Systems Mapping adapted to the code-first model (script-based CCS, JSON/DOT systems maps). |
+| **Phase 7 Epistemic Audit** (`07-review.md`) | Axiomatic citation validation, Steelman counter-hypotheses, causal loop mapping; CCS computed by script; results folded into the review manifest. |
+| **End Conditions** | Added Epistemic Audit checklist + audit summary requirement. |
+| **Guardrails** | Added "Run the epistemic audit at review" rule. Version `skill.json` 2.2 → 2.3. |
+
 ## deep-research v2.2 — 2026-06-09
 **Focus: Cross-skill refinement from quantitative project experience.**
 Informed by a 202-day Hong Kong passenger statistics project (single-language, quantitative, 5M+ records). Adds new principles, shortcuts, and optional features based on real-world pain points — no new files created.

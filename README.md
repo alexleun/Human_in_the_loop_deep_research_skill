@@ -2,12 +2,13 @@
 
 A collection of structured, artifact-driven AI research skills for **OpenCode** environments. Every skill in this repository is built around a single principle: **the human stays in the loop, learns alongside the AI, and never receives a finished black box.**
 
-This repository currently ships two skills, both validated through real research projects:
+This repository currently ships three skills, validated through real research projects:
 
 | Skill | Folder | Version | Best for |
 |---|---|---|---|
-| **deep-research** | `deep-research/` | v2.2 | Topic-agnostic, quantitative + qualitative research with code-first analysis, Jupyter notebooks, and bilingual or single-language website output |
-| **culture-research** | `culture-research/` | v3.2 | Cultural / behavioral one-off studies: paper collection, deep reading, knowledge graph, multi-round qualitative analysis, Obsidian vault |
+| **deep-research** | `deep-research/` | v2.3 | Topic-agnostic, quantitative + qualitative research with code-first analysis, Jupyter notebooks, and bilingual or single-language website output |
+| **culture-research** | `culture-research/` | v3.3 | Cultural / behavioral one-off studies: paper collection, deep reading, knowledge graph, multi-round qualitative analysis, Obsidian vault |
+| **frontier-research** | `frontier-research/` | v1.0 | Engineering / science / frontier-tech research: systems mapping, epistemic stress-tested evidence, generative + convergent synthesis, discovery-first technical report |
 
 ---
 
@@ -45,7 +46,7 @@ The loop is yours. The AI proposes; you dispose. Whether you actively steer ever
 
 ## 📦 What's New — Upgrades from Real Research
 
-Both skills were upgraded after being used in production research. culture-research v3.2 incorporates lessons from a 38-paper, 3-region pain-and-culture study including a failed-first-draft report-writing cycle that drove the Discovery-First Framing principle. deep-research v2.1 absorbed methodological discipline from the same lineage. deep-research v2.2 incorporates quantitative project lessons from a 202-day Hong Kong passenger statistics analysis (5M+ records, Traditional Chinese only), adding Windows encoding resilience, existing-data shortcuts, CJK font verification, and optional Discovery-First Framing cross-pollinated from culture-research v3.2.
+Both skills were upgraded after being used in production research. culture-research v3.2 incorporates lessons from a 38-paper, 3-region pain-and-culture study including a failed-first-draft report-writing cycle that drove the Discovery-First Framing principle. culture-research v3.3 adds an **Epistemic Stress-Test & Systems Mapping phase** that destructively verifies evidence before synthesis. deep-research v2.1 absorbed methodological discipline from the same lineage. deep-research v2.2 incorporates quantitative project lessons from a 202-day Hong Kong passenger statistics analysis (5M+ records, Traditional Chinese only), adding Windows encoding resilience, existing-data shortcuts, CJK font verification, and optional Discovery-First Framing cross-pollinated from culture-research v3.2. deep-research v2.3 adapts the Epistemic Stress-Test into its Phase 7 Review with a code-first systems-mapping approach.
 
 ### culture-research v3.2 Highlights (v3.0 → v3.1 → v3.2)
 
@@ -85,6 +86,30 @@ Both skills were upgraded after being used in production research. culture-resea
 | **Project Sizing Guide** | Small (5 SS, 1–2 regions), Medium (13–15 SS, 3–4 regions, recommended), Large (18–22 SS, 5–6 regions), Exhaustive (25+ SS). Replaces the fixed 15-SS sequence. |
 | **Calibration Run for Analysis Rounds** | Test Round 1 on one domain, Round 2 on 2–3 rows, Round 3 on 1–2 cells before scaling. Prevents format drift across large outputs. |
 
+### culture-research v3.3 Highlights (Phase 5: Epistemic Stress-Test & Systems Mapping)
+
+| Feature | What It Does |
+|---|---|
+| **New Phase 5: Epistemic Stress-Test** (`05-epistemic-stress-test.md`) | A destructive verification pass inserted between the Knowledge Base (Phase 4) and Multi-Round Analysis (now Phase 6). Replaces the old Phase 2.5 proposal after SHUFFLE resolved the matrix structure. |
+| **Axiomatic Audit** | Rechecks whether every extracted finding is actually grounded in evidence, mediated, contextualized, or speculative — and tags each finding accordingly. |
+| **Steelman Red Team** | Systematically challenges the most convenient or tentative conclusions to detect AI hallucination, confirmation bias, and premature convergence. |
+| **Causal Loops & Systems Mapping** | Builds a causal-loop diagram highlighting feedback loops, leverage points, and systemic blindspots — adding an emergence lens beyond linear cause-and-effect. |
+| **Cognitive Complexity Score (CCS)** | `CCS = min(10, Contradiction_Density×3.5 + Chain_Length×0.3 + Loop_Count×0.8)`. Routes to Mode A (automated audit, CCS<6 or `--mode=auto`) or Mode B (Strategic HITL with 2–3 forks, CCS≥6 and interactive). |
+| **`stress-tested-matrix.json`** | Phase 5 output — the authoritative Reduce input. Phase 6 and Phase 8 MUST NOT cite claims flagged `Unsubstantiated_Speculation`. |
+| **Renumbered phases 5–9 → 6–10** | Phase 5 inserted shifts Multi-Round Analysis→6, Checkpoint→7, Synthesis→8, Sub-Session Orchestration→9, Report Writing→10. |
+| **`epistemic_status` field** | Optional per-finding field (`Verified_Axiom` / `Inferred_Bridge` / `Unsubstantiated_Speculation`) in `findings-index.json`, set by Phase 5, orthogonal to access/evidence tags. |
+
+### frontier-research v1.0 Highlights (New)
+
+| Feature | What It Does |
+|---|---|
+| **10-Phase Engineering Protocol** | `01-system-map → 02-harvest → 03-epistemic-ledger → 04-red-team → 05-epistemic-stress-test → 06-generative-synthesis → 07-calibration → 08-deep-convergence → 09-report-drafting → 10-self-audit`. A dedicated **stress-test gate** and a **user-calibration gate** sit before any convergent synthesis. |
+| **Three Core Mental Frameworks** | Systems Thinking (causal loops, stocks & flows, feedback), Critical Thinking & Anti-Bias (premise verification, red-teaming, steel-manning), Epistemic First Principles & Triangulation (labeling, physical/mathematical consistency, ≥2 independent sources). |
+| **Reused Epistemic Stress-Test Gate (Phase 5)** | Reuses the culture-research v3.3 methodology (Axiomatic Audit, Steelman Red Team, Causal Loops & Systems Mapping, CCS routing) rather than redefining it — keeping the two skills' methodology aligned. Emits `evidence/05-stress-tested-matrix.json`. |
+| **Mid-Term Calibration Gate (Phase 7)** | Presents the systems map, red-team findings, stress-tested matrix, and innovation hypotheses to the user and folds budget / timeline / technical preference into `project-state.json → user_constraints` before convergence. |
+| **Anti-Hallucination Guardrails** | Calculations First, Citation Requirement (every metric carries a source + epistemic tag), and Uncertainty Quantification (`[DATA DEFICIT: Requires Empirical Testing]`) enforced cross-session. |
+| **Epistemic Ledger State** | `epistemic_ledger` in `project-state.json` tracks `verified_facts` / `unverified_claims` / `falsified_hypotheses` for honest multi-session resume. |
+
 ### deep-research v2.x Highlights
 
 | Feature | What It Does |
@@ -112,14 +137,20 @@ Both skills were upgraded after being used in production research. culture-resea
 
 ```
 .
-├── deep-research/        # Core deep-research skill (v2.2)
+├── deep-research/        # Core deep-research skill (v2.3)
 │   ├── SKILL.md
 │   ├── 01-explore.md … 10-implement.md
 │   └── state-management.md
-├── culture-research/     # Cultural / qualitative research skill (v3.2)
+├── culture-research/     # Cultural / qualitative research skill (v3.3)
 │   ├── SKILL.md
-│   ├── 01-explore.md … 09-report-writing.md
-│   └── 08-sub-session-orchestration.md (v3.2 update)
+│   ├── 01-explore.md … 10-report-writing.md
+│   ├── 05-epistemic-stress-test.md (v3.3, new)
+│   └── 09-sub-session-orchestration.md (v3.3 update)
+├── frontier-research/    # Engineering / science / frontier-tech skill (v1.0)
+│   ├── SKILL.md
+│   ├── 01-system-map.md … 10-self-audit.md
+│   ├── 05-epistemic-stress-test.md (reuses shared v3.3 methodology)
+│   └── state-management.md
 └── README.md
 ```
 
@@ -208,6 +239,11 @@ Explore → Search Design → Region-Parallel Search → Acquisition
                               Knowledge Base (entities + relations)
                                               │
                                               ▼
+              Phase 5: Epistemic Stress-Test & Systems Mapping  ←── NEW in v3.3
+              (Axiomatic Audit + Steelman Red Team + Causal Loops)
+              → stress-tested-matrix.json (authoritative Reduce input)
+                                              │
+                                              ▼
                           Round 1: Thematic  →  Round 2: Cross-Cultural
                           Round 3: Contradictions →  Round 4: Gaps
                           Round 5: Research Questions
@@ -225,6 +261,34 @@ Explore → Search Design → Region-Parallel Search → Acquisition
 
 
 Supports projects with 20+ papers via sub-session orchestration — each sub-session has explicit end-conditions, batch notes, and file persistence to the same project directory.
+
+---
+
+## 🧭 The Frontier-Research Pattern
+
+```
+01 System Map → 02 Harvest → 03 Epistemic Ledger → 04 Red-Team
+                                                        │
+                                                        ▼
+               Phase 5: EPISTEMIC STRESS-TEST  ←── dedicated gate (v1.0)
+               (Axiomatic Audit + Steelman + Causal Loops + CCS routing)
+               → evidence/05-stress-tested-matrix.json
+                                                        │
+                                                        ▼
+               06 Generative Synthesis (divergent)
+                                                        │
+                                                        ▼
+               Phase 7: USER CALIBRATION  ←── human sign-off gate
+               (fold budget/timeline/preference into user_constraints)
+                                                        │
+                                                        ▼
+               08 Deep Convergence → 09 Report Drafting → 10 Self-Audit
+                                                              │
+                                                              ▼
+                                               FINAL_DELIVERABLE_REPORT.md
+```
+
+Built for engineering / science / frontier-tech topics: it forces cross-domain abstraction and counterfactual reasoning (Phase 6) and scanner-of-speculation final audit (Phase 10), keeping the release honest about what is verified, inferred, or unknown.
 
 ---
 

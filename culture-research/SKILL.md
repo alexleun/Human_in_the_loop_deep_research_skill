@@ -7,6 +7,8 @@ description: "A structured, multi-round workflow for exploratory and qualitative
 
 A structured workflow for **cultural one-off studies** focused on human behavior, social practices, and everyday life. Designed for web-search-based paper collection and qualitative synthesis — no programming, no human-subject data collection, no dashboards.
 
+**v3.3 (NEW):** Added **Phase 5: Epistemic Stress-Test & Systems Mapping** between Knowledge Base (SHUFFLE) and Multi-Round Analysis (first REDUCE). This destructive-verification phase combats AI hallucinations, confirmation bias, and premature convergence via three modules (Axiomatic Audit, Steelman Red Teaming, Causal Loop & Emergence Mapping), with an adaptive human-in-the-loop routing controlled by the Cognitive Complexity Score (CCS). All downstream phases were renumbered (old 5→6 … 9→10). See `05-epistemic-stress-test.md` and the v3.3 CHANGELOG entry.
+
 ---
 
 ## When to Use This Skill
@@ -146,7 +148,7 @@ Research questions involving generational comparison or historical change requir
 
 ### 14. Discovery-First Framing
 
-The most common failure in report-writing (Phase 9) is producing output that reads as a methodology report or academic literature review rather than a science story. To prevent this:
+The most common failure in report-writing (Phase 10) is producing output that reads as a methodology report or academic literature review rather than a science story. To prevent this:
 
 **Discovery-first principle:** Every paragraph should answer the question "what does this tell us about [the research topic]?" not "what did we find in the literature?" The collection process (N papers, methods, regions) is supporting infrastructure — mentioned exactly once and then invisible.
 
@@ -165,10 +167,10 @@ After critical phases, require explicit human approval before proceeding. These 
 | Phase | Gate | What Human Approves |
 |---|---|---|
 | 1 — Explore | Research Question & Scope | The question is answerable, regions correct, scale appropriate |
-| 6 — Checkpoint | Verdict | PROCEED / PROCEED WITH NOTES / LOOP decision confirmed |
-| 7 — Synthesis | Final Document | All sections correct, no broken wikilinks |
-| 8 — Report Writing | Section Plan | Titles, narrative arc, key claims per section approved before drafting begins |
-| 9 — Archive | Retrospective | Skill evolution log reviewed |
+| 7 — Checkpoint | Verdict | PROCEED / PROCEED WITH NOTES / LOOP decision confirmed |
+| 8 — Synthesis | Final Document | All sections correct, no broken wikilinks |
+| 10 — Report Writing | Section Plan | Titles, narrative arc, key claims per section approved before drafting begins |
+| Archive | Retrospective | Skill evolution log reviewed |
 
 **Execution:** At each gate, the PM presents a summary to the human (in `messages/` or directly), the human responds, and the PM documents the approval in `skill-evolution-log.md`. For Phase 1, the human approval is obtained conversationally during the explore session.
 
@@ -187,11 +189,24 @@ This prevents time sinks on individual papers while maintaining honest coverage 
 ---
 ### 17. Map-Reduce Analysis Architecture
 
-For Phase 5 (Multi-Round Analysis), the PM must strictly use a Map-Reduce architecture to prevent LLM context-window overload and to enforce cross-paper contradiction discovery. Do not send all papers to a single sub-session.
+For Phase 6 (Multi-Round Analysis), the PM must strictly use a Map-Reduce architecture to prevent LLM context-window overload and to enforce cross-paper contradiction discovery. Do not send all papers to a single sub-session.
 
 - **MAP (Phase 3 & 4):** During deep reading, every extracted finding MUST be atomic and tagged with a `#behavior/{domain}` or `#theme` tag. 
 - **SHUFFLE (Phase 4):** The `findings-index.json` acts as the shuffle layer. It must group findings by their tags (e.g., `theme: #behavior/sleep` -> `[Paper_A_Finding1, Paper_C_Finding2]`), NOT just by paper.
-- **REDUCE (Phase 5):** The PM dispatches **one sub-session per theme** (e.g., SS10-Sleep, SS11-Eating). The sub-session receives ONLY the shuffled findings for that specific theme across all regions. This forces the LLM to focus purely on cross-cultural comparison and contradiction within that specific domain.
+- **GATE (Phase 5):** Before any REDUCE dispatch, the Epistemic Stress-Test runs on the shuffled findings index and produces `stress-tested-matrix.json` (see Principle 18). Claims flagged `Unsubstantiated_Speculation` are excluded from REDUCE.
+- **REDUCE (Phase 6):** The PM dispatches **one sub-session per theme** (e.g., SS8-Sleep, SS9-Eating). The sub-session receives ONLY the shuffled findings for that specific theme across all regions, filtered by the stress-test matrix. This forces the LLM to focus purely on cross-cultural comparison and contradiction within that specific domain.
+
+### 18. Epistemic Stress-Test & Systems Mapping (NEW in v3.3)
+
+Before any narrative reduction, run a **destructive verification phase** (Phase 5) over the shuffled evidence base to combat three systemic failure modes: **AI hallucinations**, **confirmation bias**, and **premature convergence**. Three modules:
+
+- **Axiomatic Audit (Epistemic First Principles):** Deconstruct every claim into Raw Evidential Axioms (source-tagged quotes/data) and Inference Chains. Classify into Verified_Axiom / Inferred_Bridge / Unsubstantiated_Speculation; strip unsubstantiated claims from the evidence pool.
+- **Steelman Red Teaming (Critical Thinking):** Construct the strongest counter-arguments, identify alternative explanations fitting the same data, and capture boundary conditions. Respect the dual access/evidence model (Principle 10).
+- **Causal Loop & Emergence Mapping (Systems Thinking):** Map reinforcing (R) and balancing (B) feedback loops, time delays, and non-intuitive leverage points to escape linear, premature convergence.
+
+**Adaptive human-in-the-loop routing:** Compute the **Cognitive Complexity Score (CCS)** `= min(10, Contradiction_Density×3.5 + Chain_Length×0.3 + Loop_Count×0.8)`. If CCS < 6 or `--mode=auto` → **Mode A (Fully Automated)**: auto-resolve conflicts, emit `stress-tested-matrix.json`, and mandate an "Epistemic Limitations & Systemic Blindspots" chapter. If CCS ≥ 6 and interactive → **Mode B (Strategic HITL)**: present only high-level strategic narrative forks (Conservative Convergence / Systemic Paradigm Shift / Dialectical Dual-Track), never micro-edits — this avoids cognitive overload when a decision exceeds user capability.
+
+**Enforcement:** `stress-tested-matrix.json` is the authoritative Reduce input. Phase 6 and Phase 8 MUST NOT cite claims flagged `Unsubstantiated_Speculation`. Full procedure, schema, and sub-agent prompts in `05-epistemic-stress-test.md`.
 ---
 ## Workflow Overview
 ```
@@ -202,30 +217,37 @@ Explore ──→ Search Design ──→ Region Searches ──→ Unified Rost
                                                                        │
                                                                        ▼
                          Knowledge Base ──→ Entities + Relations + findings-index.json (SHUFFLE)
-                         (SS7 entities,     (groups findings by #theme instead of by paper)
-                          SS8 relations)
+                         (SS5 entities,     (groups findings by #theme instead of by paper)
+                          SS6 relations)
                                                                        │
                                                                        ▼
-                ┌── Round 1: Thematic Categorization (SS9)
+                 Phase 5: Epistemic Stress-Test & Systems Mapping (SS7)  ←── NEW in v3.3
+                 (Axiomatic Audit + Steelman Red Team + Causal Loops)   (destructive gate;
+                 → emits stress-tested-matrix.json                       unverified claims excluded)
+                                                                       │
+                                                                       ▼
+                ┌── Round 1: Thematic Categorization (SS8)
                 │
                 │   [ MAP-REDUCE DISPATCH: 1 Sub-Session PER THEME ]
-                ├── Round 2: Cross-Cultural Comparison (SS10a: Sleep, SS10b: Pain, etc.)
-                ├── Round 3: Contradiction Deep-Dive (SS11a: Sleep, SS11b: Pain, etc.)
+                ├── Round 2: Cross-Cultural Comparison (SS9a: Sleep, SS9b: Pain, etc.)
+                ├── Round 3: Contradiction Deep-Dive (SS10a: Sleep, SS10b: Pain, etc.)
                 │   [ ASSEMBLE REDUCED THEMES ]
                 │
-                ├── Round 4: Gap & Blind Spot Mapping (SS12)
-                └── Round 5: Research Question Generation (SS13)
+                ├── Round 4: Gap & Blind Spot Mapping (SS11)
+                └── Round 5: Research Question Generation (SS12)
                 │
   Cross-Phase Gates ──→ Cross-Appraisal Consistency Check
+                │       Epistemic Stress-Test Completion Gate
                 │       Director Observations Aggregation
                 │
- Iteration Checkpoint ←─┘ (SS14)
+ Iteration Checkpoint ←─┘ (SS13)
        │
        ▼ (if weak links, loop back)
-  Synthesis (SS15) ——→ Stitches the "Reduced" theme documents using Discovery-First Framing.
+  Synthesis (SS14) ——→ Stitches the "Reduced" theme documents using Discovery-First Framing
+       │                 and honoring the stress-tested-matrix.json directives.
        │
        ▼
-  Report Writing (SS16+) — optional: science article, research brief, slide deck
+  Report Writing (SS15+) — optional: science article, research brief, slide deck
 ```
 ---
 
@@ -237,11 +259,12 @@ Explore ──→ Search Design ──→ Region Searches ──→ Unified Rost
 | Designing search strategy, executing region-parallel collection | `02-search-collect.md` |
 | Per-paper deep reading and critical appraisal | `03-deep-read.md` |
 | Building knowledge graph entities, relations, Obsidian vault | `04-knowledge-base.md` |
-| Running 5-round iterative analysis (thematic → comparison → contradiction → gaps → questions) | `05-multi-round-analysis.md` |
-| Review checkpoint, identifying weak links, looping back | `06-checkpoint.md` |
-| Writing final synthesis document | `07-synthesis.md` |
-| **Multi-session project: writing sub-session prompts, verifying outputs, tracking state** | **`08-sub-session-orchestration.md`** |
-| **Writing science article, research brief, or other communication output** | **`09-report-writing.md`** |
+| **Running epistemic stress-test: axiomatic audit, steelman red team, systems mapping (NEW in v3.3)** | **`05-epistemic-stress-test.md`** |
+| Running 5-round iterative analysis (thematic → comparison → contradiction → gaps → questions) | `06-multi-round-analysis.md` |
+| Review checkpoint, identifying weak links, looping back | `07-checkpoint.md` |
+| Writing final synthesis document | `08-synthesis.md` |
+| **Multi-session project: writing sub-session prompts, verifying outputs, tracking state** | **`09-sub-session-orchestration.md`** |
+| **Writing science article, research brief, or other communication output** | **`10-report-writing.md`** |
 
 ---
 
@@ -318,13 +341,14 @@ Windows cmd/PowerShell treats non-ASCII characters in filenames inconsistently. 
 These verification steps happen BETWEEN phases and produce accountable artifacts:
 
 | Gate | After Phase | Artifact | Run By |
-|---|---|---|---|---|
+|---|---|---|---|
 | Human-Approval Gate (NEW in v3.2) | Explore, Checkpoint, Synthesis, Report Writing | Human signs off on scope/verdict/document/plan | Human |
 | Cross-Appraisal Consistency Check | Deep Reading | `papers/appraisals/_cross-appraisal-check.md` | Director / PM |
 | Cross-Region Relation Consistency | Knowledge Base | Check findings-index.json covers all papers | PM |
+| **Epistemic Stress-Test Completion (NEW in v3.3)** | **Phase 5 Stress-Test** | **`stress-tested-matrix.json` schema-valid + directives present** | **PM** |
 | Sub-Theme Viability Filter | Round 1 | Decision: which sub-themes become matrix rows | Director |
 | Round Output Completeness | Each Round | Verify prior round's end conditions met | Sub-agent (checked by PM) |
-| Synthesis Input Coherence | Checkpoint | `checkpoint-review.md` | Checkpoint sub-agent |
+| Synthesis Input Coherence | Checkpoint | `checkpoint-review.md` + stress matrix directives | Checkpoint sub-agent |
 | Skill Evolution | Archive | `skill-evolution-log.md` | Director / PM |
 | PM Review Loop (NEW in v3.1) | Each Sub-Session | Batch note read + output spot-check + decision logged | PM |
 | Source Preservation (NEW in v3.1) | Each Fetch | Local copy saved to `papers/raw/` | Sub-agent |
@@ -361,6 +385,7 @@ These verification steps happen BETWEEN phases and produce accountable artifacts
 ├── sub-sessions/
 │   ├── README.md
 │   └── SS_TEMPLATE.md
+├── stress-tested-matrix.json    # (NEW in v3.3) Phase 5 output — authoritative Reduce input
 ├── messages/                     # (NEW) sub-session feedback to management
 │   └── SS{n}-to-management.md
 ├── project-state.json            # (NEW) state synchronization file
