@@ -2,13 +2,15 @@
 
 A collection of structured, artifact-driven AI research skills for **OpenCode** environments. Every skill in this repository is built around a single principle: **the human stays in the loop, learns alongside the AI, and never receives a finished black box.**
 
-This repository currently ships three skills, validated through real research projects:
+This repository currently ships five skills:
 
 | Skill | Folder | Version | Best for |
 |---|---|---|---|
 | **deep-research** | `deep-research/` | v2.3 | Topic-agnostic, quantitative + qualitative research with code-first analysis, Jupyter notebooks, and bilingual or single-language website output |
 | **culture-research** | `culture-research/` | v3.3 | Cultural / behavioral one-off studies: paper collection, deep reading, knowledge graph, multi-round qualitative analysis, Obsidian vault |
 | **frontier-research** | `frontier-research/` | v1.0 | Engineering / science / frontier-tech research: systems mapping, epistemic stress-tested evidence, generative + convergent synthesis, discovery-first technical report |
+| **stock-analysis** | `stock-analysis/` | v1.0 | Single-stock analysis (HKEX-optimized) using public-only, no-API-key sources: fundamentals + valuation + technicals + catalysts/risks, ending in a written BUY / HOLD / SELL report |
+| **stock-deep-research** | `stock-deep-research/` | v1.0 | Institutional-grade single-stock equity research: fuses stock-analysis + deep-research — evidence-first, code-first, adversarial Bull/Bear debate, DCF + reverse-DCF + SOTP, fragility audit, deterministic governance gates, and a BUY / HOLD / SELL / AVOID / WATCH call |
 
 ---
 
@@ -46,7 +48,7 @@ The loop is yours. The AI proposes; you dispose. Whether you actively steer ever
 
 ## 📦 What's New — Upgrades from Real Research
 
-Both skills were upgraded after being used in production research. culture-research v3.2 incorporates lessons from a 38-paper, 3-region pain-and-culture study including a failed-first-draft report-writing cycle that drove the Discovery-First Framing principle. culture-research v3.3 adds an **Epistemic Stress-Test & Systems Mapping phase** that destructively verifies evidence before synthesis. deep-research v2.1 absorbed methodological discipline from the same lineage. deep-research v2.2 incorporates quantitative project lessons from a 202-day Hong Kong passenger statistics analysis (5M+ records, Traditional Chinese only), adding Windows encoding resilience, existing-data shortcuts, CJK font verification, and optional Discovery-First Framing cross-pollinated from culture-research v3.2. deep-research v2.3 adapts the Epistemic Stress-Test into its Phase 7 Review with a code-first systems-mapping approach.
+The existing skills were upgraded after being used in production research. culture-research v3.2 incorporates lessons from a 38-paper, 3-region pain-and-culture study including a failed-first-draft report-writing cycle that drove the Discovery-First Framing principle. culture-research v3.3 adds an **Epistemic Stress-Test & Systems Mapping phase** that destructively verifies evidence before synthesis. deep-research v2.1 absorbed methodological discipline from the same lineage. deep-research v2.2 incorporates quantitative project lessons from a 202-day Hong Kong passenger statistics analysis (5M+ records, Traditional Chinese only), adding Windows encoding resilience, existing-data shortcuts, CJK font verification, and optional Discovery-First Framing cross-pollinated from culture-research v3.2. deep-research v2.3 adapts the Epistemic Stress-Test into its Phase 7 Review with a code-first systems-mapping approach. Two new v1.0 skills extend this lineage to equity research: **stock-analysis** (a focused 8-phase single-stock BUY / HOLD / SELL workflow on public-only sources) and **stock-deep-research** (an institutional-grade 9-phase note that fuses stock-analysis + deep-research, adding adversarial Bull/Bear debate, DCF + reverse-DCF + SOTP, a fragility audit, and deterministic governance gates).
 
 ### culture-research v3.2 Highlights (v3.0 → v3.1 → v3.2)
 
@@ -110,6 +112,36 @@ Both skills were upgraded after being used in production research. culture-resea
 | **Anti-Hallucination Guardrails** | Calculations First, Citation Requirement (every metric carries a source + epistemic tag), and Uncertainty Quantification (`[DATA DEFICIT: Requires Empirical Testing]`) enforced cross-session. |
 | **Epistemic Ledger State** | `epistemic_ledger` in `project-state.json` tracks `verified_facts` / `unverified_claims` / `falsified_hypotheses` for honest multi-session resume. |
 
+### stock-analysis v1.0 Highlights (New)
+
+An 8-phase single-stock workflow, HKEX-optimized, public-only sources, no API key:
+
+| Feature | What It Does |
+|---|---|
+| **Blended Analysis (8 phases)** | `01-scope → 02-collect → 03-fundamentals → 04-valuation → 05-technicals → 06-catalysts-risks → 07-synthesize → 08-report`. A defensible call needs fundamentals + valuation + technicals + catalysts/risks, not any one in isolation. |
+| **Public-Source Only** | Free, public, no-API-key data (HKEXnews, reports, free aggregators) — never fabricate data; substitute a documented free alternative if a source is paywalled. |
+| **Grounding & Anti-Hallucination** | Every factual output carries exact quoted text or a citation (URL / source ID) plus an as-of date; facts vs claims vs inference are distinguished (adopts deep-research P2). |
+| **Code-First Computation** | All ratios, growth rates, CAGRs, DCF, and scenario math run in Python — never from LLM memory (adopts deep-research P3). |
+| **Explicit Recommendation** | Ends in a written BUY / HOLD / SELL with a price target, horizon, confidence level, falsification criteria, and a disclaimer. |
+| **Human-Approval Gates** | Gates after Scope (contract), before finalizing the report (recommendation review), and at report approval — the human makes the final investment call. |
+| **HK-Specific Data Notes** | HKEXnews cross-checking, HKD reporting-currency notes, price-aggregator alignment, trading halts / closing auction, and Stock Connect / policy catalysts built into Phase 6. |
+
+### stock-deep-research v1.0 Highlights (New)
+
+An institutional-grade 9-phase equity-research workflow, **fusing stock-analysis + deep-research**:
+
+| Feature | What It Does |
+|---|---|
+| **Evidence-First Analyst Note (9 phases)** | `01-scope → 02-collect → 03-fundamentals → 04-valuation → 05-technicals → 06-debate → 07-fragility-audit → 08-synthesize → 09-report`. Narrative is translated into economics; every number cited and dated. |
+| **Fact / Derived-Fact / Analysis Taxonomy** | Facts are cited, derived facts are computed from supported inputs with an explicit formula, analysis is labeled as interpretation — a model may complete an analysis chain but never invent a missing fact. |
+| **Adversarial Bull/Bear Debate (Phase 6)** | Bull and Bear argued independently and at their strongest before any synthesis; hallucinations from one side get refuted by the other before the call. |
+| **Multi-Method Valuation (Phase 4)** | Relative + DCF + **reverse-DCF** (what is the market pricing in?) + **SOTP** for mixed-quality businesses → fair-value range + price target. |
+| **Fragility Audit (Phase 7)** | Fragility treated as a **valuation input**, not an appendix — concentration, policy, litigation, supply-chain, inventory risk each get disclosure / multiple haircut / scenario discount. |
+| **Deterministic Governance Gates (Phase 8)** | Rule-based Quality / Regime / Sanity / Critical-News gates that cannot be argued out of position before a rating is published. |
+| **Anti-Lookahead / Point-in-Time Discipline** | Pre-cutoff facts vs post-cutoff reasoning are separated; a decision is never justified with data dated after the as-of date. |
+| **Explicit Rating + Conviction** | BUY / HOLD / SELL / **AVOID** / **WATCH** with price target, confidence (0–1), conviction (HIGH/MEDIUM/LOW), falsification criteria, and action conditions. |
+| **State & Templates** | Ships a `template-task_state.json` skeleton (skill, current_phase, per-phase status, decision date, horizon, rating, price target) for honest multi-session resume. |
+
 ### deep-research v2.x Highlights
 
 | Feature | What It Does |
@@ -151,6 +183,15 @@ Both skills were upgraded after being used in production research. culture-resea
 │   ├── 01-system-map.md … 10-self-audit.md
 │   ├── 05-epistemic-stress-test.md (reuses shared v3.3 methodology)
 │   └── state-management.md
+├── stock-analysis/       # Single-stock analysis, HKEX-optimized (v1.0)
+│   ├── SKILL.md
+│   ├── 01-scope.md … 08-report.md
+│   └── template-task_state.json
+├── stock-deep-research/  # Institutional-grade equity research, fuses stock-analysis + deep-research (v1.0)
+│   ├── SKILL.md
+│   ├── 01-scope.md … 09-report.md
+│   ├── 06-debate.md (Bull/Bear), 07-fragility-audit.md (epistemic stress-test)
+│   └── template-task_state.json
 └── README.md
 ```
 
@@ -173,13 +214,19 @@ Each `SKILL.md` is the entry point; numbered `.md` files are phase-specific inst
 ```powershell
 Copy-Item -Recurse ".\deep-research" ".opencode\skills\deep-research"
 Copy-Item -Recurse ".\culture-research" ".opencode\skills\culture-research"
+Copy-Item -Recurse ".\frontier-research" ".opencode\skills\frontier-research"
+Copy-Item -Recurse ".\stock-analysis" ".opencode\skills\stock-analysis"
+Copy-Item -Recurse ".\stock-deep-research" ".opencode\skills\stock-deep-research"
 ```
 
 **macOS / Linux (bash)**
 
 ```bash
-cp -R ./deep-research     .opencode/skills/deep-research
-cp -R ./culture-research  .opencode/skills/culture-research
+cp -R ./deep-research        .opencode/skills/deep-research
+cp -R ./culture-research     .opencode/skills/culture-research
+cp -R ./frontier-research    .opencode/skills/frontier-research
+cp -R ./stock-analysis       .opencode/skills/stock-analysis
+cp -R ./stock-deep-research  .opencode/skills/stock-deep-research
 ```
 
 ### Step 2 — Trigger the skill from a prompt
@@ -196,6 +243,20 @@ using skill .opencode\skills\culture-research
 ```text
 analysis topic "compare 10 open-source vector databases for production use",
 using skill .opencode\skills\deep-research
+```
+
+**Example — stock analysis**
+
+```text
+analysis topic "analyze Tencent (0700.HK) and give a BUY/HOLD/SELL recommendation",
+using skill .opencode\skills\stock-analysis
+```
+
+**Example — stock deep research**
+
+```text
+analysis topic "produce an institutional-grade equity research note on 1810.HK with a call and price target",
+using skill .opencode\skills\stock-deep-research
 ```
 
 The agent will load the skill's `SKILL.md`, walk through the phases halting at human-gated checkpoints, and write all intermediate artifacts to your local project folder.
@@ -292,6 +353,50 @@ Built for engineering / science / frontier-tech topics: it forces cross-domain a
 
 ---
 
+## 🧭 The Stock-Analysis Pattern
+
+A single-stock workflow on free, public, no-API-key sources:
+
+```
+01 Scope → 02 Collect → 03 Fundamentals → 04 Valuation
+                 │            │                 │
+                 ▼            ▼                 ▼
+        05 Technicals → 06 Catalysts & Risks → 07 Synthesize
+                                                │  (human reviews the proposed call)
+                                                ▼
+                                      08 Report: BUY / HOLD / SELL
+                                      + price target, confidence, falsification criteria
+```
+
+---
+
+## 🧭 The Stock-Deep-Research Pattern
+
+The institutional-grade fusion of `stock-analysis` + `deep-research`:
+
+```
+01 Scope → 02 Collect → 03 Fundamentals → 04 Valuation (DCF + reverse-DCF + SOTP)
+                                                             │
+                                                             ▼
+                                           05 Technical & Market Regime
+                                                             │
+                                                             ▼
+                               06 Bull/Bear Debate & Catalysts (adversarial)
+                                                             │
+                                                             ▼
+                               07 Fragility Audit & Red-Team (epistemic stress-test)
+                                                             │
+                                                             ▼
+                08 Synthesize & Govern → deterministic Quality / Regime /
+                Sanity / Critical-News gates → rating + target + confidence + conviction
+                                                             │  (human reviews the call)
+                                                             ▼
+                        09 Analyst Note: BUY / HOLD / SELL / AVOID / WATCH
+                        + price target, falsification criteria, action conditions
+```
+
+---
+
 ## 🧭 Ongoing Evolution
 
 These skills are not static. Every research project that uses them generates feedback:
@@ -313,12 +418,15 @@ The more you research with these skills, the sharper they become.
 - Literature and documentation audits
 - Cultural / behavioral qualitative studies
 - Bilingual (EN/ZH) research reports with website output
+- Single-stock analysis with a written BUY / HOLD / SELL view (HKEX-optimized)
+- Institutional-grade equity research on a single company (Bull/Bear debate + DCF + fragility audit + governance gates)
 
 ### ❌ Not a fit
 - Single-fact Q&A ("what is the capital of X?")
 - Creative writing, brainstorming, naming
 - Quick debugging or instant code fixes
 - Time-critical answers (the human gate is intentional, not a bug)
+- Executing trades, portfolio rebalancing, or building a live trading bot (the stock skills are research + recommendation only, not execution)
 
 ---
 

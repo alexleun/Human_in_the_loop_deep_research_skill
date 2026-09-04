@@ -1,8 +1,39 @@
 # opencode Skill Changelog
 
+## stock-analysis v1.0 — 2026-09-03
+**New skill: Single-Stock Analysis (HKEX-optimized, public-only sources).**
+Adds an 8-phase workflow for reaching a written BUY / HOLD / SELL view on a single listed company using only free, public, no-API-key sources. Blends fundamentals, valuation, technicals, and catalysts/risks into an explicit recommendation with a price target, confidence, and falsification criteria.
+### stock-analysis v1.0
+| Feature | Detail |
+|---|---|
+| **8-Phase Blended Protocol** | `01-scope → 02-collect → 03-fundamentals → 04-valuation → 05-technicals → 06-catalysts-risks → 07-synthesize → 08-report`. |
+| **Public-Source Only** | Free, public, no-API-key data (HKEXnews, reports, free aggregators); substitute a documented free alternative if paywalled; never fabricate data. |
+| **Grounding & Anti-Hallucination** | Every factual output carries exact quoted text or citation + as-of date; facts vs claims vs inference distinguished (adopts deep-research P2). |
+| **Code-First Computation** | Ratios, CAGRs, DCF, scenario math run in Python (adopts deep-research P3); Source Preservation (P20) and End-Conditions Discipline (P15) adopted from deep-research. |
+| **Explicit Recommendation** | BUY / HOLD / SELL + price target, horizon, confidence, falsification criteria, disclaimer. |
+| **Human-Approval Gates** | After Scope (contract), after Synthesize (call review), and at report approval — the human makes the final investment call. |
+| **State Template** | Ships `template-task_state.json` (skill, current_phase, per-phase status, decision date, horizon, rating, price target). |
+
+## stock-deep-research v1.0 — 2026-09-03
+**New skill: Institutional-Grade Equity Research (fuses stock-analysis + deep-research).**
+Adds a 9-phase analyst-note workflow with an evidence-first, code-first methodology: adversarial Bull/Bear debate, DCF + reverse-DCF + SOTP, a fragility audit (epistemic stress-test), deterministic governance gates, and an explicit BUY / HOLD / SELL / AVOID / WATCH call with confidence, conviction, price target, and falsification criteria.
+### stock-deep-research v1.0
+| Feature | Detail |
+|---|---|
+| **9-Phase Protocol** | `01-scope → 02-collect → 03-fundamentals → 04-valuation → 05-technicals → 06-debate → 07-fragility-audit → 08-synthesize → 09-report`. |
+| **Evidence-First / Fact Taxonomy** | Fact / Derived-Fact / Analysis taxonomy; narrative translated into economics; a model may complete an analysis chain but never invent a missing fact (P1). |
+| **Adversarial Bull/Bear Debate** | Bull and Bear argued independently and at their strongest before any synthesis (P5); refutation pass refutes hallucinations before the call. |
+| **Multi-Method Valuation** | Relative + DCF + reverse-DCF + SOTP for mixed-quality businesses → fair-value range + price target (P3, P4). |
+| **Fragility Audit** | Fragility as a valuation input, not an appendix — disclosure / multiple haircut / scenario discount per risk (P10). |
+| **Deterministic Governance Gates** | Rule-based Quality / Regime / Sanity / Critical-News gates that cannot be argued out of position (P6). |
+| **Anti-Lookahead Discipline** | Pre-cutoff facts vs post-cutoff reasoning separated; no decision justified with data dated after the as-of date (P9). |
+| **Rating + Conviction** | BUY / HOLD / SELL / AVOID / WATCH + confidence (0–1), conviction (HIGH/MEDIUM/LOW), falsification criteria, action conditions (P7, P8). |
+| **Human-Approval Gates** | After Scope, before finalizing the note (call review, Phase 8→9), and at note approval (P13). |
+| **State Template** | `template-task_state.json` with per-phase status, decision date, horizon, rating, price target. |
+
 ## frontier-research v1.0 — 2026-09-03
 **New skill: Engineering / Science / Frontier-Tech Research.**
-Adds a third skill to the repository, designed for topics where rigorous technical claims, complex systemic dynamics, and honest uncertainty reporting matter. Built from the branch chat log `Introduction to Critical Thinking.md`, it ships a 10-phase protocol with a **dedicated epistemic stress-test gate** and a **user-calibration gate**, driven by three core mental frameworks (Systems Thinking; Critical Thinking & Anti-Bias; Epistemic First Principles & Triangulation).
+Adds a fifth skill to the repository, designed for topics where rigorous technical claims, complex systemic dynamics, and honest uncertainty reporting matter. Built from the branch chat log `Introduction to Critical Thinking.md`, it ships a 10-phase protocol with a **dedicated epistemic stress-test gate** and a **user-calibration gate**, driven by three core mental frameworks (Systems Thinking; Critical Thinking & Anti-Bias; Epistemic First Principles & Triangulation).
 ### frontier-research v1.0
 | Feature | Detail |
 |---|---|

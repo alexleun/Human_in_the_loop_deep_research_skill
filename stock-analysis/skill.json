@@ -1,0 +1,10 @@
+{
+  "id": "stock-analysis",
+  "version": "1.0",
+  "entrypoint": "SKILL.md",
+  "state_blueprint": {
+    "current_phase": "01-scope.md",
+    "task_state_path": "stock-analysis/task_state.json",
+    "status": "initialized"
+  }
+}

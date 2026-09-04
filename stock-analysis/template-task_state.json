@@ -1,0 +1,20 @@
+{
+  "skill": "stock-analysis",
+  "type": "single-stock-analysis",
+  "current_phase": "01-scope.md",
+  "phases": {
+    "01-scope.md": "pending",
+    "02-collect.md": "pending",
+    "03-fundamentals.md": "pending",
+    "04-valuation.md": "pending",
+    "05-technicals.md": "pending",
+    "06-catalysts-risks.md": "pending",
+    "07-synthesize.md": "pending",
+    "08-report.md": "pending"
+  },
+  "decision_date": null,
+  "horizon": null,
+  "rating": null,
+  "price_target": null,
+  "updated": null
+}

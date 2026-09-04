@@ -1,0 +1,21 @@
+{
+  "skill": "stock-deep-research",
+  "type": "single-stock-analysis",
+  "current_phase": "01-scope.md",
+  "phases": {
+    "01-scope.md": "pending",
+    "02-collect.md": "pending",
+    "03-fundamentals.md": "pending",
+    "04-valuation.md": "pending",
+    "05-technicals.md": "pending",
+    "06-debate.md": "pending",
+    "07-fragility-audit.md": "pending",
+    "08-synthesize.md": "pending",
+    "09-report.md": "pending"
+  },
+  "decision_date": null,
+  "horizon": null,
+  "rating": null,
+  "price_target": null,
+  "updated": null
+}
