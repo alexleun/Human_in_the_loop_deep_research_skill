@@ -9,8 +9,8 @@ This repository currently ships five skills:
 | **deep-research** | `deep-research/` | v2.3 | Topic-agnostic, quantitative + qualitative research with code-first analysis, Jupyter notebooks, and bilingual or single-language website output |
 | **culture-research** | `culture-research/` | v3.3 | Cultural / behavioral one-off studies: paper collection, deep reading, knowledge graph, multi-round qualitative analysis, Obsidian vault |
 | **frontier-research** | `frontier-research/` | v1.0 | Engineering / science / frontier-tech research: systems mapping, epistemic stress-tested evidence, generative + convergent synthesis, discovery-first technical report |
-| **stock-analysis** | `stock-analysis/` | v1.1 | Single-stock analysis (HKEX-optimized) using public-only, no-API-key sources: fundamentals + valuation + technicals + catalysts/risks, ending in a written BUY / HOLD / SELL report |
-| **stock-deep-research** | `stock-deep-research/` | v1.1 | Institutional-grade single-stock equity research: fuses stock-analysis + deep-research — evidence-first, code-first, adversarial Bull/Bear debate, DCF + reverse-DCF + SOTP, fragility audit, deterministic governance gates, and a BUY / HOLD / SELL / AVOID / WATCH call |
+| **stock-analysis** | `stock-analysis/` | v2.0 | The single canonical **single-stock** institutional analysis (HKEX-optimized): 9-phase evidence-first workflow with adversarial Bull/Bear debate, DCF + reverse-DCF + SOTP, fragility audit, deterministic governance gates, document intelligence, and a BUY / HOLD / SELL / AVOID / WATCH call |
+| **stock-deep-research** | `stock-deep-research/` | v2.0 | **Whole-market (index-level)** Bullish / Neutral / Bearish outlook: computation-native analytics (index stats, regime, breadth, valuation percentiles, sector relative strength, scenario band), a document-intelligence layer, and watchdog/falsification signals — single-stock analysis lives in `stock-analysis` |
 
 ---
 
@@ -48,7 +48,7 @@ The loop is yours. The AI proposes; you dispose. Whether you actively steer ever
 
 ## 📦 What's New — Upgrades from Real Research
 
-The existing skills were upgraded after being used in production research. culture-research v3.2 incorporates lessons from a 38-paper, 3-region pain-and-culture study including a failed-first-draft report-writing cycle that drove the Discovery-First Framing principle. culture-research v3.3 adds an **Epistemic Stress-Test & Systems Mapping phase** that destructively verifies evidence before synthesis. deep-research v2.1 absorbed methodological discipline from the same lineage. deep-research v2.2 incorporates quantitative project lessons from a 202-day Hong Kong passenger statistics analysis (5M+ records, Traditional Chinese only), adding Windows encoding resilience, existing-data shortcuts, CJK font verification, and optional Discovery-First Framing cross-pollinated from culture-research v3.2. deep-research v2.3 adapts the Epistemic Stress-Test into its Phase 7 Review with a code-first systems-mapping approach. Two v1.0 skills extend this lineage to equity research: **stock-analysis** (a focused 8-phase single-stock BUY / HOLD / SELL workflow on public-only sources) and **stock-deep-research** (an institutional-grade 9-phase note that fuses stock-analysis + deep-research, adding adversarial Bull/Bear debate, DCF + reverse-DCF + SOTP, a fragility audit, and deterministic governance gates). In v1.1 (2026-09-04) both stock skills were refined from two live HKEX runs (0066.HK, 1810.HK): hard **"STOP and ask" human-approval gates**, mandatory **fetch-and-save source preservation** with end-condition compliance checks, a **technical-data fallback clause**, **DCF sensitivity-before-compute** (no post-hoc re-tuning) and **real-peer-table** valuation, multi-stock file layouts, post-report lifecycle, phase-revisit triggers, and explicit done-state checklists.
+The existing skills were upgraded after being used in production research. culture-research v3.2 incorporates lessons from a 38-paper, 3-region pain-and-culture study including a failed-first-draft report-writing cycle that drove the Discovery-First Framing principle. culture-research v3.3 adds an **Epistemic Stress-Test & Systems Mapping phase** that destructively verifies evidence before synthesis. deep-research v2.1 absorbed methodological discipline from the same lineage. deep-research v2.2 incorporates quantitative project lessons from a 202-day Hong Kong passenger statistics analysis (5M+ records, Traditional Chinese only), adding Windows encoding resilience, existing-data shortcuts, CJK font verification, and optional Discovery-First Framing cross-pollinated from culture-research v3.2. deep-research v2.3 adapts the Epistemic Stress-Test into its Phase 7 Review with a code-first systems-mapping approach. Two v1.0 skills extend this lineage to equity research: **stock-analysis** (a focused 8-phase single-stock BUY / HOLD / SELL workflow on public-only sources) and **stock-deep-research** (an institutional-grade 9-phase note that fuses stock-analysis + deep-research, adding adversarial Bull/Bear debate, DCF + reverse-DCF + SOTP, a fragility audit, and deterministic governance gates). In v1.1 (2026-09-04) both stock skills were refined from two live HKEX runs (0066.HK, 1810.HK): hard **"STOP and ask" human-approval gates**, mandatory **fetch-and-save source preservation** with end-condition compliance checks, a **technical-data fallback clause**, **DCF sensitivity-before-compute** (no post-hoc re-tuning) and **real-peer-table** valuation, multi-stock file layouts, post-report lifecycle, phase-revisit triggers, and explicit done-state checklists. In v1.2 (2026-09-05) both stock skills were refined from the stock-analysis v1.1 run on **0992.HK (Lenovo Group)**: an **environment probe** before Phase 2, **primary-PDF extraction fallback** with logged substitution, mandatory **earnings reconciliation** + **per-source currency consistency**, a **units/currency sanity gate** and concrete **reverse-DCF** steps, a **forward-EPS dispersion check** and **peer FX rule**, a **price-freshness check**, a default **price+MA+volume chart** persisted to `report/charts/`, a numeric **confidence-scoring rubric**, **timestamped report filenames**, and a **task-ticking discipline** (tick `tasks.md` at the end of every phase). In **v2.0 (2026-09-05)** the stock skills were re-architected to remove single-stock ambiguity at the repo router level: **stock-analysis** absorbed all institutional-grade single-stock content (Bull/Bear debate, fragility audit, governance gates, AVOID/WATCH) to become the single canonical 9-phase single-stock skill, while **stock-deep-research** was repurposed into a **whole-market, index-level** outlook skill (computation-native — every signal computed by shipped Python, never transcribed from aggregators; range-fetched index stats, regime/breadth/valuation/sector-relative-strength analytics, direct-from-source numeric statistics, a numbered scenario band, standard price chart, and a range-checked Bullish / Neutral / Bearish outlook). A shared **document-intelligence layer** (search protocol, coverage reports with `evidence_status` / `#access` / `#status` tags, an access ladder, verbatim-quote rules, deep-read appraisals, `findings-index.json`, event timelines with anti-lookahead as-of windowing) was folded into both skills, and a 9-phase **task-ticking discipline** now gates every phase.
 
 ### culture-research v3.2 Highlights (v3.0 → v3.1 → v3.2)
 
@@ -112,9 +112,28 @@ The existing skills were upgraded after being used in production research. cultu
 | **Anti-Hallucination Guardrails** | Calculations First, Citation Requirement (every metric carries a source + epistemic tag), and Uncertainty Quantification (`[DATA DEFICIT: Requires Empirical Testing]`) enforced cross-session. |
 | **Epistemic Ledger State** | `epistemic_ledger` in `project-state.json` tracks `verified_facts` / `unverified_claims` / `falsified_hypotheses` for honest multi-session resume. |
 
-### stock-analysis v1.1 Highlights (New)
+### stock-analysis v2.0 Highlights
 
-An 8-phase single-stock workflow, HKEX-optimized, public-only sources, no API key:
+The single canonical single-stock workflow, HKEX-optimized, public-only sources, no API key. In v2.0 it absorbed the institutional-grade content that previously lived in stock-deep-research, so any single-stock request routes here and one skill owns the full analyst stack.
+
+| Feature | What It Does |
+|---|---|
+| **Blended Analysis (9 phases)** | `01-scope → 02-collect → 03-fundamentals → 04-valuation → 05-technicals → 06-debate → 07-fragility-audit → 08-synthesize → 09-report`. A defensible call needs fundamentals + valuation + technicals + debate + fragility, not any one in isolation. |
+| **Adversarial Bull/Bear Debate (Phase 6)** | Bull and Bear argued independently and at their strongest before any synthesis; document evidence (appraisals, event timeline, verbatim quotes) feeds both sides. |
+| **Fragility Audit (Phase 7)** | Fragility treated as a **valuation input**, not an appendix — concentration, policy, litigation, supply chain, inventory each get disclosure / multiple haircut / scenario discount; contested signals detected from `findings-index.json`. |
+| **Deterministic Governance Gates (Phase 8)** | Rule-based Quality / Regime / Sanity / Critical-News gates that cannot be argued out of position, then a 5-state rating **BUY / HOLD / SELL / AVOID / WATCH** with price target, confidence and conviction. |
+| **Public-Source Only** | Free, public, no-API-key data (HKEXnews, reports, free aggregators) — never fabricate data; substitute a documented free alternative if a source is paywalled. |
+| **Document Intelligence** | Search protocol, coverage reports with `evidence_status` / `#access` / `#status` tags, an access ladder, verbatim-quote rule, deep-read appraisals (`documents/appraisals/`), `findings-index.json`. |
+| **Grounding & Anti-Hallucination** | Facts vs claims vs inference distinguished (adopts deep-research P2); every factual output carries exact quoted text or a citation plus an as-of date. |
+| **Code-First Computation** | All ratios, growth rates, CAGRs, DCF, and scenario math run in Python — never from LLM memory (adopts deep-research P3). |
+| **Anti-Lookahead / Point-in-Time Discipline** | Pre-cutoff facts vs post-cutoff reasoning separated; a decision is never justified with data dated after the as-of date. |
+| **Human-Approval Gates** | Gates after Scope (contract), before finalizing the report (recommendation review), and at report approval — the human makes the final investment call. |
+| **Task-Ticking Discipline** | `01-scope.md … 09-report.md`; each phase end-condition includes ticking the matching task and updating `task_state.json`. |
+| **State & Timestamped Report** | `template-task_state.json` for honest multi-session resume; report saved as `<Code>-<Company>-<YYYY-MM-DD>-analysis.md` with prior versions kept. |
+
+#### v1.2 Highlights (history, retained)
+
+An 8-phase predecessor of the canonical v2.0 workflow:
 
 | Feature | What It Does |
 |---|---|
@@ -126,21 +145,56 @@ An 8-phase single-stock workflow, HKEX-optimized, public-only sources, no API ke
 | **Human-Approval Gates** | Gates after Scope (contract), before finalizing the report (recommendation review), and at report approval — the human makes the final investment call. |
 | **HK-Specific Data Notes** | HKEXnews cross-checking, HKD reporting-currency notes, price-aggregator alignment, trading halts / closing auction, and Stock Connect / policy catalysts built into Phase 6. |
 
-### stock-deep-research v1.1 Highlights (New)
+#### v1.2 Additions
+| Feature | What It Does |
+|---|---|
+| **Environment Probe (Phase 1)** | Checks Python libs, container availability, console encoding, and source-domain reachability before Phase 2; recorded in `task_state.json`. |
+| **Primary-PDF Extraction Fallback (Phase 2)** | HKEXnews filings are machine-extracted (`pdftotext`/HTML/Python); unreadable filings require a logged aggregator substitution + reason. |
+| **Earnings Reconciliation (Phase 3)** | Reported op profit vs segment sum vs adjusted profit reconciled; one-off/non-cash items (warrant revaluation, CB interest) hunted; driving line labeled. |
+| **Units/Currency Sanity Gate (Phase 4)** | `check_units()`/`--sanity` assert per script output (e.g. `0 < price-target < 100×EPS`); catches `/1000` and USD→HKD bugs before a number enters the report. |
+| **Reverse-DCF Required (Phase 4)** | Concrete root-solve sketch — ship it or record the gap; never leave aspirational. Payout sanity-check added. |
+| **Forward-EPS Dispersion + Peer FX (Phase 4)** | Sample 2+ estimate sources; >~20% spread → scenario-weighted valuation. Peer reporting currencies stated with FX assumption. |
+| **Price-Freshness + Standard Chart (Phase 5)** | Secondary quotes cross-checked; default price + MA20/50/200 + volume chart in `report/charts/`, price series in `data/<code>-price-history-<asof>.csv`. |
+| **Confidence Rubric + Timestamped Report** | 0–10 numeric confidence across 5 axes mapped to High/Medium/Low; report saved as `<Code>-<Company>-<YYYY-MM-DD>-analysis.md` with prior versions kept. |
 
-An institutional-grade 9-phase equity-research workflow, **fusing stock-analysis + deep-research**:
+### stock-deep-research v2.0 Highlights
+
+A **whole-market (index-level)** outlook skill, computation-native and direct-from-source. Single-stock requests route to `stock-analysis`; this skill answers "what is the health and 1–3 month direction of the whole market (e.g. HSI, S&P 500) and which sectors tilt up or down?"
 
 | Feature | What It Does |
 |---|---|
-| **Evidence-First Analyst Note (9 phases)** | `01-scope → 02-collect → 03-fundamentals → 04-valuation → 05-technicals → 06-debate → 07-fragility-audit → 08-synthesize → 09-report`. Narrative is translated into economics; every number cited and dated. |
-| **Fact / Derived-Fact / Analysis Taxonomy** | Facts are cited, derived facts are computed from supported inputs with an explicit formula, analysis is labeled as interpretation — a model may complete an analysis chain but never invent a missing fact. |
-| **Adversarial Bull/Bear Debate (Phase 6)** | Bull and Bear argued independently and at their strongest before any synthesis; hallucinations from one side get refuted by the other before the call. |
-| **Multi-Method Valuation (Phase 4)** | Relative + DCF + **reverse-DCF** (what is the market pricing in?) + **SOTP** for mixed-quality businesses → fair-value range + price target. |
-| **Fragility Audit (Phase 7)** | Fragility treated as a **valuation input**, not an appendix — concentration, policy, litigation, supply-chain, inventory risk each get disclosure / multiple haircut / scenario discount. |
-| **Deterministic Governance Gates (Phase 8)** | Rule-based Quality / Regime / Sanity / Critical-News gates that cannot be argued out of position before a rating is published. |
-| **Anti-Lookahead / Point-in-Time Discipline** | Pre-cutoff facts vs post-cutoff reasoning are separated; a decision is never justified with data dated after the as-of date. |
-| **Explicit Rating + Conviction** | BUY / HOLD / SELL / **AVOID** / **WATCH** with price target, confidence (0–1), conviction (HIGH/MEDIUM/LOW), falsification criteria, and action conditions. |
-| **State & Templates** | Ships a `template-task_state.json` skeleton (skill, current_phase, per-phase status, decision date, horizon, rating, price target) for honest multi-session resume. |
+| **Whole-Market Outlook (9 phases)** | `01-scope → 02-collect → 03-market-fundamentals → 04-market-valuation → 05-technicals-and-regime → 06-market-debate → 07-fragility-audit → 08-synthesize → 09-market-report`. Ends in a range-checked **Bullish / Neutral / Bearish** stance with a horizon, a target band, sector tilts, and watchdog signals. |
+| **Computation-Native** | Every signal is **computed by shipped Python**, never transcribed from an aggregator. `templates/` ships 8 starter notebooks (index stats, regime, breadth, market valuation, sector relative strength, scenarios, event timeline, `chart.py`) — range-fetch indexes and daily index price/volume history, print + save CSV/JSON/PNG artifacts. |
+| **Env Probe + Routing (Phase 1)** | Environment probe (Python libs, console encoding, source reachability) recorded in `task_state.json`; market/index unit and as-of date fixed in a contract; single-stock requests are rejected and routed to `stock-analysis`. |
+| **Direct-from-Source Numeric Statistics** | Dedicated pipelines range-fetch official index stats (index value, 52-week high/low, P/E, gross dividend yield, etc.) directly from index/issuer domains — no aggregator retyping. |
+| **Regime & Breadth Analytics (Phase 5)** | Technical regime (trend vs range) and breadth notebooks with event-windowing that caps all indicators at the as-of date — no future leakage into the outlook. Standard price + MA20/50/200 + volume chart persisted to `report/charts/`. |
+| **Valuation Percentile + Scenario Band (Phase 4)** | Level-relative valuation percentile, dispersion, and a numbered scenario notebook with sanity gates producing a target band. |
+| **Document Intelligence Layer** | Search protocol, coverage reports (`evidence_status`, `#access`, `#status`), access ladder, verbatim-quote rule, deep-read appraisals, `findings-index.json`, and an event timeline with as-of windowing — shared with `stock-analysis` and other research skills. |
+| **Market Debate + Fragility Audit** | Bull vs Bear argued from document evidence with an event-timeline build; fragility audit covers concentration/crowding and contested-signal detection with an anti-lookahead audit. |
+| **Governance Gates + Confidence Rubric (Phase 8)** | Deterministic gates (Quality / Regime / Sanity / Critical-News) then a **six-axis confidence rubric** (breadth, trend integrity, valuation, macro regime, event shock, data confidence) with explicit counters. |
+| **Task-Ticking Discipline** | Each phase end-condition includes ticking the matching task in `tasks.md` and updating `task_state.json` (now templated per-market: `template-task_state.json` uses `{market}`). |
+
+#### v1.2 Highlights (history, retained — single-stock era)
+
+An institutional-grade single-stock predecessor; its canonical content now lives in `stock-analysis` v2.0:
+
+| Feature | What It Did |
+|---|---|
+| **Evidence-First Analyst Note (9 phases)** | Fused `stock-analysis` + `deep-research` into a single-stock note with adversarial Bull/Bear debate, multi-method valuation (DCF + reverse-DCF + SOTP), fragility audit, and deterministic governance gates. |
+| **Explicit Rating + Conviction** | BUY / HOLD / SELL / **AVOID** / **WATCH** with price target, confidence (0–1), conviction, falsification criteria, and action conditions — retained in `stock-analysis` v2.0. |
+| **Anti-Lookahead / Point-in-Time Discipline** | Pre-cutoff facts vs post-cutoff reasoning separated; never justify a decision with data dated after the as-of date — retained in both v2.0 skills. |
+
+#### v1.2 Additions (history, retained)
+| Feature | What It Does |
+|---|---|
+| **Environment Probe (Phase 1)** | Python libs, container, console encoding, source-domain reachability checked before Phase 2; recorded in `task_state.json`. |
+| **Primary-PDF Extraction Fallback (Phase 2)** | `pdftotext`/HTML/Python extraction attempted; unreadable filings require a logged aggregator substitution + reason. |
+| **Earnings Reconciliation + Currency (Phase 3)** | Reported vs segment vs adjusted profit reconciled with one-off/non-cash items labeled; per-source reporting currency stated with FX assumption. |
+| **Sanity Gate + Reverse-DCF Steps (Phase 4)** | `check_units()`/`--sanity` asserts per script output; concrete root-solve reverse-DCF sketch with explicit gap recording. |
+| **EPS Dispersion + Peer FX (Phase 4)** | 2+ estimate sources sampled; >~20% spread → scenario-weighted valuation; peer reporting currencies stated. |
+| **Freshness + Standard Chart (Phase 5)** | Primary close vs secondary quotes; default price + MA20/50/200 + volume chart under `report/charts/`. |
+| **Confidence Rubric (Phase 8)** | Numeric 0–10 across 5 axes retained with conviction; wide spread or unreconciled earnings caps at MEDIUM. |
+| **Timestamped Note + Task Ticking** | `<Code>-<Company>-<YYYY-MM-DD>-analyst-note.md`; `tasks.md` ticked at the end of every phase, not at archive. |
 
 ### deep-research v2.x Highlights
 
@@ -183,15 +237,18 @@ An institutional-grade 9-phase equity-research workflow, **fusing stock-analysis
 │   ├── 01-system-map.md … 10-self-audit.md
 │   ├── 05-epistemic-stress-test.md (reuses shared v3.3 methodology)
 │   └── state-management.md
-├── stock-analysis/       # Single-stock analysis, HKEX-optimized (v1.1)
-│   ├── SKILL.md
-│   ├── 01-scope.md … 08-report.md
-│   └── template-task_state.json
-├── stock-deep-research/  # Institutional-grade equity research, fuses stock-analysis + deep-research (v1.1)
+├── stock-analysis/       # The single canonical single-stock analysis, HKEX-optimized (v2.0)
 │   ├── SKILL.md
 │   ├── 01-scope.md … 09-report.md
 │   ├── 06-debate.md (Bull/Bear), 07-fragility-audit.md (epistemic stress-test)
 │   └── template-task_state.json
+├── stock-deep-research/  # Whole-market (index-level) outlook skill, computation-native (v2.0)
+│   ├── SKILL.md
+│   ├── 01-scope.md … 09-market-report.md
+│   ├── 06-market-debate.md, 07-fragility-audit.md (contested-signal detection)
+│   ├── template-task_state.json (per-market; `task_state_path` uses `{market}`)
+│   └── templates/        # 8 starter notebooks: 01_index_stats, 02_regime, 03_breadth,
+│                         # 04_market_valuation, 05_sector_rs, 06_scenarios, chart, 08_event_timeline
 └── README.md
 ```
 
@@ -252,12 +309,14 @@ analysis topic "analyze Tencent (0700.HK) and give a BUY/HOLD/SELL recommendatio
 using skill .opencode\skills\stock-analysis
 ```
 
-**Example — stock deep research**
+**Example — stock deep research (whole market)**
 
 ```text
-analysis topic "produce an institutional-grade equity research note on 1810.HK with a call and price target",
+analysis topic "produce a whole-market (HSI-index-level) Bullish/Neutral/Bearish outlook with sector tilts",
 using skill .opencode\skills\stock-deep-research
 ```
+
+> Note: single-stock institutional research is handled by `stock-analysis` (the canonical single-stock skill). `stock-deep-research` automatically rejects and routes single-stock requests.
 
 The agent will load the skill's `SKILL.md`, walk through the phases halting at human-gated checkpoints, and write all intermediate artifacts to your local project folder.
 
@@ -355,45 +414,60 @@ Built for engineering / science / frontier-tech topics: it forces cross-domain a
 
 ## 🧭 The Stock-Analysis Pattern
 
-A single-stock workflow on free, public, no-API-key sources:
+The single canonical single-stock workflow — institutional-grade, on free, public, no-API-key sources:
 
 ```
-01 Scope → 02 Collect → 03 Fundamentals → 04 Valuation
-                 │            │                 │
-                 ▼            ▼                 ▼
-        05 Technicals → 06 Catalysts & Risks → 07 Synthesize
-                                                │  (human reviews the proposed call)
-                                                ▼
-                                      08 Report: BUY / HOLD / SELL
-                                      + price target, confidence, falsification criteria
+01 Scope (contract + env probe) → 02 Collect (sources + document intelligence)
+       │
+       ▼
+03 Fundamentals → 04 Valuation (DCF + reverse-DCF + SOTP + sanity gates)
+       │                │
+       ▼                ▼
+05 Technicals → 06 Bull/Bear Debate & Catalysts (adversarial, document evidence)
+       │                │
+       ▼                ▼
+07 Fragility Audit & Red-Team (contested-signal detection)
+       │
+       ▼
+08 Synthesize & Govern → deterministic Quality / Regime / Sanity /
+   Critical-News gates → rating + target + confidence + conviction
+       │  (human reviews the proposed call)
+       ▼
+09 Report: BUY / HOLD / SELL / AVOID / WATCH
+   + price target, falsification criteria, action conditions
 ```
 
 ---
 
 ## 🧭 The Stock-Deep-Research Pattern
 
-The institutional-grade fusion of `stock-analysis` + `deep-research`:
+The whole-market (index-level) outlook skill — computation-native and document-aware:
 
 ```
-01 Scope → 02 Collect → 03 Fundamentals → 04 Valuation (DCF + reverse-DCF + SOTP)
-                                                             │
-                                                             ▼
-                                           05 Technical & Market Regime
-                                                             │
-                                                             ▼
-                               06 Bull/Bear Debate & Catalysts (adversarial)
-                                                             │
-                                                             ▼
-                               07 Fragility Audit & Red-Team (epistemic stress-test)
-                                                             │
-                                                             ▼
-                08 Synthesize & Govern → deterministic Quality / Regime /
-                Sanity / Critical-News gates → rating + target + confidence + conviction
-                                                             │  (human reviews the call)
-                                                             ▼
-                        09 Analyst Note: BUY / HOLD / SELL / AVOID / WATCH
-                        + price target, falsification criteria, action conditions
+01 Scope (index unit + env probe + routing) → 02 Collect (numeric intake + document corpus)
+       │
+       ▼
+03 Market Fundamentals → 04 Market Valuation (percentile + scenario band + sanity gates)
+       │                        │
+       ▼                        ▼
+05 Technicals & Regime (regime + breadth notebooks, ≤ as-of windowing, standard chart)
+       │
+       ▼
+06 Market Debate (Bull/Bear from document evidence + event timeline build)
+       │
+       ▼
+07 Fragility Audit (concentration/crowding + contested signals + anti-lookahead audit)
+       │
+       ▼
+08 Synthesize & Govern → deterministic gates → Bullish / Neutral / Bearish
+   + six-axis confidence rubric + conviction + sector tilts
+       │  (human reviews the outlook)
+       ▼
+09 Market Report: timestamped outlook + target band + methodology with corpus citations
+   + falsification / watchdog signals
 ```
+
+Any single-stock request is rejected in Phase 1 and routed to `stock-analysis`.
 
 ---
 
@@ -418,8 +492,8 @@ The more you research with these skills, the sharper they become.
 - Literature and documentation audits
 - Cultural / behavioral qualitative studies
 - Bilingual (EN/ZH) research reports with website output
-- Single-stock analysis with a written BUY / HOLD / SELL view (HKEX-optimized)
-- Institutional-grade equity research on a single company (Bull/Bear debate + DCF + fragility audit + governance gates)
+- Single-stock analysis with a written BUY / HOLD / SELL / AVOID / WATCH view (HKEX-optimized, institutional-grade — use `stock-analysis`)
+- Whole-market / index-level outlook with a Bullish / Neutral / Bearish stance and sector tilts (use `stock-deep-research`)
 
 ### ❌ Not a fit
 - Single-fact Q&A ("what is the capital of X?")

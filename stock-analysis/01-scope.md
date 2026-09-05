@@ -25,6 +25,17 @@
 
 **Every source must be free and publicly accessible — NO paid API keys.** If a normally useful source requires a subscription/API key, mark it unavailable and substitute a free alternative. Document any closed sources in the report's methodology note.
 
+## Environment Probe (run before Phase 2)
+
+Before any script work, probe the local environment and print ONE environment line so the fallback is decided before scripts run:
+
+- Python version and required libraries (`pandas`, `numpy`, `matplotlib`) — check import availability.
+- Docker sandbox / container availability (for charting or isolated execution).
+- Console encoding — if CJK/Unicode output is expected on Windows, confirm `sys.stdout.reconfigure(encoding='utf-8')` is in every script.
+- Internet reachability for the primary price/source domain (e.g. `www1.hkexnews.hk`).
+
+If a library or container is missing, decide now whether to (a) install it, (b) use local Python with no-pandas code, or (c) note the limitation. Record the environment line in `task_state.json`.
+
 ## End Conditions
 
 This phase is **complete** when ALL of the following are true:
@@ -33,4 +44,5 @@ This phase is **complete** when ALL of the following are true:
 2. ✅ Investment horizon selected and documented (drives the whole analysis)
 3. ✅ Output contract confirmed (detailed report + BUY/HOLD/SELL + price target + rationale)
 4. ✅ Output language (e.g. English, Traditional Chinese) confirmed
-5. ✅ Decision made to proceed to Phase 2 (Source & Data Collection)
+5. ✅ Environment probe run and recorded in `task_state.json`
+6. ✅ Decision made to proceed to Phase 2 (Source & Data Collection)

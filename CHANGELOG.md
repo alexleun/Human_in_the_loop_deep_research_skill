@@ -1,5 +1,58 @@
 # opencode Skill Changelog
 
+## stock-analysis v2.0 — 2026-09-05
+**Re-architecture: the canonical single-stock skill.** Absorbed all institutional-grade single-stock content from stock-deep-research v1.x so every single-stock request routes to one skill. Expanded from 8 to 9 phases and folded in the document-intelligence layer + adversarial debate + fragility audit + governance gates + AVOID/WATCH.
+### stock-analysis v2.0
+| Change | Detail |
+|---|---|
+| **9-Phase Protocol (from 8)** | `01-scope → 02-collect → 03-fundamentals → 04-valuation → 05-technicals → 06-debate → 07-fragility-audit → 08-synthesize → 09-report`. `06-debate.md` and `07-fragility-audit.md` added; `06-catalysts-risks.md` merged into debate; old `07-synthesize.md`/`08-report.md` renumbered. |
+| **Adversarial Bull/Bear Debate (Phase 6)** | Bull and Bear argued independently and at their strongest before any synthesis; fed by document appraisals, event timeline, and verbatim quotes (adopted from stock-deep-research v1.x). |
+| **Fragility Audit (Phase 7)** | Fragility as a valuation input — concentration, policy, litigation, supply-chain, inventory — with disclosure / multiple haircut / scenario discount; contested-signal detection from `findings-index.json`. |
+| **Deterministic Governance Gates (Phase 8)** | Rule-based Quality / Regime / Sanity / Critical-News gates that cannot be argued out of position before a rating is published. |
+| **5-State Rating** | BUY / HOLD / SELL / **AVOID** / **WATCH** with price target, confidence (0–1), conviction (HIGH/MEDIUM/LOW), falsification criteria, action conditions. |
+| **Document Intelligence Layer (Phase 2/3)** | Search protocol, coverage reports with `evidence_status` / `#access` / `#status` tags, access ladder, verbatim-quote rule, URL verification, deep-read appraisals under `documents/appraisals/`, `documents/findings-index.json`, `documents/event-timeline.md` with as-of windowing. |
+| **Confidence Rubric (Phase 8)** | 0–10 numeric score across 5 axes; wide spread or unreconciled earnings caps at MEDIUM; conviction computed. |
+| **Timestamped Report + Task Ticking** | Report saved as `<Code>-<Company>-<YYYY-MM-DD>-analysis.md` with prior versions kept; `tasks.md` ticked at the end of every phase. |
+| **Bluebook Report Style** | Goldman/BlueBook-style analyst note chain (thesis → summary table → debate → valuation → terms of risk), Gates 2/3 for recommendation and report approval. |
+| **Version** | `skill.json` 1.2 → 2.0; header "(v1.2)" → "(v2.0)". |
+
+## stock-deep-research v2.0 — 2026-09-05
+**Re-architecture: whole-market (index-level) outlook skill.** Repurposed from single-stock to market-level analysis. Computation-native and direct-from-source: every signal is computed by shipped Python, never transcribed from aggregators. Single-stock requests are rejected in Phase 1 and routed to `stock-analysis`.
+### stock-deep-research v2.0
+| Change | Detail |
+|---|---|
+| **Whole-Market Subject** | Market / index unit (e.g. HSI, S&P 500) fixed in a Phase 1 contract; 1–3 month horizon; Bullish / Neutral / Bearish stance + target band + sector tilts + watchdog signals. |
+| **Computation-Native (9 phases)** | `01-scope → 02-collect → 03-market-fundamentals → 04-market-valuation → 05-technicals-and-regime → 06-market-debate → 07-fragility-audit → 08-synthesize → 09-market-report`. |
+| **8 Starter Templates (`templates/`)** | `01_index_stats`, `02_regime`, `03_breadth`, `04_market_valuation`, `05_sector_rs`, `06_scenarios`, `chart`, `08_event_timeline`. Each range-fetches or loads data, computes with sanity gates, persists CSV/JSON/PNG artifacts; all pass `python -m py_compile`. |
+| **Direct-From-Source Numeric Statistics** | Dedicated pipelines range-fetch official index stats (index value, 52-week high/low, P/E, gross dividend yield) from index/issuer domains — no aggregator retyping. |
+| **Regime & Breadth Notebooks (Phase 5)** | Technical regime (trend vs range) + breadth with anti-lookahead event-windowing capped at the as-of date; standard price + MA20/50/200 + volume chart in `report/charts/<market>-price-<asof>.png`. |
+| **Valuation Percentile + Scenario Band (Phase 4)** | Level-relative valuation percentile and dispersion; numbered scenario notebook with sanity gates producing a target band. |
+| **Document Intelligence Layer** | Search protocol, coverage reports (`evidence_status`, `#access`, `#status`), access ladder, verbatim-quote rule, deep-read appraisals, `findings-index.json`, event timeline with as-of windowing. |
+| **Governance Gates + Six-Axis Confidence (Phase 8)** | Deterministic Quality / Regime / Sanity / Critical-News gates then six-axis confidence rubric (breadth, trend integrity, valuation, macro regime, event shock, data confidence) with explicit counters. |
+| **Per-Market State** | `skill.json` `task_state_path` now `{market}`; `template-task_state.json` type `whole-market-analysis`; task ticking at end of each phase. |
+| **Version** | `skill.json` 1.2 → 2.0; header "(v1.2)" → "(v2.0)". |
+
+## stock-analysis v1.2 — 2026-09-05
+**Refined from the stock-analysis v1.1 run on 0992.HK (Lenovo Group):** closed 12 operational weak points found during the run — unreadable primary PDFs, a missing reverse-DCF, silent units/currency bugs, stale sources, unreconciled earnings, unhandled EPS dispersion, unspecified peer FX, no environment probe, no task ticking, and no chart artifacts.
+### stock-analysis v1.2
+| Change | Detail |
+|---|---|
+| **Environment Probe (Phase 1)** | Check python libs, container availability, console encoding, and source-domain reachability BEFORE Phase 2; record the environment line in `task_state.json` so the fallback is decided early. |
+| **Primary-PDF Extraction Fallback (Phase 2)** | Attempt `pdftotext`/HTML/Python extraction; if a filing is not machine-readable, log the aggregator substitution + reason (source preservation raised from advisory to operational). |
+| **Earnings Reconciliation (Phase 3)** | Mandatory pass reconciling reported op profit vs sum of segment op profits vs adjusted profit; hunt one-off/non-cash items (warrant revaluation, CB interest, impairments); label which line drives the read. |
+| **Currency Consistency (Phase 3)** | State every source's reporting currency; mixed-currency comparisons carry an FX assumption. |
+| **Units/Currency Sanity Gate (Phase 4)** | `check_units()`/`--sanity` assert per script output (e.g. `0 < price-target < 100×EPS`); catches `/1000` and USD→HKD bugs before a number enters the report. |
+| **Reverse-DCF Required (Phase 4)** | Concrete script sketch (root-solve `Price(DCF(g)) = market`); if skipped, record the gap explicitly — no aspirational task. Payout-ratio sanity check added. |
+| **Forward-EPS Dispersion Check (Phase 4)** | Sample 2+ estimate sources before applying a forward P/E; if max/min differ > ~20%, prefer scenario-weighted valuation and disclose the range. |
+| **Peer FX Rule (Phase 4)** | State each peer's reporting currency; adjust to a common basis or disclose FX assumptions. |
+| **Price-Freshness Check (Phase 5)** | Compare primary close vs 1–2 secondary quotes; flag stale (>2 trading days or >1% off) sources; excluded sources recorded. |
+| **Standard Chart (Phase 5)** | Price + MA20/50/200 + volume chart by default under `report/charts/`; price series persisted to `data/<code>-price-history-<asof>.csv` for technical diffs. |
+| **Confidence Scoring Rubric (Phase 7)** | Numeric 0–10 score across 5 axes, mapped to High/Medium/Low; wide valuation spread or unreconciled earnings caps at Medium. |
+| **Timestamped Report + FX/Artifacts (Phase 8)** | Report saved as `<Code>-<Company>-<YYYY-MM-DD>-analysis.md`; prior dated versions kept for diffing; methodology lists reverse-DCF, reconciliation, FX, and chart references. |
+| **Task Ticking Discipline** | Tick `tasks.md` at the end of every phase, not at archive time. |
+| **Layout Sync** | `data/<code>-price-history-*.csv`, `report/charts/`, mandatory `skill-evolution-log.md`. |
+| **Version** | `skill.json` 1.1 → 1.2. |
+
 ## stock-analysis v1.1 — 2026-09-04
 **Refined from two live HKEX runs (0066.HK, 1810.HK):** closed process gaps found in the skill-evolution logs — source preservation was skipped, approval gates were not enforced, technical data fallbacks were unhandled, and valuation was over-tuned toward a target.
 ### stock-analysis v1.1
@@ -29,6 +82,29 @@
 | **Post-Report Lifecycle + Done State** | SKILL.md adds lifecycle (archive, review date, re-review) and Completion Checklist. |
 | **Phase Loading + Revisit Triggers** | Phase Router loading instruction; revisit triggers from fragility/debate/valuation surprises. |
 | **Version** | `skill.json` 1.0 → 1.1; header "(v1.0)" → "(v1.1)". |
+
+## stock-deep-research v1.2 — 2026-09-05
+**Refined in parallel with stock-analysis v1.2** — the same 12 lessons from the 0992.HK run applied to the fused 9-phase skill (which inherits identical sanity, reconciliation, dispersion, FX, freshness, chart, and task-ticking requirements).
+### stock-deep-research v1.2
+| Change | Detail |
+|---|---|
+| **Environment Probe (Phase 1)** | Python libs, container, console encoding, source-domain reachability checked before Phase 2; recorded in `task_state.json`. |
+| **Primary-PDF Extraction Fallback (Phase 2)** | `pdftotext`/HTML/Python extraction attempted; unreadable filings require a logged aggregator substitution + reason. |
+| **Earnings Reconciliation (Phase 3)** | Reported vs segment vs adjusted profit reconciled; one-off/non-cash items hunted and labeled; driving line stated. |
+| **Currency Consistency (Phase 3)** | Per-source reporting currency stated; mixed-currency comparisons carry an FX assumption. |
+| **Units/Currency Sanity Gate (Phase 4)** | `check_units()`/`--sanity` assert per script output; payout printout sanity-checked (a 0% payout from a dividend payer is usually a bug). |
+| **Reverse-DCF Concrete Steps (Phase 4)** | Root-solve `Price(DCF(g)) = market` script sketch; skipping requires an explicit recorded gap — no aspirational task. |
+| **Forward-EPS Dispersion Check (Phase 4)** | 2+ estimate sources sampled before a forward P/E; > ~20% spread → scenario-weighted valuation + disclosed range. |
+| **Peer FX Rule (Phase 4)** | Per-peer reporting currency; common basis or disclosed FX assumption. |
+| **Price-Freshness Check (Phase 5)** | Primary close vs 1–2 secondary quotes; >1% or >2-day-old sources excluded or flagged. |
+| **Standard Chart (Phase 5)** | Price + MA20/50/200 + volume chart in `report/charts/`; price series in `data/<code>-price-history-<asof>.csv`. |
+| **Confidence Scoring Rubric (Phase 8)** | Numeric 0–10 retained alongside confidence/conviction; wide spread or unreconciled earnings caps at MEDIUM. |
+| **Timestamped Note + FX/Artifacts (Phase 9)** | `<Code>-<Company>-<YYYY-MM-DD>-analyst-note.md`; methodology lists reverse-DCF, reconciliation, FX, chart refs. |
+| **Task Ticking Discipline** | Tick `tasks.md` at the end of every phase, not at archive time. |
+| **Layout Sync** | `data/<code>-price-history-*.csv`, `report/charts/`, mandatory `skill-evolution-log.md`. |
+| **Version** | `skill.json` 1.1 → 1.2; header "(v1.1)" → "(v1.2)". |
+
+## stock-analysis v1.0 — 2026-09-03
 **New skill: Single-Stock Analysis (HKEX-optimized, public-only sources).**
 Adds an 8-phase workflow for reaching a written BUY / HOLD / SELL view on a single listed company using only free, public, no-API-key sources. Blends fundamentals, valuation, technicals, and catalysts/risks into an explicit recommendation with a price target, confidence, and falsification criteria.
 ### stock-analysis v1.0

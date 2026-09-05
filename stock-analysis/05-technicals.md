@@ -18,10 +18,15 @@
 
 - Free sources may not expose full tick history — record the **date range** actually analyzed.
 - Split/dividend adjustments matter if long history is used; if only adjusted data is unavailable, note the limitation.
+- **Price-freshness check (mandatory):** compare the primary close against 1–2 secondary quotes. Flag any source as stale if its quoted price differs from the live reference by >1% or is >2 trading days old. If a source fails freshness, exclude it as a primary price source and record the exclusion (as-of lag: delayed quotes are often T−1 — note it in technicals).
 - **OHLC fetch fallback (mandatory when direct data is unavailable):** If full OHLC data cannot be fetched directly (e.g. Yahoo Finance blocks automated access):
   1. **Document the limitation** — state exactly what could not be fetched.
   2. Use **documented values from at least 2 independent aggregators** (e.g. StockAnalysis, investing.com, Meyka) for MA/RSI/levels.
   3. **Note which indicators were independently computed vs. read from third-party sources** in the outputs and report, and mark the phase's confidence accordingly.
+
+## Standard Chart Output
+
+Produce a **price + MA20/MA50/MA200 + volume** chart by default (matplotlib) and persist it under `report/charts/` (e.g. `report/charts/<code>-price-<asof>.png`). Persist the daily OHLC series used for the chart to `data/<code>-price-history-<asof>.csv` as the baseline for future technical diffs. If the chart library/container is unavailable, record the environment probe result (Phase 1) and state why the chart was not produced.
 
 ## Outputs
 
@@ -41,3 +46,5 @@ This phase is **complete** when ALL of the following are true:
 4. ✅ Volume context noted
 5. ✅ Data range and any adjustment limitations documented
 6. ✅ Computations (if scripted) recorded with inputs
+7. ✅ Price-freshness check run (stale sources excluded or flagged)
+8. ✅ Standard chart produced under `report/charts/` and price series persisted to `data/` (or reason recorded)
