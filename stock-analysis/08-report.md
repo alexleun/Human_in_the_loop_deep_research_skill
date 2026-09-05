@@ -56,6 +56,10 @@ As-of date: YYYY-MM-DD   |   Report currency: HKD   |   Horizon: <selected>
 - Keep confidence language consistent with Phase 7.
 - Output as markdown file: `report/<Code>-<Company>-analysis.md`.
 
+## Approval Gate (Gate 3, "STOP and ask")
+
+**STOP.** Present the completed report to the user for review. Do NOT mark the analysis complete until the user accepts the report or explicitly approves it.
+
 ## End Conditions
 
 This phase is **complete** when ALL of the following are true:
@@ -65,4 +69,5 @@ This phase is **complete** when ALL of the following are true:
 3. ✅ Every number has a source citation
 4. ✅ Methodology & sources section lists URLs + local copies + limitations
 5. ✅ Disclaimer present
-6. ✅ Human has reviewed and approved the report
+6. ✅ **STOP-and-ask Gate 3 executed** — human reviewed and approved the report
+7. ✅ Completion checklist in SKILL.md satisfied (task_state updated, archive/review date set)

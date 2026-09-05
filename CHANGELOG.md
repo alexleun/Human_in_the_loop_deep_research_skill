@@ -1,6 +1,34 @@
 # opencode Skill Changelog
 
-## stock-analysis v1.0 — 2026-09-03
+## stock-analysis v1.1 — 2026-09-04
+**Refined from two live HKEX runs (0066.HK, 1810.HK):** closed process gaps found in the skill-evolution logs — source preservation was skipped, approval gates were not enforced, technical data fallbacks were unhandled, and valuation was over-tuned toward a target.
+### stock-analysis v1.1
+| Change | Detail |
+|---|---|
+| **"STOP and ask" Gates** | Principle 8 now implements Gates 1–3 as explicit stop points: present scope, present recommendation (Phase 7→8), present final report — no proceeding until the human approves. |
+| **Source Preservation Enforced** | `02-collect.md`: "fetch first, extract after" — save every fetched source to `sources/` with the `write` tool at fetch time; `sources_index.md` gains a Local Copy column; "n/a (fetched)" is a gap, not done. |
+| **End-Condition Compliance Check** | Phase 2 adds a compliance mapping: each end condition points at actual evidence; unmet items truthfully flagged as gaps; an end-condition is done only when its evidence is stated, not asserted. |
+| **Technical-Data Fallback** | `05-technicals.md`: if OHLC can't be fetched directly — document the limitation, cross-reference ≥2 independent aggregators, and mark independently-computed vs third-party indicators. |
+| **DCF Sensitivity-Before-Compute** | `04-valuation.md`: freeze the assumption block and write the sensitivity grid (growth × WACC) BEFORE the first run; never re-tune to hit a target; flag any recalibration as a revision; report a range, not a point. |
+| **Real Peer Table** | Relative valuation requires 3–6 real listed comparables with each peer's own multiples and a computed discount/premium — never an opaque single-aggregator composite. |
+| **Multi-Stock Layout** | Suggested layout becomes `stock-analysis-{code}/` per analysis; `skill.json` `task_state_path` updated accordingly. |
+| **Post-Report Lifecycle + Done State** | SKILL.md adds Post-Report Lifecycle (archive, review reminder, re-review flow) and a Completion Checklist marking the real terminal state. |
+| **Phase Loading + Revisit Triggers** | Phase Router instructs reading each phase file before work; explicit revisit triggers (e.g. valuation contradicts growth → revisit Phase 3) added. |
+| **Version** | `skill.json` 1.0 → 1.1. |
+
+## stock-deep-research v1.1 — 2026-09-04
+**Refined in parallel with stock-analysis** — same lessons applied to the fused 9-phase skill (which inherits identical source-preservation, gating, DCF, and peer-comparison requirements).
+### stock-deep-research v1.1
+| Change | Detail |
+|---|---|
+| **"STOP and ask" Gates (P13)** | Gates 1–3 are explicit stop points (scope → collect; recommendation → note; note acceptance). |
+| **Source Preservation Enforced (P11)** | Phase 2: fetch-and-save with the `write` tool; Local Copy column; compliance mapping to real evidence. |
+| **DCF Sensitivity-Before-Compute (Phase 4)** | Freeze assumptions, write sensitivity grid first, never re-tune, report a range; peer table uses real comparables with per-peer multiples + discount/premium. |
+| **Technical-Data Fallback (Phase 5)** | Document OHLC limitation, cross-reference ≥2 aggregators, distinguish independently-computed vs third-party indicators. |
+| **Multi-Stock Layout** | `stock-deep-research-{code}/`; `skill.json` `task_state_path` updated. |
+| **Post-Report Lifecycle + Done State** | SKILL.md adds lifecycle (archive, review date, re-review) and Completion Checklist. |
+| **Phase Loading + Revisit Triggers** | Phase Router loading instruction; revisit triggers from fragility/debate/valuation surprises. |
+| **Version** | `skill.json` 1.0 → 1.1; header "(v1.0)" → "(v1.1)". |
 **New skill: Single-Stock Analysis (HKEX-optimized, public-only sources).**
 Adds an 8-phase workflow for reaching a written BUY / HOLD / SELL view on a single listed company using only free, public, no-API-key sources. Blends fundamentals, valuation, technicals, and catalysts/risks into an explicit recommendation with a price target, confidence, and falsification criteria.
 ### stock-analysis v1.0

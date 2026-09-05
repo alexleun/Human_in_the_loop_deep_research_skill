@@ -37,6 +37,13 @@ A biased but transparent approach to reach a starting call:
 - If underlying data is thin or contradictory, say so — a **HOLD with low confidence** is more honest than a fake confident BUY.
 - Always include a **regulatory/risk disclaimer**: this is research, not personalized investment advice.
 
+## Approval Gate (Gate 2, "STOP and ask")
+
+**STOP.** Present the proposed recommendation — rating, price target (HKD), confidence, and the 2–4 sentence thesis — to the user. Do NOT proceed to Phase 8 (report writing) until the user explicitly approves the direction or asks for revisions.
+
+- If the user asks for changes, adjust the relevant evidence/valuation and re-present.
+- If the user overrides, respect their call — they own the final decision.
+
 ## End Conditions
 
 This phase is **complete** when ALL of the following are true:
@@ -46,4 +53,4 @@ This phase is **complete** when ALL of the following are true:
 3. ✅ The decision explicitly weighs fundamentals + valuation + technicals + catalysts/risks
 4. ✅ Confidence level and falsification criteria are stated
 5. ✅ Facts / claims / inference are distinguished
-6. ✅ Human has been given the recommendation and the final call is left to them
+6. ✅ **STOP-and-ask Gate 2 executed** — recommendation presented to the user and the final call left to them before Phase 8

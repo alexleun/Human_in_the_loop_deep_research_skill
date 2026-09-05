@@ -23,13 +23,19 @@ Use these in priority order for company data:
 ## Collection Protocol
 
 1. **Search-first:** Use web search (and browser if needed) to locate the canonical pages for the stock. Save a **search log** listing each query and its top results with URLs.
-2. **Fetch & preserve (mandatory):** For every source you extract from, save a **local copy**:
+2. **Fetch & preserve (mandatory, "fetch first, extract after"):** For every source you extract from, save a **local copy** at the moment you fetch it, BEFORE extracting any findings:
    - Web page → `sources/YYYY-MM-DD-<description>.html` (or `.md`)
    - PDF report → `sources/YYYY-MM-DD-<description>.pdf`
-   - Record the URL and the saved local filename in the `sources_index.md`.
+   - Use the `write` tool to save the fetched content immediately; do not skip this even for large content.
+   - Record the URL and the saved local filename in `sources_index.md` under a **Local Copy** column.
+   - A source row that says "n/a (fetched)" / "n/a (web search)" without a real local file is a **gap, not done**.
 3. **Extract with grounding:** Copy **exact quoted text** for any number/claim you will use, tagging each with its source ID and access level.
 4. **Cover the minimum dataset** (see below). For stale/undated data, record the "as of" date — never present historical figures as current.
 5. If a fetch is paywalled/blocked, use the fallback free source and note it. Do not invent numbers.
+
+## End-Condition Compliance Check
+
+Phase 2 is complete only when **evidence** for each end condition below is stated — do not assert completion. Map each end condition to actual evidence in `sources_index.md` (a "Compliance" section listing file paths / index rows), and truthfully flag any unmet item as a gap. Ticking a box without evidence is not completion.
 
 ## Minimum Dataset to Collect
 
@@ -45,8 +51,9 @@ Use these in priority order for company data:
 
 This phase is **complete** when ALL of the following are true:
 
-1. ✅ Local copy of every source saved in `sources/` and listed in `sources_index.md`
+1. ✅ **Real local file + index row** for every source used (`sources/…` saved with the `write` tool; `sources_index.md` has a Local Copy column). No "n/a (fetched)" rows
 2. ✅ Minimum dataset captured with exact quoted text + source IDs + as-of dates
 3. ✅ Each fact traceable to a real, verified public URL (no hallucinated sources)
 4. ✅ A completeness/gap note exists: what is found, what is missing, and why
 5. ✅ All sources are free/public (no API-key-dependent source was used)
+6. ✅ Compliance check above performed: each end condition mapped to actual evidence, unmet items truthfully flagged as gaps

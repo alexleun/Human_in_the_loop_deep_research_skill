@@ -36,6 +36,10 @@ The note must be consistent with the phase artifacts (data, valuation, debate, a
 - Never present post-decision outcomes as the basis for the decision (P9).
 - End with the disclaimer.
 
+## Approval Gate (Gate 3, "STOP and ask")
+
+**STOP.** Present the completed analyst note to the user for review. Do NOT mark the analysis complete until the user accepts the note or explicitly approves it.
+
 ## End Conditions
 
 This phase is **complete** when ALL of the following are true:
@@ -47,4 +51,5 @@ This phase is **complete** when ALL of the following are true:
 5. ✅ Falsification criteria and action conditions are explicit and monitorable
 6. ✅ All sources cited (URL + local copy + as-of date) with disclaimer
 7. ✅ Cross-artifact consistency verified (Phase 8 gates reflected accurately)
-8. ✅ Human has approved the final note; the investment decision is theirs
+8. ✅ **STOP-and-ask Gate 3 executed** — human accepted the final note; the investment decision is theirs
+9. ✅ Completion checklist in SKILL.md satisfied (task_state updated, archive/review date set)

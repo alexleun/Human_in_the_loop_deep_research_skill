@@ -18,6 +18,10 @@
 
 - Free sources may not expose full tick history — record the **date range** actually analyzed.
 - Split/dividend adjustments matter if long history is used; if only adjusted data is unavailable, note the limitation.
+- **OHLC fetch fallback (mandatory when direct data is unavailable):** If full OHLC data cannot be fetched directly (e.g. Yahoo Finance blocks automated access):
+  1. **Document the limitation** — state exactly what could not be fetched.
+  2. Use **documented values from at least 2 independent aggregators** (e.g. StockAnalysis, investing.com, Meyka) for MA/RSI/levels.
+  3. **Note which indicators were independently computed vs. read from third-party sources** in the outputs and report, and mark the phase's confidence accordingly.
 
 ## Outputs
 

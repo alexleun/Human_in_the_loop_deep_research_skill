@@ -9,13 +9,15 @@
 ## Methods (use at least two, prefer three)
 
 ### 1. Relative Valuation (vs peers)
-- Compare the stock's P/E (trailing and forward), P/B, P/S, EV/EBITDA, or sector-appropriate multiple against a defined peer set.
-- Compute the **relative discount/premium** to sector median.
+- Compare the stock's P/E (trailing and forward), P/B, P/S, EV/EBITDA, or sector-appropriate multiple against a defined **peer set of 3–6 real listed comparables**.
+- Build the peer table with **each peer's own multiples** (not a single aggregator's composite) and compute the **relative discount/premium** of the target vs each peer and vs the set median.
 - Only meaningful vs genuinely comparable businesses — adjust for growth/quality differences.
 
 ### 2. Intrinsic / DCF (if cash-flow data permits)
 - Build a simple DCF: project free cash flow, apply a discount rate reflecting risk, terminal value with a sober growth rate.
-- **Never** over-lean on a single DCF assumption — run a small **sensitivity table** (growth × discount rate) and give a range, not a false precision point.
+- **Freeze the assumption block FIRST** — write down the full set of DCF inputs (revenue growth, margins, WACC, terminal growth) in the script before the first run. Write the **sensitivity table (growth × discount rate)** alongside.
+- **Never re-tune inputs to hit a target after seeing the output.** If the first result is undesirable, that is information — not a signal to change assumptions. If a change is genuinely warranted, flag it to the user as a **revision** (e.g. a new `dcf2.py`), not a silent edit.
+- Report a **fair-value range from the sensitivity grid**, not a single tuned point; the price target is chosen from that range with stated reasoning (use the median or scenario-weighted band).
 - State the key assumptions explicitly so the human can challenge them.
 
 ### 3. Yield / Dividend Model (if dividend payer)
@@ -37,3 +39,5 @@ This phase is **complete** when ALL of the following are true:
 3. ✅ A fair-value range and price target derived with upside/downside expressed
 4. ✅ Sensitivity/scenario table produced (bull/base/bear)
 5. ✅ Assumptions stated clearly enough for a human to challenge
+6. ✅ DCF assumption block frozen before the first compute; any recalibration flagged as a revision to the user
+7. ✅ Peer table uses real comparables with own multiples and computed discount/premium, not an opaque aggregate

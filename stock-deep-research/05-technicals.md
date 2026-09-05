@@ -17,6 +17,14 @@
 3. **Synthesize a technical stance:** bullish / bearish / neutral, with confidence, and reconcile with the fundamental bias.
 4. **Anti-lookahead:** only use price/volume data with an as-of date ≤ the decision date (P9). Do not use post-decision price action to justify the call.
 
+## Technical-Data Fallback (mandatory when direct OHLC is unavailable)
+
+If a clean daily OHLC series cannot be fetched directly (e.g. robot-blocked or only reconstructed data available):
+
+1. **Document the limitation** — state exactly what could not be fetched or was reconstructed.
+2. Use **authoritative trend/momentum values from at least 2 independent aggregators** (e.g. stockanalysis.com MAs/RSI cross-referenced with a second source) and record which values came from where.
+3. **Note explicitly which indicators were independently computed vs. read from third-party sources**, and mark the technical confidence accordingly. This is a residual limitation — do not present third-party readings as your own computation.
+
 ## Feeding the Gates
 
 The technical stance and regime read are **inputs to the Regime Gate** and **Sanity Override** in Phase 8 (P6):
@@ -33,3 +41,4 @@ This phase is **complete** when ALL of the following are true:
 4. ✅ Technical stance + confidence stated (bullish/bearish/neutral)
 5. ✅ No post-decision (lookahead) data used to justify any position (P9)
 6. ✅ Technical + regime inputs are exported for the Phase 8 governance gates
+7. ✅ If OHLC was not directly fetched: limitation documented, ≥2 aggregators cross-referenced, computed-vs-third-party noted

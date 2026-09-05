@@ -3,9 +3,11 @@ name: stock-deep-research
 description: "A fused deep-research + stock-analysis workflow for producing institutional-grade, evidence-first equity research on a single stock (optimal for HKEX / SEHK). Combines public-only sources, code-first computation, adversarial Bull/Bear debate, DCF + reverse-DCF + SOTP valuation, a fragility audit, deterministic governance gates, and an explicit BUY / HOLD / SELL / AVOID / WATCH call with confidence, conviction, price target, and falsification criteria."
 ---
 
-# Stock Deep-Research Skill (v1.0)
+# Stock Deep-Research Skill (v1.1)
 
 A **merged deep-research + equity-research** workflow for analyzing a single listed company — optimized for **Hong Kong / HKEX** listings (e.g. `1810.HK`, `0700.HK`), using **only free, public, no-API-key sources**. Produces an **institutional-grade analyst note** culminating in an explicit **BUY / HOLD / SELL / AVOID / WATCH** recommendation with a **price target**, **confidence**, **conviction**, and **falsification criteria**.
+
+**v1.1 changes:** Added explicit "STOP and ask" human-approval gates (P13), mandatory fetch-and-save source preservation with an end-condition compliance check (Phase 2), a technical-data fallback clause (Phase 5), DCF sensitivity-before-compute and real-peer-table discipline (Phase 4), a multi-stock file layout, post-report lifecycle, phase-revisit triggers, and an explicit done-state checklist. Based on skill-evolution lessons from the 0066.HK and 1810.HK analysis runs (2026-09-04).
 
 The final investment call always belongs to the **human**. This skill proposes; the user disposes.
 
@@ -84,11 +86,11 @@ Save a **local copy** of every source before extracting findings (`sources/…`)
 ### P12. End-Conditions Discipline
 Every phase defines **end conditions as a checklist**. The LLM exits a phase only when all end conditions are true, and the human verifies at gates.
 
-### P13. Human-Approval Gates
-- **Phase 1 → 2:** human confirms scope, horizon, and output contract.
-- **Phase 8 → 9:** human reviews the proposed recommendation (produced in Phase 8 Synthesize & Govern) before the final analyst note is finalized.
-- **Phase 9:** human approves the final analyst note.
-The LLM proposes, the human disposes.
+### P13. Human-Approval Gates (explicit "STOP and ask")
+- **Gate 1 (Phase 1 → 2):** STOP — present the proposed scope, horizon, investor profile, and output contract; do NOT proceed to Phase 2 until the human confirms.
+- **Gate 2 (Phase 8 → 9):** STOP — present the proposed recommendation (rating, target, confidence, conviction, thesis) produced in Phase 8; do NOT proceed to the analyst note (Phase 9) until the human approves.
+- **Gate 3 (Phase 9):** STOP — present the final analyst note; do NOT mark the analysis complete until the human accepts it.
+Gates are implemented as explicit "stop and ask" mechanisms, not conceptual checkpoints. The LLM proposes, the human disposes.
 
 ---
 
@@ -125,9 +127,19 @@ Phase 9: Analyst Note ── narrative → fundamentals → valuation → fragil
 
 **Phase revisiting is normal.** A fragility surprise in Phase 7 may send you back to Phases 3–4. Do not force a single pass.
 
+**Phase revisiting triggers (proactive, not reactive):** When any of these fire, loop back to the referenced phase and update the affected computations before continuing:
+- A new source or announcement changes a core financial input → revisit **Phase 2–3** and recompute the affected metrics.
+- Phase 4 valuation output contradicts a Phase 3 growth assumption → revisit **Phase 3** and update growth before finalizing valuation.
+- Phase 6 reveals a risk that changes a growth/valuation assumption → revisit **Phase 3–4** before synthesis.
+- Phase 7 fragility audit finds a concentration/anti-lookahead issue that invalidates an earlier input → revisit the affected phase.
+
+Each revisit must be recorded in `task_state.json` (updated phases + reason) before moving on.
+
 ---
 
 ## Phase Router
+
+**Before each phase, load its phase file with the `read` tool** — e.g. before Phase 4, read `04-valuation.md` and follow its procedure and end conditions. Do not work from this overview alone.
 
 | Current Task | Load This File |
 |---|---|
@@ -147,17 +159,17 @@ Phase 9: Analyst Note ── narrative → fundamentals → valuation → fragil
 
 ```
 {project_root}/
-├── stock-deep-research/
-│   ├── task_state.json          # multi-session state (phase, progress)
+├── stock-deep-research-{code}/       # one suffixed dir per analysis (multi-stock support)
+│   ├── task_state.json               # multi-session state (phase, progress, decisions)
 │   ├── sources/
-│   │   ├── sources_index.md     # every source: URL + local copy + access date
-│   │   └── YYYY-MM-DD-<desc>.{html,pdf,md}   # preserved local copies
-│   ├── data/                    # extracted figures / datasets
-│   ├── notebooks/               # Python computation scripts (DCF, reverse-DCF, SOTP)
-│   ├── debate/                  # bull.md, bear.md, judge_notes.md
+│   │   ├── sources_index.md          # every source: URL + local copy + access date
+│   │   └── YYYY-MM-DD-<desc>.{html,pdf,md}   # preserved local copies (mandatory)
+│   ├── data/                         # extracted figures / datasets
+│   ├── notebooks/                    # Python computation scripts (DCF, reverse-DCF, SOTP)
+│   ├── debate/                       # bull.md, bear.md, judge_notes.md
 │   ├── report/
 │   │   └── <Code>-<Company>-analyst-note.md   # final deliverable
-│   └── skill-evolution-log.md   # lessons learned (optional)
+│   └── skill-evolution-log.md        # lessons learned (optional)
 ```
 
 ---
@@ -169,6 +181,29 @@ Phase 9: Analyst Note ── narrative → fundamentals → valuation → fragil
 - **Price sources:** free aggregators (Yahoo Finance HK, AAStocks, Investing.com) may differ; pick one primary source, state it, and record "as of" timestamps.
 - **Liquidity/halts:** HK stocks can have suspensions and a closing-auction regime — note any halt affecting the technical picture.
 - **Northbound/connectivity** (Stock Connect) and HK/China policy can be material catalysts and risks — include them in the debate phase.
+
+---
+
+## Post-Report Lifecycle
+
+The analysis does not end at note approval. After Gate 3:
+
+1. **Archive the OpenSpec change** (if the analysis ran inside one): `openspec archive <change-name> --yes`.
+2. **Preserve the spec** for future diffing — the archived change keeps the baseline (scope, specs, design) for comparison.
+3. **Set a review reminder date** (e.g. next quarterly results, or 3–6 months for the horizon) and record it in `task_state.json`.
+4. **Start a review** with `openspec-new-change` using the same scope, and diff the new findings against the archived baseline. The note's action conditions and falsification criteria tell you what to re-check.
+5. **Update the skill-evolution log** with what worked / what caused problems for the next analysis.
+
+## Completion Checklist ("Done" State)
+
+The analysis is **complete** — nothing more to add — when ALL of the following are true:
+
+1. ✅ Analyst note written and saved at `report/<Code>-<Company>-analyst-note.md`
+2. ✅ `task_state.json` updated with the final decision (rating, target, status)
+3. ✅ Human has approved the final note (Gate 3)
+4. ✅ OpenSpec change archived (if run inside one)
+5. ✅ Review reminder date set
+6. ✅ Skill evolution log updated (if applicable)
 
 ---
 

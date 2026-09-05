@@ -9,8 +9,8 @@ This repository currently ships five skills:
 | **deep-research** | `deep-research/` | v2.3 | Topic-agnostic, quantitative + qualitative research with code-first analysis, Jupyter notebooks, and bilingual or single-language website output |
 | **culture-research** | `culture-research/` | v3.3 | Cultural / behavioral one-off studies: paper collection, deep reading, knowledge graph, multi-round qualitative analysis, Obsidian vault |
 | **frontier-research** | `frontier-research/` | v1.0 | Engineering / science / frontier-tech research: systems mapping, epistemic stress-tested evidence, generative + convergent synthesis, discovery-first technical report |
-| **stock-analysis** | `stock-analysis/` | v1.0 | Single-stock analysis (HKEX-optimized) using public-only, no-API-key sources: fundamentals + valuation + technicals + catalysts/risks, ending in a written BUY / HOLD / SELL report |
-| **stock-deep-research** | `stock-deep-research/` | v1.0 | Institutional-grade single-stock equity research: fuses stock-analysis + deep-research — evidence-first, code-first, adversarial Bull/Bear debate, DCF + reverse-DCF + SOTP, fragility audit, deterministic governance gates, and a BUY / HOLD / SELL / AVOID / WATCH call |
+| **stock-analysis** | `stock-analysis/` | v1.1 | Single-stock analysis (HKEX-optimized) using public-only, no-API-key sources: fundamentals + valuation + technicals + catalysts/risks, ending in a written BUY / HOLD / SELL report |
+| **stock-deep-research** | `stock-deep-research/` | v1.1 | Institutional-grade single-stock equity research: fuses stock-analysis + deep-research — evidence-first, code-first, adversarial Bull/Bear debate, DCF + reverse-DCF + SOTP, fragility audit, deterministic governance gates, and a BUY / HOLD / SELL / AVOID / WATCH call |
 
 ---
 
@@ -48,7 +48,7 @@ The loop is yours. The AI proposes; you dispose. Whether you actively steer ever
 
 ## 📦 What's New — Upgrades from Real Research
 
-The existing skills were upgraded after being used in production research. culture-research v3.2 incorporates lessons from a 38-paper, 3-region pain-and-culture study including a failed-first-draft report-writing cycle that drove the Discovery-First Framing principle. culture-research v3.3 adds an **Epistemic Stress-Test & Systems Mapping phase** that destructively verifies evidence before synthesis. deep-research v2.1 absorbed methodological discipline from the same lineage. deep-research v2.2 incorporates quantitative project lessons from a 202-day Hong Kong passenger statistics analysis (5M+ records, Traditional Chinese only), adding Windows encoding resilience, existing-data shortcuts, CJK font verification, and optional Discovery-First Framing cross-pollinated from culture-research v3.2. deep-research v2.3 adapts the Epistemic Stress-Test into its Phase 7 Review with a code-first systems-mapping approach. Two new v1.0 skills extend this lineage to equity research: **stock-analysis** (a focused 8-phase single-stock BUY / HOLD / SELL workflow on public-only sources) and **stock-deep-research** (an institutional-grade 9-phase note that fuses stock-analysis + deep-research, adding adversarial Bull/Bear debate, DCF + reverse-DCF + SOTP, a fragility audit, and deterministic governance gates).
+The existing skills were upgraded after being used in production research. culture-research v3.2 incorporates lessons from a 38-paper, 3-region pain-and-culture study including a failed-first-draft report-writing cycle that drove the Discovery-First Framing principle. culture-research v3.3 adds an **Epistemic Stress-Test & Systems Mapping phase** that destructively verifies evidence before synthesis. deep-research v2.1 absorbed methodological discipline from the same lineage. deep-research v2.2 incorporates quantitative project lessons from a 202-day Hong Kong passenger statistics analysis (5M+ records, Traditional Chinese only), adding Windows encoding resilience, existing-data shortcuts, CJK font verification, and optional Discovery-First Framing cross-pollinated from culture-research v3.2. deep-research v2.3 adapts the Epistemic Stress-Test into its Phase 7 Review with a code-first systems-mapping approach. Two v1.0 skills extend this lineage to equity research: **stock-analysis** (a focused 8-phase single-stock BUY / HOLD / SELL workflow on public-only sources) and **stock-deep-research** (an institutional-grade 9-phase note that fuses stock-analysis + deep-research, adding adversarial Bull/Bear debate, DCF + reverse-DCF + SOTP, a fragility audit, and deterministic governance gates). In v1.1 (2026-09-04) both stock skills were refined from two live HKEX runs (0066.HK, 1810.HK): hard **"STOP and ask" human-approval gates**, mandatory **fetch-and-save source preservation** with end-condition compliance checks, a **technical-data fallback clause**, **DCF sensitivity-before-compute** (no post-hoc re-tuning) and **real-peer-table** valuation, multi-stock file layouts, post-report lifecycle, phase-revisit triggers, and explicit done-state checklists.
 
 ### culture-research v3.2 Highlights (v3.0 → v3.1 → v3.2)
 
@@ -112,7 +112,7 @@ The existing skills were upgraded after being used in production research. cultu
 | **Anti-Hallucination Guardrails** | Calculations First, Citation Requirement (every metric carries a source + epistemic tag), and Uncertainty Quantification (`[DATA DEFICIT: Requires Empirical Testing]`) enforced cross-session. |
 | **Epistemic Ledger State** | `epistemic_ledger` in `project-state.json` tracks `verified_facts` / `unverified_claims` / `falsified_hypotheses` for honest multi-session resume. |
 
-### stock-analysis v1.0 Highlights (New)
+### stock-analysis v1.1 Highlights (New)
 
 An 8-phase single-stock workflow, HKEX-optimized, public-only sources, no API key:
 
@@ -126,7 +126,7 @@ An 8-phase single-stock workflow, HKEX-optimized, public-only sources, no API ke
 | **Human-Approval Gates** | Gates after Scope (contract), before finalizing the report (recommendation review), and at report approval — the human makes the final investment call. |
 | **HK-Specific Data Notes** | HKEXnews cross-checking, HKD reporting-currency notes, price-aggregator alignment, trading halts / closing auction, and Stock Connect / policy catalysts built into Phase 6. |
 
-### stock-deep-research v1.0 Highlights (New)
+### stock-deep-research v1.1 Highlights (New)
 
 An institutional-grade 9-phase equity-research workflow, **fusing stock-analysis + deep-research**:
 
@@ -183,11 +183,11 @@ An institutional-grade 9-phase equity-research workflow, **fusing stock-analysis
 │   ├── 01-system-map.md … 10-self-audit.md
 │   ├── 05-epistemic-stress-test.md (reuses shared v3.3 methodology)
 │   └── state-management.md
-├── stock-analysis/       # Single-stock analysis, HKEX-optimized (v1.0)
+├── stock-analysis/       # Single-stock analysis, HKEX-optimized (v1.1)
 │   ├── SKILL.md
 │   ├── 01-scope.md … 08-report.md
 │   └── template-task_state.json
-├── stock-deep-research/  # Institutional-grade equity research, fuses stock-analysis + deep-research (v1.0)
+├── stock-deep-research/  # Institutional-grade equity research, fuses stock-analysis + deep-research (v1.1)
 │   ├── SKILL.md
 │   ├── 01-scope.md … 09-report.md
 │   ├── 06-debate.md (Bull/Bear), 07-fragility-audit.md (epistemic stress-test)

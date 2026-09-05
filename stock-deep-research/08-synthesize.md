@@ -35,6 +35,13 @@ Support with a **price target (HKD)**, **horizon**, **confidence (0–1)**, and 
 - State **confidence** and **falsification criteria** — if data is thin, say so; a transparent **HOLD / WATCH with low confidence** beats a fake confident BUY.
 - Always include a **regulatory/risk disclaimer**: research, not personalized advice.
 
+## Approval Gate (Gate 2, "STOP and ask")
+
+**STOP.** Present the proposed recommendation — rating, price target (HKD), horizon, confidence, conviction, and the 2–4 sentence thesis — to the user. Do NOT proceed to Phase 9 (analyst note) until the user explicitly approves the direction or asks for revisions.
+
+- If the user asks for changes, adjust the relevant evidence/valuation and re-present.
+- If the user overrides, respect their call — they own the final decision.
+
 ## End Conditions
 
 This phase is **complete** when ALL of the following are true:
@@ -44,4 +51,4 @@ This phase is **complete** when ALL of the following are true:
 3. ✅ All four governance gates were run deliberately with logged reasons (P6)
 4. ✅ The decision explicitly weighs fundamentals + valuation + technicals/regime + debate
 5. ✅ Confidence and falsification criteria are stated
-6. ✅ Human has reviewed the proposed recommendation before the final note
+6. ✅ **STOP-and-ask Gate 2 executed** — recommendation presented to the user and the final call left to them before Phase 9
