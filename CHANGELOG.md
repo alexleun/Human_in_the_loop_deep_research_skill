@@ -1,5 +1,23 @@
 # opencode Skill Changelog
 
+## stock-analysis v2.1 — 2026-09-06
+**Applied lessons from two live evolution logs (`log/001-skill-evolution-log.md` — 0001.HK CK Hutchison; `log/007-skill-evolution-log.md` — 0700.HK Tencent):** valuation conventions (implied-required-return reverse-DCF, median-of-methods targets), first-class non-IFRS↔IFRS and FCF-definition labeling, revenue/turnover scope labeling, price-freshness output, report-filename single source of truth, review reminders with date AND reason, and HKEXnews record-once extraction handling.
+### stock-analysis v2.1
+| Change | Detail |
+|---|---|
+| **Reverse-DCF = Implied Required Return** | §2b canonical reading is now the implied required return at 0% growth; when DCF value at 0% growth exceeds market price, report "market applies a higher required return / holding discount". A growth-solver that pins at a bound is labeled **degenerate**. |
+| **Median-of-Methods Target** | Default price target = **median** of the SOTP/DCF/peer/DDM outputs, never an arbitrary blend; scenario weighting uses the base-median method set with **floor/ceiling methods excluded BEFORE weighting** (DDM floor bug: −11% → +8%). |
+| **Non-IFRS ↔ IFRS Bridge (First-Class)** | Explicit item-by-item bridge (SBC, investee/associate contributions, intangible amortization, one-offs); driving line (reported / IFRS / non-IFRS) always labeled. |
+| **FCF Definition Labeling** | Every FCF figure labeled **official vs aggregator-standard**; when they differ (e.g. 182.6B vs 215.6B), **report both with definitions** — never pick silently. Conflicting definitions surface as contested signals into Phase 7 (Fragment 2). |
+| **Revenue/Turnover Scope Labeling** | Consolidated vs including-associates scope stated per source (0001's ~280B vs ~507B trap); flagged in `sources_index.md`, Phase 3, and the report. |
+| **Price-Freshness Outcome in Outputs** | Phase 5 outputs include the freshness outcome: primary vs secondary closes, stale-source exclusions, primary source + as-of timestamp. |
+| **Report Filename = Single Source of Truth** | `report/<Code>-<Company>-<YYYY-MM-DD>-analysis.md` fixed in the Phase 1 output contract; divergence rule (Phase-1 name wins, both corrected); `task_state.json` and the note must match. |
+| **Review Reminder with Date AND Reason** | `task_state.json.review_reminder = {"date", "reason"}`; completion checklist and post-report lifecycle updated. |
+| **HKEXnews Record-Once** | HKEXnews annual/interim PDFs recorded once as not machine-extractable; no per-run re-attempt — direct to the documented aggregator-substitute access ladder. |
+| **Task Ticking Discipline** | Ticking at each phase finish now also requires syncing `task_state.json` and filling change artifacts as phases run. |
+| **Guardrails** | Canonical file set (superseded files renamed `*.legacy.md`); main-spec requirement headers kept stable (active-change specs renamed via explicit renames only). |
+| **Version** | `skill.json` 2.0 → 2.1. |
+
 ## stock-analysis v2.0 — 2026-09-05
 **Re-architecture: the canonical single-stock skill.** Absorbed all institutional-grade single-stock content from stock-deep-research v1.x so every single-stock request routes to one skill. Expanded from 8 to 9 phases and folded in the document-intelligence layer + adversarial debate + fragility audit + governance gates + AVOID/WATCH.
 ### stock-analysis v2.0

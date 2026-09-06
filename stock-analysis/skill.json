@@ -1,6 +1,6 @@
 {
   "id": "stock-analysis",
-  "version": "2.0",
+  "version": "2.1",
   "entrypoint": "SKILL.md",
   "state_blueprint": {
     "current_phase": "01-scope.md",

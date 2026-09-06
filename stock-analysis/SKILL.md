@@ -188,13 +188,13 @@ Each revisit must be recorded in `task_state.json` (updated phases + reason) bef
 
 ## Task Ticking Discipline
 
-Running inside an OpenSpec change, tick tasks **at the end of each phase**, not at archive time. When a phase's end conditions pass, mark its `- [ ]` rows complete in `tasks.md` before starting the next phase. A single end-of-run sweep hides where each phase actually finished.
+Running inside an OpenSpec change, tick tasks **at the end of each phase**, not at archive time. When a phase's end conditions pass, mark its `- [ ]` rows complete in `tasks.md` and **sync `task_state.json`** (current_phase, status, artifacts) before starting the next phase. Write/fill the change artifacts (scope, specs, design) as the phases run — an archive written in one pass at the end hides where each phase actually finished. A single end-of-run sweep is not acceptable.
 
 ---
 
 ## HK-Specific Data Notes
 
-- **Company announcements:** always cross-check the **HKEXnews** portal (`www1.hkexnews.hk`) — the authoritative, free filing source for HKEX-listed companies.
+- **Company announcements:** always cross-check the **HKEXnews** portal (`www1.hkexnews.hk`) — the authoritative, free filing source for HKEX-listed companies. **Record once:** HKEXnews annual/interim PDFs are generally NOT machine-extractable via text fetch — record the limitation once here (and in `sources_index.md`) and go straight to the documented access ladder (aggregator substitute, logged) on subsequent runs; do not re-attempt extraction per submission.
 - **Reporting currency:** HK companies report in HKD unless stated otherwise; some (yuan- or USD-reporting) need a consistent-currency note when comparing.
 - **Price sources:** free aggregators (Yahoo Finance HK, AAStocks, Investing.com) may differ; pick one primary source, state it, and record "as of" timestamps.
 - **Liquidity/halts:** HK stocks can have suspensions and a closing-auction regime — note any halt affecting the technical picture.
@@ -208,7 +208,7 @@ The analysis does not end at note approval. After Gate 3:
 
 1. **Archive the OpenSpec change** (if the analysis ran inside one): `openspec archive <change-name> --yes`.
 2. **Preserve the spec** for future diffing — the archived change keeps the baseline (scope, specs, design) for comparison.
-3. **Set a review reminder date** (e.g. next quarterly results, or 3–6 months for the horizon) and record it in `task_state.json`.
+3. **Set a review reminder** — explicit date AND reason (e.g. `{date: 2026-09-13, reason: weekly recheck of 74.40 breakout / 65 support}`), recorded in `task_state.json.review_reminder`.
 4. **Start a review** with `openspec-new-change` using the same scope, and diff the new findings against the archived baseline. The note's action conditions and falsification criteria tell you what to re-check.
 5. **Update the skill-evolution log** with what worked / what caused problems for the next analysis.
 
@@ -220,7 +220,7 @@ The analysis is **complete** — nothing more to add — when ALL of the followi
 2. ✅ `task_state.json` updated with the final decision (rating, target, confidence score, status)
 3. ✅ Human has approved the final note (Gate 3)
 4. ✅ OpenSpec change archived (if run inside one), with tasks.md fully ticked
-5. ✅ Review reminder date set
+5. ✅ Review reminder set in `task_state.json` with an explicit date AND reason
 6. ✅ Skill evolution log updated (mandatory)
 
 ---
@@ -242,3 +242,5 @@ The analysis is **complete** — nothing more to add — when ALL of the followi
 - **Sanity-check script outputs** — units/currency assert before a number enters the note (Phase 4)
 - **Reconcile earnings** — never carry a reported-vs-segment-vs-adjusted contradiction silently (Phase 3)
 - **Check source freshness** — exclude stale price sources (Phase 5)
+- **Canonical file set** — keep exactly one canonical phase-file set; a superseded file (e.g. `06-catalysts-risks.md`, `07-synthesize.md`, `08-report.md`) is renamed `*.legacy.md`, never left ambiguous beside the canonical file
+- **Keep spec requirement headers stable** — when updating main specs, keep requirement headers identical and only change the body (a header rename breaks `openspec archive`); plan any rename explicitly

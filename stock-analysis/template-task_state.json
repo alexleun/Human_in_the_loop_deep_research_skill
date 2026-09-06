@@ -17,5 +17,9 @@
   "horizon": null,
   "rating": null,
   "price_target": null,
+  "review_reminder": {
+    "date": null,
+    "reason": null
+  },
   "updated": null
 }

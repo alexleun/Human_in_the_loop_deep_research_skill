@@ -23,24 +23,31 @@
 - State the key assumptions explicitly so the human can challenge them.
 - **Units & currency sanity gate:** after each script run, assert the output is plausible. A per-share value must lie in a sane band (e.g. `0 < price-target < 100 × reported EPS`, per-share ≥ 0, currency labels correct). If a run prints nonsense (e.g. `HK$37,084` from a /1000 or USD→HKD bug), fix the script and re-run before accepting the number — never enter a suspect figure into the report. Add a `check_units()` helper or `--sanity` flag to the notebook template.
 
-### 2b. Reverse-DCF (implied growth) — required
+### 2b. Reverse-DCF (implied required return) — required
 Invert the current market price to read what the market is pricing in, and compare it to your fundamental thesis:
-- Given price + model (WACC, terminal growth), solve for the **implied revenue growth or margin**.
-- Report the implied assumption vs your Phase 3 growth view. If the market implies an implausible growth rate, that is evidence for the downside case.
-- Concrete script sketch: root-solve `Price(DCF(g)) − market price = 0` over a grid of `g`, print the implied `g`. Do not skip this and do not leave it as an aspirational task — it is part of the valuation phase.
+- **Canonical reading = implied required return at 0% growth.** Given price + model, solve for the return the market demands when growth is zero: `Price(DCF(required_return, g=0)) − market price = 0`. This is the default read.
+- **When the DCF value at 0% growth exceeds the market price**, the honest read is *"the market applies a higher required return / holding discount"* — NOT "implied growth = 20%". Report the implied required return; do not let a pinned growth-solver headline take over the reading.
+- **Growth-solver (secondary, optional):** root-solve `Price(DCF(g)) − market price = 0` over a grid of `g` only when a bounded implied-growth read adds information. If the solver pins at a bound (e.g. the 20% ceiling), **label the result degenerate** and keep the implied-required-return reading primary.
+- Report the implied assumption vs your Phase 3 growth view, and note the **FCF-normalization standard** used (see Phase 3 earnings/FCF definition labeling). If the market implies an implausible return, that is evidence for the downside case.
 - If data genuinely prevents reverse-DCF, say so explicitly in the report and record the gap, rather than silently omitting it.
 
 ### 3. Yield / Dividend Model (if dividend payer)
 - Dividend yield vs peers and vs risk-free rate; payout sustainability from FCF.
 - Sanity-check the payout ratio printout (a 0% payout from a dividend payer is a red flag — usually a script bug, not a fact).
 
+### Target Construction (median of methods, not a blend)
+
+- **Default target = median of the method outputs** (SOTP / DCF / peer / DDM as run), never an arbitrary weighted blend. On a wide spread (e.g. a generous FCF/DCF view and a conservative DDM floor), a blend would mislead; the median is defensible and reproducible.
+- **Scenario-weighting guard:** when scenario weights are applied, the scenario set SHALL be the **same method set as the base median**, with **floor/ceiling methods excluded BEFORE weighting** — e.g. a DDM floor or any forced-bear cap must never sit inside the weighted scenario mix. State which methods were excluded and why.
+- Adjust the median for justified, disclosed reasons only (e.g. one method is structurally unfit for the business); record the adjustment and keep prior targets for diffing.
+
 ## Outputs
 
 - **Fair-value range** for the stock (HKD).
-- **Price target** (mid-point or scenario-weighted).
+- **Price target** — default = **median of the method outputs** (not an arbitrary blend); scenario-weighted only with the base-median method set after excluding floor/ceiling methods.
 - **Implied upside/downside** vs current price = (Target − Price) / Price.
-- The **valuation scenario table** showing bull / base / bear cases and their probabilities/weights.
-- A **Reverse-DCF implied-growth** reading.
+- The **valuation scenario table** showing bull / base / bear cases and their probabilities/weights — with the floor/ceiling-method exclusion recorded.
+- A **Reverse-DCF implied-required-return** reading (growth-solver result, if used, labeled degenerate when pinned).
 - Script outputs that passed the **units/currency sanity gate** (or the fix that made them pass).
 
 ## End Conditions
@@ -55,6 +62,9 @@ This phase is **complete** when ALL of the following are true:
 6. ✅ DCF assumption block frozen before the first compute; any recalibration flagged as a revision to the user
 7. ✅ Peer table uses real comparables with own multiples and computed discount/premium, not an opaque aggregate
 8. ✅ Units/currency sanity gate passed for every script output (or the fix is recorded)
-9. ✅ Reverse-DCF run (or explicitly recorded as a gap with reason)
+9. ✅ Reverse-DCF run with **implied-required-return at 0% growth** as the primary reading (a pinned growth-solver labeled degenerate) — or explicitly recorded as a gap with reason
 10. ✅ Forward-EPS dispersion checked (range disclosed if > ~20% across sources)
 11. ✅ Peer reporting currencies stated with FX treatment or disclosed assumption
+12. ✅ Target constructed as the **median of the method outputs**, not an arbitrary blend
+13. ✅ Scenario weighting (if used) used the **base-median method set** with floor/ceiling methods excluded before weighting
+14. ✅ **Earnings/FCF definitions labeled** for every profit/cash-flow number used (reported vs adjusted/non-IFRS; official vs aggregator-standard FCF); conflicting definitions surfaced as a contested signal, not silently merged

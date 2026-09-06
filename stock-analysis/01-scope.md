@@ -18,6 +18,7 @@
    - A detailed written report (markdown) covering all required sections
    - A final **BUY / HOLD / SELL** recommendation with price target(s) and rationale
    - Explicit confidence level and key risk disclosure
+   - **Report filename convention (single source of truth):** `report/<Code>-<Company>-<YYYY-MM-DD>-analysis.md` (e.g. `report/0700-Tencent-2026-09-06-analysis.md`). This name is fixed here in Phase 1; `task_state.json` and the saved note MUST use the identical filename. If a divergence is later found, the Phase-1 contract name wins and both are corrected.
 4. Identify what the user already knows / holds, and any personal constraints (risk tolerance, position size, time horizon) — for context only; the recommendation is evidence-driven.
 5. Surface assumptions, blind spots, and data-availability expectations.
 

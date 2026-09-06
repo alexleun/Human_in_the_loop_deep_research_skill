@@ -17,11 +17,11 @@ Follow the chain: **narrative → fundamentals → valuation → fragility → c
 7. **Bull case / Bear case** (Phase 6) — both at their strongest; refutation matrix highlights.
 8. **Fragility & risks** (Phase 7) — each risk with its treatment (disclosure / haircut / scenario discount), key downside scenarios, and any unresolved contested signals.
 9. **Conclusion** — rating, target, confidence (label + numeric score), conviction; **falsification criteria** and **action conditions** (what to monitor, and confirm/invalidate triggers).
-10. **Sources & methodology** — every source cited with URL, local copy, as-of date; document corpus cited (`documents/findings-index.json` entries, appraisal IDs); data boundaries, earnings-reconciliation outcome, reverse-DCF reading, and peer FX assumptions noted. Include the risk/disclaimer statement.
+10. **Sources & methodology** — every source cited with URL, local copy, as-of date; document corpus cited (`documents/findings-index.json` entries, appraisal IDs); data boundaries, earnings-reconciliation outcome, reverse-DCF reading, and peer FX assumptions noted. **Earnings/FCF definitions labeled** (reported vs adjusted/non-IFRS; official vs aggregator-standard FCF) — report **both** official and aggregator FCF with their definitions when they differ; revenue/turnover scope stated. Include the risk/disclaimer statement.
 
 ## Report Artifacts
 
-- Output as a **timestamped** markdown file: `report/<Code>-<Company>-<YYYY-MM-DD>-analysis.md`. Keep prior dated versions for diffing under ongoing monitoring (never overwrite an older file).
+- Output as a **timestamped** markdown file: `report/<Code>-<Company>-<YYYY-MM-DD>-analysis.md` — the **single source of truth** fixed in the Phase 1 output contract. `task_state.json` and the note MUST use the identical filename. If a divergence is found (e.g. `0700-Tencent-analysis-2026-09-06.md` vs `0700-Tencent-2026-09-06-analysis.md`), the Phase-1 contract name wins and both are corrected. Keep prior dated versions for diffing under ongoing monitoring (never overwrite an older file).
 - Reference the chart at `report/charts/<code>-price-<asof>.png` and the daily price history at `data/<code>-price-history-<asof>.csv` (technical baseline).
 - Valuation scripts (incl. reverse-DCF and sensitivity grid) live in `notebooks/`.
 - Document appraisals and the event timeline live in `documents/` (created in Phases 2, 3, and 6).

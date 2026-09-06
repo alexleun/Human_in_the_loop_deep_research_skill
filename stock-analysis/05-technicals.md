@@ -35,6 +35,7 @@ Produce a **price + MA20/MA50/MA200 + volume** chart by default (matplotlib) and
 - Key support and resistance levels (HKD).
 - Suggested entry/risk context only — **not** a standalone trigger.
 - **Confidence** in the technical picture given data quality.
+- **Price-freshness outcome** — primary vs secondary closes, any source excluded as stale (>1% off or >2 trading days) and why, plus the primary source stated with its "as-of" timestamp.
 
 ## End Conditions
 
@@ -46,5 +47,5 @@ This phase is **complete** when ALL of the following are true:
 4. ✅ Volume context noted
 5. ✅ Data range and any adjustment limitations documented
 6. ✅ Computations (if scripted) recorded with inputs
-7. ✅ Price-freshness check run (stale sources excluded or flagged)
+7. ✅ Price-freshness check run, with the **outcome included in the Phase 5 outputs** (primary vs secondary closes; stale sources excluded or flagged)
 8. ✅ Standard chart produced under `report/charts/` and price series persisted to `data/` (or reason recorded)

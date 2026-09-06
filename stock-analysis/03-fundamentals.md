@@ -34,15 +34,19 @@
 - Dividend policy & payout ratio (coverability).
 - Capex intensity and any signs of balance-sheet stress.
 
-### 5. Earnings Reconciliation (mandatory)
-After extracting reported figures, force a reconciliation pass before writing the read:
+### 5. Earnings Reconciliation & Definition Labeling (mandatory)
+After extracting reported figures, force a reconciliation + labeling pass before writing the read:
 
 - **Reported vs segment vs adjusted:** reconcile reported operating profit against the **sum of segment operating profits**, and reported net profit against **adjusted/non-HKFRS profit**.
-- If they disagree, **hunt the non-operating / one-off items**: warrant revaluation, convertible-bond interest, impairments, FX, other gains/losses. Label the reconciler and state which line (reported or adjusted) **drives the final fundamental read**.
-- Record the reconciliation table + outcome in the output (source IDs for each line). Do not carry a contradiction silently into valuation.
+- **Non-IFRS ↔ IFRS bridge (first-class step):** when a company reports non-IFRS/adjusted figures, build the explicit bridge item by item (e.g. SBC, investee/associate contributions, intangible amortization, one-offs) and label which line **(reported, IFRS, or non-IFRS) drives the fundamental read**. A headline like "non-IFRS +9% but IFRS flat" must be legible, not a mystery.
+- **FCF definitions labeled:** every free-cash-flow figure carries its definition — **official company figure vs aggregator-standard (DB-style) FCF** — stated explicitly. When the two differ (e.g. 182.6B official vs 215.6B aggregator), **report both with definitions**; never pick one silently.
+- If lines disagree, **hunt the non-operating / one-off items**: warrant revaluation, convertible-bond interest, impairments, FX, other gains/losses. Label the reconciler.
+- **Contested signals (feed Phase 7):** conflicting earnings/FCF definitions or values across sources are surfaced in the fragility audit's contested-signal scan and temper the Phase 8 confidence score — they are never resolved silently in favor of either side.
+- Record the reconciliation/labeling table + outcome in the output (source IDs for each line). Do not carry a contradiction silently into valuation.
 
-### 6. Currency Consistency (per source)
+### 6. Currency & Scope Consistency (per source)
 State the **reporting currency of every source** (most HK companies report in HKD — but some report in USD like Lenovo, or CNY). For each metric used downstream, note the currency basis. If mixed currencies enter one comparison (e.g. peer multiples or thresholds), state the exchange-rate assumption.
+Also label the **revenue/turnover scope per source**: consolidated company revenue vs total turnover *including associates* can differ materially (e.g. ~HK$280B consolidated vs HK$507B incl. associates) — both are real, but the report must state which scope each figure uses to avoid a false "revenue jump". Flag the scope in `sources_index.md`, Phase 3, and the report.
 
 ### 7. Key-Document Deep-Read Appraisal (document-intelligence)
 For the documents that drive the fundamental read (annual/interim reports, official guidance, key press releases), appraise each into `documents/appraisals/{doc-id}.md`:
@@ -65,6 +69,6 @@ This phase is **complete** when ALL of the following are true:
 3. ✅ Quality & moat assessed against a defined competition set
 4. ✅ A one-paragraph fundamental verdict (bull/bear/neutral) is written
 5. ✅ Top fundamental risks are listed
-6. ✅ Earnings reconciliation performed (reported vs segment vs adjusted), one-off items labeled, driving line stated
-7. ✅ Reporting currency stated per source; mixed-currency comparisons carry an FX assumption
+6. ✅ Earnings reconciliation + definition labeling performed (reported vs segment vs adjusted; IFRS vs non-IFRS bridge), one-off items labeled, driving line stated; every profit/FCF number carries its definition (official vs aggregator-standard FCF); conflicting definitions surfaced as contested signals
+7. ✅ Reporting currency + revenue/turnover scope stated per source; mixed-currency or mixed-scope comparisons carry the stated basis
 8. ✅ Key documents appraised into `documents/appraisals/` with verbatim quotes + evidence/access tags; cross-appraisal consistency check run; findings indexed in `documents/findings-index.json`
